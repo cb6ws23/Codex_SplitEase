@@ -4,6 +4,7 @@ import { ArrowRightLeft, FileDown, PenSquare, Plus } from "lucide-react";
 import Decimal from "decimal.js";
 
 import { FormStatusMessage } from "@/components/form-status-message";
+import { RecentGroupTracker } from "@/components/group/recent-group-tracker";
 import { PendingButton } from "@/components/pending-button";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { ShareLinkButton } from "@/components/group/share-link-button";
@@ -96,6 +97,7 @@ export default async function GroupPage({
 
   return (
     <main className="min-h-screen bg-[var(--page-background)] px-3 py-4 sm:px-4 sm:py-6">
+      <RecentGroupTracker locale={locale} name={group.name} slug={group.slug} />
       <div className="mx-auto flex max-w-5xl flex-col gap-4 sm:gap-5">
         <div className="flex items-center justify-between gap-4">
           <Link href="/" className="text-sm font-medium text-[var(--muted-foreground)]">

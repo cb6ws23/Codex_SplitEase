@@ -2,6 +2,7 @@ import { Coins, ReceiptText, ShieldCheck } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 import { LocaleSwitcher } from "@/components/locale-switcher";
+import { RecentGroupsSection } from "@/components/recent-groups-section";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -77,6 +78,13 @@ export default async function HomePage({
             </Card>
           ))}
         </section>
+
+        <RecentGroupsSection
+          description={t("recentDescription")}
+          empty={t("recentEmpty")}
+          openLabel={t("recentOpen")}
+          title={t("recentTitle")}
+        />
       </div>
     </main>
   );

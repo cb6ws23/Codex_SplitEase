@@ -115,7 +115,7 @@ export async function createGroupAction(formData: FormData) {
   }
 
   await setWriteAccessCookie(slug, writeToken);
-  redirect(`/${locale}/g/${slug}?status=saved`);
+  redirect(`/${locale}/groups/created?slug=${slug}`);
 }
 
 export async function addMemberAction(formData: FormData) {

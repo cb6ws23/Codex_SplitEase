@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 
+import { MemberChipsInput } from "@/components/group/member-chips-input";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { FormStatusMessage } from "@/components/form-status-message";
 import { PendingButton } from "@/components/pending-button";
@@ -7,7 +8,6 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Link } from "@/i18n/navigation";
 import { createGroupAction } from "@/lib/actions";
 import { type AppLocale } from "@/lib/constants";
@@ -67,13 +67,14 @@ export default async function NewGroupPage({
                     {common("optional")}
                   </span>
                 </div>
-                <Textarea
-                  id="initialMembers"
+                <MemberChipsInput
+                  addLabel={common("add")}
+                  helperText={t("membersHint")}
+                  inputPlaceholder={t("membersPlaceholder")}
+                  inputTitle={t("membersLabel")}
+                  maxMembersText={t("membersLimit")}
                   name="initialMembers"
-                  maxLength={1000}
-                  placeholder={t("membersPlaceholder")}
                 />
-                <p className="text-xs text-[var(--muted-foreground)]">{t("membersHint")}</p>
               </div>
 
               <PendingButton
