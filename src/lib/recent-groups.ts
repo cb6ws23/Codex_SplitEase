@@ -1,5 +1,6 @@
 export const RECENT_GROUPS_STORAGE_KEY = "splitease-recent-groups";
 const MAX_RECENT_GROUPS = 6;
+const RECENT_GROUPS_EVENT = "splitease-recent-groups-change";
 
 export type RecentGroupRecord = {
   name: string;
@@ -56,6 +57,7 @@ export function writeRecentGroups(groups: RecentGroupRecord[]) {
     RECENT_GROUPS_STORAGE_KEY,
     JSON.stringify(groups.slice(0, MAX_RECENT_GROUPS)),
   );
+  window.dispatchEvent(new Event(RECENT_GROUPS_EVENT));
 }
 
 export function upsertRecentGroup(group: Omit<RecentGroupRecord, "visitedAt">) {
@@ -67,4 +69,20 @@ export function upsertRecentGroup(group: Omit<RecentGroupRecord, "visitedAt">) {
 
   const deduped = currentGroups.filter((entry) => entry.slug !== group.slug);
   writeRecentGroups([nextGroup, ...deduped]);
+}
+
+export function subscribeRecentGroups(callback: () => void) {
+  if (typeof window === "undefined") {
+    return () => {};
+  }
+
+  const handler = () => callback();
+
+  window.addEventListener("storage", handler);
+  window.addEventListener(RECENT_GROUPS_EVENT, handler);
+
+  return () => {
+    window.removeEventListener("storage", handler);
+    window.removeEventListener(RECENT_GROUPS_EVENT, handler);
+  };
 }

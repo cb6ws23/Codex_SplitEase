@@ -1,10 +1,14 @@
 "use client";
 
 import { Clock3, FolderOpen } from "lucide-react";
-import { useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 
 import { Link } from "@/i18n/navigation";
-import { readRecentGroups, type RecentGroupRecord } from "@/lib/recent-groups";
+import {
+  readRecentGroups,
+  subscribeRecentGroups,
+  type RecentGroupRecord,
+} from "@/lib/recent-groups";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 type Props = {
@@ -20,11 +24,13 @@ export function RecentGroupsSection({
   empty,
   openLabel,
 }: Props) {
-  const groups = useSyncExternalStore(
-    () => () => {},
-    () => readRecentGroups(),
-    () => [] as RecentGroupRecord[],
-  );
+  const [groups, setGroups] = useState<RecentGroupRecord[]>(() => readRecentGroups());
+
+  useEffect(() => {
+    return subscribeRecentGroups(() => {
+      setGroups(readRecentGroups());
+    });
+  }, []);
 
   return (
     <Card>
