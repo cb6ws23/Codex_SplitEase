@@ -4,7 +4,6 @@ import Decimal from "decimal.js";
 
 import { FormStatusMessage } from "@/components/form-status-message";
 import { LocaleSwitcher } from "@/components/locale-switcher";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { type AppLocale } from "@/lib/constants";
 import { computeGroupSummary, getGroupBySlug } from "@/lib/groups";
 import { Link } from "@/i18n/navigation";
@@ -43,51 +42,59 @@ export default async function SettlementPage({
   }
 
   return (
-    <main className="min-h-screen bg-[var(--page-background)] px-3 py-4 sm:px-4 sm:py-6">
+    <main className="min-h-screen bg-[var(--bg-page)] px-3 py-4 sm:px-4 sm:py-6">
       <div className="mx-auto max-w-3xl space-y-4 sm:space-y-5">
         <div className="flex items-center justify-between gap-4">
-          <Link href={`/g/${slug}`} className="text-sm font-medium text-[var(--muted-foreground)]">
+          <Link href={`/g/${slug}`} className="text-sm font-medium text-[var(--text-secondary)]">
             {common("group")}
           </Link>
           <LocaleSwitcher currentLocale={locale} href={`/g/${slug}/settlement`} />
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>{common("settlements")}</CardTitle>
-            <CardDescription>{pageT("settlementIntro")}</CardDescription>
-          </CardHeader>
+        {/* Intro */}
+        <div className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-card)] p-5 sm:p-6">
+          <h1 className="text-2xl font-semibold text-[var(--text-primary)]">
+            {common("settlements")}
+          </h1>
+          <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">
+            {pageT("settlementIntro")}
+          </p>
           {hasSummaryError ? (
-            <CardContent className="pt-0">
+            <div className="mt-4">
               <FormStatusMessage message={feedback("error")} tone="error" />
-            </CardContent>
+            </div>
           ) : null}
-        </Card>
+        </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>{common("balances")}</CardTitle>
-            <CardDescription>{pageT("balancesIntro")}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
+        {/* Balances */}
+        <div className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-card)] p-5 sm:p-6">
+          <h2 className="text-lg font-semibold text-[var(--text-primary)]">
+            {common("balances")}
+          </h2>
+          <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">
+            {pageT("balancesIntro")}
+          </p>
+          <div className="mt-4 space-y-3">
             {summary.balances.length === 0 ? (
-              <p className="rounded-2xl border border-dashed border-[var(--border)] px-4 py-5 text-sm text-[var(--muted-foreground)]">
+              <p className="rounded-lg border border-dashed border-[var(--border-default)] px-4 py-5 text-sm text-[var(--text-secondary)]">
                 {pageT("emptyMembers")}
               </p>
             ) : (
               summary.balances.map((balance) => (
                 <div
                   key={balance.memberId}
-                  className="flex items-center justify-between rounded-2xl border border-[var(--border)] bg-white px-4 py-3"
+                  className="flex items-center justify-between rounded-lg border border-[var(--border-default)] bg-[var(--bg-page)] px-4 py-3"
                 >
-                  <span className="font-medium">{balance.memberName}</span>
+                  <span className="font-medium text-[var(--text-primary)]">
+                    {balance.memberName}
+                  </span>
                   <span
                     className={
                       balance.balance.isNegative()
-                        ? "text-[var(--destructive)]"
+                        ? "font-semibold text-[var(--color-danger)]"
                         : balance.balance.isZero()
-                          ? "text-[var(--muted-foreground)]"
-                          : "text-[var(--success)]"
+                          ? "text-[var(--text-muted)]"
+                          : "font-semibold text-[var(--color-success)]"
                     }
                   >
                     {formatMoney(locale, balance.balance)}
@@ -95,61 +102,67 @@ export default async function SettlementPage({
                 </div>
               ))
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>{pageT("rawExpensesTitle")}</CardTitle>
-            <CardDescription>{pageT("rawExpensesIntro")}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
+        {/* Raw expense records */}
+        <div className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-card)] p-5 sm:p-6">
+          <h2 className="text-lg font-semibold text-[var(--text-primary)]">
+            {pageT("rawExpensesTitle")}
+          </h2>
+          <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">
+            {pageT("rawExpensesIntro")}
+          </p>
+          <div className="mt-4 space-y-3">
             {group.expenses.length === 0 ? (
-              <p className="rounded-2xl border border-dashed border-[var(--border)] px-4 py-5 text-sm text-[var(--muted-foreground)]">
+              <p className="rounded-lg border border-dashed border-[var(--border-default)] px-4 py-5 text-sm text-[var(--text-secondary)]">
                 {pageT("emptyExpenses")}
               </p>
             ) : (
               group.expenses.map((expense) => (
                 <div
                   key={expense.id}
-                  className="rounded-2xl border border-[var(--border)] bg-white px-4 py-3"
+                  className="rounded-lg border border-[var(--border-default)] bg-[var(--bg-page)] px-4 py-3"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <p className="text-sm font-semibold text-[var(--foreground)]">
+                      <p className="text-sm font-semibold text-[var(--text-primary)]">
                         {expense.title}
                       </p>
-                      <p className="mt-1 text-xs leading-5 text-[var(--muted-foreground)]">
+                      <p className="mt-1 text-xs leading-5 text-[var(--text-muted)]">
                         {expense.happenedOn.toISOString().slice(0, 10)}
                       </p>
                     </div>
-                    <p className="text-sm font-semibold text-[var(--foreground)]">
+                    <p className="text-sm font-semibold text-[var(--text-primary)]">
                       {formatMoney(locale, expense.amount)}
                     </p>
                   </div>
                 </div>
               ))
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>{common("settlements")}</CardTitle>
-            <CardDescription>{pageT("recommendedTransfersIntro")}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
+        {/* Recommended transfers */}
+        <div className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-card)] p-5 sm:p-6">
+          <h2 className="text-lg font-semibold text-[var(--text-primary)]">
+            {common("settlements")}
+          </h2>
+          <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">
+            {pageT("recommendedTransfersIntro")}
+          </p>
+          <div className="mt-4 space-y-3">
             {summary.settlements.length === 0 ? (
-              <p className="rounded-2xl border border-dashed border-[var(--border)] px-4 py-5 text-sm text-[var(--muted-foreground)]">
+              <p className="rounded-lg border border-dashed border-[var(--border-default)] px-4 py-5 text-sm text-[var(--text-secondary)]">
                 {pageT("settlementEmpty")}
               </p>
             ) : (
               summary.settlements.map((settlement) => (
                 <div
                   key={`${settlement.fromMemberId}-${settlement.toMemberId}`}
-                  className="rounded-2xl border border-[var(--border)] bg-white px-4 py-3 text-sm"
+                  className="rounded-lg border border-[var(--border-default)] bg-[var(--bg-page)] px-4 py-3 text-sm"
                 >
-                  <p className="font-medium">
+                  <p className="font-semibold text-[var(--text-primary)]">
                     {pageT("settlementLine", {
                       from: settlement.fromMemberName,
                       to: settlement.toMemberName,
@@ -159,8 +172,8 @@ export default async function SettlementPage({
                 </div>
               ))
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </main>
   );

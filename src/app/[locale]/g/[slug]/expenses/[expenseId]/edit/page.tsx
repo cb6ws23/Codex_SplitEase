@@ -5,7 +5,6 @@ import { ExpenseForm } from "@/components/group/expense-form";
 import { FormStatusMessage } from "@/components/form-status-message";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { PendingButton } from "@/components/pending-button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { deleteExpenseAction } from "@/lib/actions";
 import { type AppLocale } from "@/lib/constants";
 import { getGroupBySlug } from "@/lib/groups";
@@ -40,10 +39,10 @@ export default async function EditExpensePage({
   }
 
   return (
-    <main className="min-h-screen bg-[var(--page-background)] px-3 py-4 sm:px-4 sm:py-6">
-      <div className="mx-auto max-w-2xl space-y-4 sm:space-y-5">
+    <main className="min-h-screen bg-[var(--bg-page)] px-3 py-4 sm:px-4 sm:py-6">
+      <div className="mx-auto max-w-lg space-y-4 sm:space-y-5">
         <div className="flex items-center justify-between gap-4">
-          <Link href={`/g/${slug}`} className="text-sm font-medium text-[var(--muted-foreground)]">
+          <Link href={`/g/${slug}`} className="text-sm font-medium text-[var(--text-secondary)]">
             {common("group")}
           </Link>
           <LocaleSwitcher
@@ -52,12 +51,14 @@ export default async function EditExpensePage({
           />
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>{pageT("editExpenseTitle")}</CardTitle>
-            <CardDescription>{pageT("expenseEditDescription")}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
+        <div className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-card)] p-5 sm:p-6">
+          <h1 className="text-2xl font-semibold text-[var(--text-primary)]">
+            {pageT("editExpenseTitle")}
+          </h1>
+          <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">
+            {pageT("expenseEditDescription")}
+          </p>
+          <div className="mt-5 space-y-4">
             {status === "invalidExpense" ? (
               <FormStatusMessage message={feedback("invalidExpense")} tone="error" />
             ) : null}
@@ -77,15 +78,17 @@ export default async function EditExpensePage({
               slug={slug}
               submitLabel={common("save")}
             />
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>{pageT("deleteExpenseTitle")}</CardTitle>
-            <CardDescription>{pageT("deleteExpenseHint")}</CardDescription>
-          </CardHeader>
-          <CardContent>
+        <div className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-card)] p-5 sm:p-6">
+          <h2 className="text-lg font-semibold text-[var(--text-primary)]">
+            {pageT("deleteExpenseTitle")}
+          </h2>
+          <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">
+            {pageT("deleteExpenseHint")}
+          </p>
+          <div className="mt-4">
             <form action={deleteExpenseAction}>
               <input name="locale" type="hidden" value={locale} />
               <input name="slug" type="hidden" value={slug} />
@@ -97,8 +100,8 @@ export default async function EditExpensePage({
                 variant="destructive"
               />
             </form>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </main>
   );

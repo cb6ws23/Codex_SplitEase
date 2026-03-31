@@ -13,7 +13,7 @@ type Props = {
 const toneStyles: Record<Tone, string> = {
   success: "border-emerald-200 bg-emerald-50 text-emerald-900",
   error: "border-rose-200 bg-rose-50 text-rose-900",
-  info: "border-amber-200 bg-amber-50 text-amber-900",
+  info: "border-[var(--brand-primary-light)] bg-[var(--brand-primary-subtle)] text-[var(--text-primary)]",
 };
 
 const icons = {
@@ -32,7 +32,7 @@ export function FormStatusMessage({
   return (
     <div
       className={cn(
-        "flex items-start gap-3 rounded-2xl border px-4 py-3 text-sm leading-6",
+        "flex items-start gap-3 rounded-lg border px-4 py-3 text-sm leading-6",
         toneStyles[tone],
         className,
       )}

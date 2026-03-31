@@ -8,9 +8,7 @@ import { RecentGroupTracker } from "@/components/group/recent-group-tracker";
 import { PendingButton } from "@/components/pending-button";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { ShareLinkButton } from "@/components/group/share-link-button";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { addMemberAction } from "@/lib/actions";
@@ -90,89 +88,92 @@ export default async function GroupPage({
   const groupUrl = `${appUrl}/${locale}/g/${group.slug}`;
 
   return (
-    <main className="min-h-screen bg-[var(--page-background)] px-3 py-4 sm:px-4 sm:py-6">
+    <main className="min-h-screen bg-[var(--bg-page)] px-3 py-4 sm:px-4 sm:py-6">
       <RecentGroupTracker locale={locale} name={group.name} slug={group.slug} />
       <div className="mx-auto flex max-w-5xl flex-col gap-4 sm:gap-6">
         <div className="flex items-center justify-between gap-4">
-          <Link href="/" className="text-sm font-medium text-[var(--muted-foreground)]">
+          <Link href="/" className="text-sm font-medium text-[var(--text-secondary)]">
             {common("backHome")}
           </Link>
           <LocaleSwitcher currentLocale={locale} href={`/g/${slug}`} />
         </div>
 
-        <Card className="overflow-hidden border-[var(--border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(255,248,238,0.96))] shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
-          <CardHeader className="gap-5 border-b border-[var(--border)]/70 bg-white/65 px-5 py-5 sm:px-6">
-            <div className="flex flex-wrap items-start justify-between gap-3">
-              <div className="space-y-3">
-                <Badge className="w-fit">{common("currency")}</Badge>
-                <div className="space-y-2">
-                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--muted-foreground)]">
-                    {common("appName")}
-                  </p>
-                  <CardTitle className="break-words text-2xl sm:text-3xl">{group.name}</CardTitle>
-                </div>
-                <CardDescription className="max-w-2xl text-sm leading-6 sm:text-base">
-                  {pageT("memberCount", { count: group.members.length })} ·{" "}
-                  {pageT("expenseCount", { count: group.expenses.length })}
-                </CardDescription>
-              </div>
-              <div className="flex w-full flex-col gap-2 sm:w-auto">
-                <a
-                  className="inline-flex items-center justify-center gap-2 rounded-2xl border border-[var(--border)] bg-white px-4 py-2 text-sm font-medium text-[var(--muted-foreground)] transition-colors hover:bg-[var(--muted)]"
-                  href={`/api/groups/${slug}/export`}
-                >
-                  <FileDown className="h-4 w-4" />
-                  {common("exportCsv")}
-                </a>
-              </div>
+        {/* Group header card */}
+        <div className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-card)] p-5 sm:p-6">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div className="space-y-1">
+              <h1 className="break-words text-2xl font-semibold text-[var(--text-primary)]">
+                {group.name}
+              </h1>
+              <p className="text-sm leading-6 text-[var(--text-secondary)]">
+                {pageT("memberCount", { count: group.members.length })} ·{" "}
+                {pageT("expenseCount", { count: group.expenses.length })}
+              </p>
             </div>
+            <a
+              className="inline-flex items-center justify-center gap-2 rounded-lg border border-[var(--border-default)] bg-[var(--bg-page)] px-4 py-2 text-sm font-medium text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-card-hover)]"
+              href={`/api/groups/${slug}/export`}
+            >
+              <FileDown className="h-4 w-4" />
+              {common("exportCsv")}
+            </a>
+          </div>
 
-            {notice ? <FormStatusMessage message={notice} tone={statusTone(status)} /> : null}
-            {hasSummaryError ? (
+          {notice ? (
+            <div className="mt-4">
+              <FormStatusMessage message={notice} tone={statusTone(status)} />
+            </div>
+          ) : null}
+          {hasSummaryError ? (
+            <div className="mt-4">
               <FormStatusMessage message={feedback("error")} tone="error" />
-            ) : null}
-
-            <div className="grid gap-4">
-              <div className="rounded-3xl border border-[var(--border)] bg-white/85 p-4 sm:p-5">
-                <div className="space-y-2">
-                  <p className="text-sm font-semibold">{common("shareLink")}</p>
-                  <p className="text-sm leading-6 text-[var(--muted-foreground)]">
-                    {pageT("shareLinkBody")}
-                  </p>
-                </div>
-                <div className="mt-3 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--muted)] px-4 py-3 text-xs break-all text-[var(--muted-foreground)]">
-                  {groupUrl}
-                </div>
-                <div className="mt-3">
-                  <ShareLinkButton
-                    copiedLabel={common("copied")}
-                    copyLabel={common("copy")}
-                    url={groupUrl}
-                  />
-                </div>
-              </div>
             </div>
-          </CardHeader>
-        </Card>
+          ) : null}
 
-        <section className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
-          <Card className="border-[var(--border)] shadow-[0_16px_40px_rgba(15,23,42,0.04)]">
-            <CardHeader className="pb-4">
-              <CardTitle>{common("members")}</CardTitle>
-              <CardDescription>
-                {pageT("memberCount", { count: group.members.length })}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex flex-wrap gap-2 rounded-3xl border border-[var(--border)] bg-[var(--muted)]/55 p-3">
+          {/* Share link */}
+          <div className="mt-5 rounded-xl border border-[var(--border-default)] bg-[var(--bg-page)] p-4">
+            <p className="text-sm font-semibold text-[var(--text-primary)]">
+              {common("shareLink")}
+            </p>
+            <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">
+              {pageT("shareLinkBody")}
+            </p>
+            <div className="mt-3 rounded-lg border border-[var(--border-default)] bg-[var(--bg-card-hover)] px-4 py-3 text-xs break-all text-[var(--text-secondary)]">
+              {groupUrl}
+            </div>
+            <div className="mt-3">
+              <ShareLinkButton
+                copiedLabel={common("copied")}
+                copyLabel={common("copy")}
+                url={groupUrl}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Members + Balances side-by-side */}
+        <section className="grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
+          {/* Members */}
+          <div className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-card)] p-5 sm:p-6">
+            <h2 className="text-lg font-semibold text-[var(--text-primary)]">
+              {common("members")}
+            </h2>
+            <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">
+              {pageT("memberCount", { count: group.members.length })}
+            </p>
+            <div className="mt-4 space-y-4">
+              <div className="flex flex-wrap gap-2 rounded-lg border border-[var(--border-default)] bg-[var(--bg-page)] p-3">
                 {group.members.map((member) => (
-                  <Badge key={member.id} className="bg-[var(--muted)]">
+                  <span
+                    key={member.id}
+                    className="inline-flex items-center rounded-full border border-[var(--border-default)] bg-[var(--bg-card)] px-3 py-1 text-[13px] text-[var(--text-primary)]"
+                  >
                     {member.name}
-                  </Badge>
+                  </span>
                 ))}
               </div>
 
-              <div className="rounded-3xl border border-[var(--border)] bg-white p-4">
+              <div className="rounded-lg border border-[var(--border-default)] bg-[var(--bg-page)] p-4">
                 <form action={addMemberAction} className="space-y-3">
                   <input name="locale" type="hidden" value={locale} />
                   <input name="slug" type="hidden" value={slug} />
@@ -194,33 +195,38 @@ export default async function GroupPage({
                   </div>
                 </form>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <Card className="border-[var(--border)] shadow-[0_16px_40px_rgba(15,23,42,0.04)]">
-            <CardHeader className="pb-4">
-              <CardTitle>{common("balances")}</CardTitle>
-              <CardDescription>{pageT("balancesIntro")}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
+          {/* Balances */}
+          <div className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-card)] p-5 sm:p-6">
+            <h2 className="text-lg font-semibold text-[var(--text-primary)]">
+              {common("balances")}
+            </h2>
+            <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">
+              {pageT("balancesIntro")}
+            </p>
+            <div className="mt-4 space-y-3">
               {summary.balances.length === 0 ? (
-                <p className="rounded-2xl border border-dashed border-[var(--border)] px-4 py-5 text-sm text-[var(--muted-foreground)]">
+                <p className="rounded-lg border border-dashed border-[var(--border-default)] px-4 py-5 text-sm text-[var(--text-secondary)]">
                   {pageT("emptyMembers")}
                 </p>
               ) : (
                 summary.balances.map((balance) => (
                   <div
                     key={balance.memberId}
-                    className="flex items-center justify-between rounded-2xl border border-[var(--border)] bg-white px-4 py-3"
+                    className="flex items-center justify-between rounded-lg border border-[var(--border-default)] bg-[var(--bg-page)] px-4 py-3"
                   >
-                    <span className="font-medium">{balance.memberName}</span>
+                    <span className="font-medium text-[var(--text-primary)]">
+                      {balance.memberName}
+                    </span>
                     <span
                       className={
                         balance.balance.isNegative()
-                          ? "text-[var(--destructive)]"
+                          ? "font-semibold text-[var(--color-danger)]"
                           : balance.balance.isZero()
-                            ? "text-[var(--muted-foreground)]"
-                            : "text-[var(--success)]"
+                            ? "text-[var(--text-muted)]"
+                            : "font-semibold text-[var(--color-success)]"
                       }
                     >
                       {formatMoney(locale, balance.balance)}
@@ -228,17 +234,17 @@ export default async function GroupPage({
                   </div>
                 ))
               )}
-              <div className="rounded-2xl border border-[var(--border)] bg-[var(--muted)] px-4 py-4">
-                <div className="space-y-1">
-                  <p className="text-sm font-semibold text-[var(--foreground)]">
-                    {pageT("groupSettlementSummaryTitle")}
-                  </p>
-                  <p className="text-xs leading-5 text-[var(--muted-foreground)]">
-                    {pageT("groupSettlementSummaryBody")}
-                  </p>
-                </div>
+
+              {/* Settlement snapshot */}
+              <div className="rounded-lg border border-[var(--border-default)] bg-[var(--bg-card-hover)] px-4 py-4">
+                <p className="text-sm font-semibold text-[var(--text-primary)]">
+                  {pageT("groupSettlementSummaryTitle")}
+                </p>
+                <p className="mt-1 text-xs leading-5 text-[var(--text-secondary)]">
+                  {pageT("groupSettlementSummaryBody")}
+                </p>
                 {summary.settlements.length === 0 ? (
-                  <p className="mt-3 text-sm text-[var(--muted-foreground)]">
+                  <p className="mt-3 text-sm text-[var(--text-secondary)]">
                     {pageT("settlementEmpty")}
                   </p>
                 ) : (
@@ -246,9 +252,9 @@ export default async function GroupPage({
                     {summary.settlements.slice(0, 3).map((settlement) => (
                       <div
                         key={`${settlement.fromMemberId}-${settlement.toMemberId}`}
-                        className="rounded-2xl bg-white px-3 py-3 text-sm"
+                        className="rounded-lg bg-[var(--bg-page)] px-3 py-3 text-sm"
                       >
-                        <p className="font-medium">
+                        <p className="font-medium text-[var(--text-primary)]">
                           {pageT("settlementLine", {
                             from: settlement.fromMemberName,
                             to: settlement.toMemberName,
@@ -258,7 +264,7 @@ export default async function GroupPage({
                       </div>
                     ))}
                     {summary.settlements.length > 3 ? (
-                      <p className="text-xs text-[var(--muted-foreground)]">
+                      <p className="text-xs text-[var(--text-muted)]">
                         {pageT("moreSettlementsHint", {
                           count: summary.settlements.length - 3,
                         })}
@@ -267,39 +273,44 @@ export default async function GroupPage({
                   </div>
                 )}
               </div>
+
               <Link href={`/g/${slug}/settlement`}>
                 <Button className="w-full" variant="secondary">
                   <ArrowRightLeft className="mr-2 h-4 w-4" />
                   {common("settlements")}
                 </Button>
               </Link>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </section>
 
-        <Card className="border-[var(--border)] shadow-[0_16px_40px_rgba(15,23,42,0.04)]">
-          <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="space-y-2">
-              <CardTitle>{common("expenses")}</CardTitle>
-              <CardDescription>
+        {/* Expenses */}
+        <div className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-card)] p-5 sm:p-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="space-y-1">
+              <h2 className="text-lg font-semibold text-[var(--text-primary)]">
+                {common("expenses")}
+              </h2>
+              <p className="text-sm leading-6 text-[var(--text-secondary)]">
                 {summary.totalExpenseAmount.equals(0)
                   ? pageT("emptyExpenses")
                   : formatMoney(locale, summary.totalExpenseAmount)}
-              </CardDescription>
+              </p>
             </div>
             {group.members.length > 0 ? (
               <Link href={`/g/${slug}/expenses/new`}>
-                <Button className="w-full sm:w-auto shadow-[0_14px_30px_rgba(217,119,6,0.16)]">
+                <Button className="w-full sm:w-auto">
                   <Plus className="mr-2 h-4 w-4" />
                   {pageT("addExpenseTitle")}
                 </Button>
               </Link>
             ) : null}
-          </CardHeader>
-          <CardContent className="space-y-4">
+          </div>
+
+          <div className="mt-5 space-y-4">
             {summary.expenseSummaries.length === 0 ? (
-              <div className="rounded-3xl border border-dashed border-[var(--border)] bg-[var(--muted)]/45 px-4 py-5 text-sm text-[var(--muted-foreground)]">
-                <p className="font-medium text-[var(--foreground)]">
+              <div className="rounded-lg border border-dashed border-[var(--border-default)] bg-[var(--bg-page)] px-4 py-5 text-sm text-[var(--text-secondary)]">
+                <p className="font-medium text-[var(--text-primary)]">
                   {pageT("emptyExpensesTitle")}
                 </p>
                 <p className="mt-2 leading-6 break-words">
@@ -307,11 +318,11 @@ export default async function GroupPage({
                     ? pageT("emptyExpensesNoMembersBody")
                     : pageT("emptyExpensesReadyBody")}
                 </p>
-                <div className="mt-4 space-y-2 rounded-2xl bg-white px-4 py-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted-foreground)]">
+                <div className="mt-4 rounded-lg bg-[var(--bg-card-hover)] px-4 py-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-muted)]">
                     {pageT("emptyExpensesNextTitle")}
                   </p>
-                  <p className="text-sm text-[var(--foreground)]">
+                  <p className="mt-1 text-sm text-[var(--text-primary)]">
                     {group.members.length === 0
                       ? pageT("addMemberFirstHint")
                       : pageT("emptyExpensesReadyAction")}
@@ -320,62 +331,71 @@ export default async function GroupPage({
               </div>
             ) : (
               summary.expenseSummaries.map((expense) => (
-                <Card key={expense.id} className="bg-white">
-                  <CardHeader className="gap-3">
-                    <div className="flex flex-wrap items-start justify-between gap-3">
-                      <div className="space-y-1">
-                        <CardTitle className="break-words text-lg">{expense.title}</CardTitle>
-                        <CardDescription>
-                          {formatMoney(locale, expense.amountDecimal)} · {common("paidBy")}{" "}
-                          {expense.paidByMember.name} · {expense.happenedOn.toISOString().slice(0, 10)}
-                        </CardDescription>
-                      </div>
-                      <Link href={`/g/${slug}/expenses/${expense.id}/edit`}>
-                        <Button size="sm" variant="secondary">
-                          <PenSquare className="mr-2 h-4 w-4" />
-                          {common("edit")}
-                        </Button>
-                      </Link>
-                    </div>
-                    {expense.notes ? (
-                      <p className="rounded-2xl bg-[var(--muted)] px-4 py-3 text-sm break-words text-[var(--muted-foreground)]">
-                        {expense.notes}
+                <div
+                  key={expense.id}
+                  className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-page)] p-4 sm:p-5"
+                >
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div className="space-y-1">
+                      <p className="break-words text-lg font-semibold text-[var(--text-primary)]">
+                        {expense.title}
                       </p>
-                    ) : null}
-                    <div className="space-y-2">
-                      <p className="text-xs font-medium uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
-                        {common("participants")}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {expense.participants.map((participant) => (
-                          <Badge key={participant.memberId} className="bg-[var(--muted)]">
-                            {participant.member.name}
-                          </Badge>
-                        ))}
-                      </div>
-                      <p className="text-xs leading-5 text-[var(--muted-foreground)]">
-                        {pageT("shareSummary", { count: expense.participants.length })}
+                      <p className="text-sm leading-6 text-[var(--text-secondary)]">
+                        {formatMoney(locale, expense.amountDecimal)} · {common("paidBy")}{" "}
+                        {expense.paidByMember.name} · {expense.happenedOn.toISOString().slice(0, 10)}
                       </p>
                     </div>
+                    <Link href={`/g/${slug}/expenses/${expense.id}/edit`}>
+                      <Button size="sm" variant="secondary">
+                        <PenSquare className="mr-2 h-4 w-4" />
+                        {common("edit")}
+                      </Button>
+                    </Link>
+                  </div>
+                  {expense.notes ? (
+                    <p className="mt-3 rounded-lg bg-[var(--bg-card-hover)] px-4 py-3 text-sm break-words text-[var(--text-secondary)]">
+                      {expense.notes}
+                    </p>
+                  ) : null}
+                  <div className="mt-3 space-y-2">
+                    <p className="text-xs font-medium uppercase tracking-[0.14em] text-[var(--text-muted)]">
+                      {common("participants")}
+                    </p>
                     <div className="flex flex-wrap gap-2">
-                      {expense.shares.map((share) => {
-                        const participant = expense.participants.find(
-                          (entry) => entry.memberId === share.memberId,
-                        );
-
-                        return (
-                          <Badge key={share.memberId} className="bg-[var(--muted)]">
-                            {participant?.member.name}: {formatMoney(locale, share.share)}
-                          </Badge>
-                        );
-                      })}
+                      {expense.participants.map((participant) => (
+                        <span
+                          key={participant.memberId}
+                          className="inline-flex items-center rounded-full border border-[var(--border-default)] bg-[var(--bg-card)] px-3 py-1 text-[13px] text-[var(--text-primary)]"
+                        >
+                          {participant.member.name}
+                        </span>
+                      ))}
                     </div>
-                  </CardHeader>
-                </Card>
+                    <p className="text-xs leading-5 text-[var(--text-muted)]">
+                      {pageT("shareSummary", { count: expense.participants.length })}
+                    </p>
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {expense.shares.map((share) => {
+                      const participant = expense.participants.find(
+                        (entry) => entry.memberId === share.memberId,
+                      );
+
+                      return (
+                        <span
+                          key={share.memberId}
+                          className="inline-flex items-center rounded-full border border-[var(--border-default)] bg-[var(--bg-card-hover)] px-3 py-1 text-[13px] text-[var(--text-secondary)]"
+                        >
+                          {participant?.member.name}: {formatMoney(locale, share.share)}
+                        </span>
+                      );
+                    })}
+                  </div>
+                </div>
               ))
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </main>
   );

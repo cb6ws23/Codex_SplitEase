@@ -9,7 +9,7 @@ export function Textarea({
   return (
     <textarea
       className={cn(
-        "flex min-h-28 w-full rounded-2xl border border-[var(--border)] bg-white px-4 py-3 text-sm outline-none transition-colors placeholder:text-[var(--muted-foreground)] focus:border-[var(--ring)] focus:ring-2 focus:ring-[color-mix(in_oklab,var(--ring)_20%,transparent)]",
+        "flex min-h-28 w-full rounded-lg border border-[var(--border-default)] bg-[var(--bg-page)] px-4 py-3 text-sm text-[var(--text-primary)] outline-none transition-colors placeholder:text-[var(--text-muted)] focus:border-[var(--border-brand)] focus:ring-2 focus:ring-[var(--brand-primary-light)]",
         className,
       )}
       {...props}

@@ -1,25 +1,48 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fffdf8;
-  --foreground: #1f2937;
-  --page-background: #fff5e9;
-  --card: rgba(255, 255, 255, 0.92);
-  --muted: #f8ead9;
-  --muted-foreground: #6b7280;
-  --border: rgba(127, 93, 30, 0.18);
-  --ring: #d97706;
-  --accent-strong: #c2410c;
-  --destructive: #dc2626;
-  --success: #15803d;
+  /* ── Spec tokens (canonical names) ── */
+
+  /* Brand */
+  --brand-primary: #4F56E8;
+  --brand-primary-hover: #4349D4;
+  --brand-primary-dark: #3D43C7;
+  --brand-primary-light: #E3E4F3;
+  --brand-primary-subtle: #F0F0FA;
+
+  /* Surfaces */
+  --bg-page: #FFFFFF;
+  --bg-card: #F7F7FB;
+  --bg-card-hover: #EEEFF7;
+  --bg-accent: #E3E4F3;
+  --bg-hero: #4F56E8;
+
+  /* Text */
+  --text-primary: #1A1A2E;
+  --text-secondary: #5A5A78;
+  --text-muted: #8E8EA8;
+  --text-on-brand: #FFFFFF;
+  --text-brand: #4F56E8;
+
+  /* Border */
+  --border-default: #E2E2EE;
+  --border-hover: #D0D0E0;
+  --border-brand: #4F56E8;
+
+  /* Semantic */
+  --color-success: #16A34A;
+  --color-danger: #DC2626;
+  --color-warning: #D97706;
+  --color-info: #4F56E8;
+
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--bg-page);
+  --color-foreground: var(--text-primary);
   --font-sans:
-    "Avenir Next", "Hiragino Sans", "Yu Gothic", "PingFang SC",
-    "Noto Sans CJK SC", sans-serif;
+    var(--font-inter), var(--font-noto-jp), var(--font-noto-sc),
+    "Inter", "Noto Sans JP", "Noto Sans SC", system-ui, sans-serif;
   --font-mono:
     "JetBrains Mono", "SFMono-Regular", "Menlo", "Monaco", monospace;
 }
@@ -29,15 +52,13 @@
 }
 
 html {
-  background: var(--page-background);
+  background: var(--bg-page);
 }
 
 body {
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top, rgba(250, 204, 21, 0.12), transparent 30%),
-    linear-gradient(180deg, #fff5e9 0%, #fffdf8 32%, #fff8f1 100%);
-  color: var(--foreground);
+  background: var(--bg-page);
+  color: var(--text-primary);
   font-family: var(--font-sans);
 }
 

@@ -4,21 +4,21 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-full text-sm font-semibold transition-colors disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
+  "inline-flex items-center justify-center rounded-lg text-[15px] font-semibold transition-colors disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-brand)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-page)]",
   {
     variants: {
       variant: {
         default:
-          "bg-[var(--foreground)] px-4 py-2 text-[var(--background)] hover:bg-[color-mix(in_oklab,var(--foreground)_88%,white)]",
+          "bg-[var(--brand-primary)] px-4 py-2 text-[var(--text-on-brand)] hover:bg-[var(--brand-primary-hover)] active:bg-[var(--brand-primary-dark)]",
         secondary:
-          "border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-[var(--foreground)] hover:bg-[var(--muted)]",
+          "border border-[var(--border-default)] bg-[var(--bg-page)] px-4 py-2 text-[var(--text-primary)] hover:bg-[var(--bg-card-hover)]",
         ghost:
-          "px-3 py-2 text-[var(--foreground)] hover:bg-[var(--muted)]",
+          "px-3 py-2 text-[var(--text-secondary)] hover:bg-[var(--bg-card)]",
         destructive:
-          "bg-[var(--destructive)] px-4 py-2 text-white hover:bg-[color-mix(in_oklab,var(--destructive)_88%,black)]",
+          "bg-[var(--color-danger)] px-4 py-2 text-white hover:bg-[color-mix(in_oklab,var(--color-danger)_88%,black)]",
       },
       size: {
-        default: "h-11",
+        default: "h-11 sm:h-10",
         sm: "h-9 px-3 text-xs",
         lg: "h-12 px-5",
       },

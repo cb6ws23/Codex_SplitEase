@@ -3,7 +3,6 @@
 import { X } from "lucide-react";
 import { useMemo, useState } from "react";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -84,27 +83,27 @@ export function MemberChipsInput({
       </div>
 
       {members.length > 0 ? (
-        <div className="flex flex-wrap gap-2 rounded-3xl border border-[var(--border)] bg-[var(--muted)]/55 p-3">
+        <div className="flex flex-wrap gap-2 rounded-lg border border-[var(--border-default)] bg-[var(--bg-page)] p-3">
           {members.map((member) => (
-            <Badge
+            <span
               key={member}
-              className="gap-2 bg-white pr-1.5 text-[var(--foreground)] shadow-none"
+              className="inline-flex items-center gap-2 rounded-full border border-[var(--border-default)] bg-[var(--bg-card)] px-3 py-1 text-[13px] text-[var(--text-primary)]"
             >
               <span className="max-w-[14rem] truncate">{member}</span>
               <button
                 aria-label={`${member} remove`}
-                className="rounded-full p-1 text-[var(--muted-foreground)] transition-colors hover:bg-white hover:text-[var(--foreground)]"
+                className="rounded-full p-1 text-[var(--text-muted)] transition-colors hover:text-[var(--color-danger)]"
                 onClick={() => removeMember(member)}
                 type="button"
               >
                 <X className="h-3.5 w-3.5" />
               </button>
-            </Badge>
+            </span>
           ))}
         </div>
       ) : null}
 
-      <p className="text-xs leading-5 text-[var(--muted-foreground)]">
+      <p className="text-xs leading-5 text-[var(--text-muted)]">
         {helperText} {maxMembersText}
       </p>
     </div>

@@ -10,7 +10,7 @@ export function getLocalizedAppName(locale: AppLocale) {
     case "ja":
       return "スプリタ";
     case "zh-CN":
-      return "A一下";
+      return "AA记";
     case "en":
     default:
       return "Splita";

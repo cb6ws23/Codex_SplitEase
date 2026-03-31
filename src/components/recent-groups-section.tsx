@@ -10,7 +10,6 @@ import {
   subscribeRecentGroups,
   type RecentGroupRecord,
 } from "@/lib/recent-groups";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 type Props = {
   title: string;
@@ -38,14 +37,12 @@ export function RecentGroupsSection({
   }, []);
 
   return (
-    <Card className="overflow-hidden border-[var(--border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(255,250,243,0.98))] shadow-[0_18px_50px_rgba(15,23,42,0.05)]">
-      <CardHeader className="gap-2 border-b border-[var(--border)]/70 bg-white/70">
-        <CardTitle className="text-xl">{title}</CardTitle>
-        <CardDescription className="max-w-2xl">{description}</CardDescription>
-      </CardHeader>
-      <CardContent className="p-4 sm:p-5">
+    <div className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-card)] p-5 sm:p-6">
+      <h2 className="text-lg font-semibold text-[var(--text-primary)]">{title}</h2>
+      <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">{description}</p>
+      <div className="mt-4">
         {groups.length === 0 ? (
-          <div className="rounded-3xl border border-dashed border-[var(--border)] bg-white px-4 py-6 text-sm leading-6 text-[var(--muted-foreground)]">
+          <div className="rounded-lg border border-dashed border-[var(--border-default)] bg-[var(--bg-page)] px-4 py-6 text-sm leading-6 text-[var(--text-secondary)]">
             {empty}
           </div>
         ) : (
@@ -53,25 +50,25 @@ export function RecentGroupsSection({
             {groups.map((group) => (
               <div
                 key={group.slug}
-                className="rounded-3xl border border-[var(--border)] bg-white px-4 py-4 transition-all hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(15,23,42,0.06)]"
+                className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-page)] px-4 py-4 transition-colors hover:bg-[var(--bg-card-hover)]"
               >
                 <div className="flex items-start justify-between gap-3">
                   <Link
                     href={`/g/${group.slug}`}
                     locale={group.locale}
-                    className="min-w-0 flex-1 rounded-2xl outline-none transition-colors hover:text-[var(--foreground)] focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+                    className="min-w-0 flex-1 rounded-lg outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--border-brand)]"
                   >
-                    <p className="truncate text-sm font-semibold text-[var(--foreground)] sm:text-base">
+                    <p className="truncate text-sm font-semibold text-[var(--text-primary)] sm:text-base">
                       {group.name}
                     </p>
-                    <p className="mt-1 flex items-center gap-2 text-xs text-[var(--muted-foreground)]">
+                    <p className="mt-1 flex items-center gap-2 text-xs text-[var(--text-muted)]">
                       <Clock3 className="h-3.5 w-3.5" />
                       <span>{new Date(group.visitedAt).toLocaleString(group.locale)}</span>
                     </p>
                   </Link>
                   <button
                     aria-label={`${removeLabel}: ${group.name}`}
-                    className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[var(--border)] bg-white text-[var(--muted-foreground)] transition-colors hover:bg-[var(--muted)] hover:text-[var(--foreground)]"
+                    className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[var(--border-default)] bg-[var(--bg-page)] text-[var(--text-muted)] transition-colors hover:bg-[var(--bg-card-hover)] hover:text-[var(--text-primary)]"
                     onClick={() => removeRecentGroup(group.slug)}
                     title={removeHint}
                     type="button"
@@ -80,13 +77,13 @@ export function RecentGroupsSection({
                   </button>
                 </div>
                 <div className="mt-3 flex items-center justify-between gap-3">
-                  <span className="text-xs leading-5 text-[var(--muted-foreground)]">
+                  <span className="text-xs leading-5 text-[var(--text-muted)]">
                     {removeHint}
                   </span>
                   <Link
                     href={`/g/${group.slug}`}
                     locale={group.locale}
-                    className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[var(--muted)] px-2.5 py-1 text-xs font-medium text-[var(--muted-foreground)]"
+                    className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-[var(--bg-card-hover)] px-2.5 py-1 text-xs font-medium text-[var(--text-secondary)]"
                   >
                     <FolderOpen className="h-3.5 w-3.5" />
                     {openLabel}
@@ -96,7 +93,7 @@ export function RecentGroupsSection({
             ))}
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

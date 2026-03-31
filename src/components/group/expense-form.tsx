@@ -105,7 +105,7 @@ export async function ExpenseForm({
           {common("paidBy")}
         </Label>
         <select
-          className="flex h-11 w-full rounded-2xl border border-[var(--border)] bg-white px-4 py-2 text-sm outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[color-mix(in_oklab,var(--ring)_20%,transparent)]"
+          className="flex h-11 w-full rounded-lg border border-[var(--border-default)] bg-[var(--bg-page)] px-4 py-2 text-sm text-[var(--text-primary)] outline-none focus:border-[var(--border-brand)] focus:ring-2 focus:ring-[var(--brand-primary-light)]"
           defaultValue={defaultExpense?.paidByMemberId ?? members[0]?.id}
           id={defaultExpense ? `paidBy-${defaultExpense.id}` : "paidByMemberId"}
           name="paidByMemberId"
@@ -122,7 +122,7 @@ export async function ExpenseForm({
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <Label>{common("notes")}</Label>
-          <span className="text-xs text-[var(--muted-foreground)]">
+          <span className="text-xs text-[var(--text-muted)]">
             {common("optional")}
           </span>
         </div>
@@ -143,7 +143,7 @@ export async function ExpenseForm({
             return (
               <label
                 key={member.id}
-                className="flex items-center gap-3 rounded-2xl border border-[var(--border)] bg-white px-4 py-3 text-sm"
+                className="flex items-center gap-3 rounded-lg border border-[var(--border-default)] bg-[var(--bg-page)] px-4 py-3 text-sm"
               >
                 <input
                   defaultChecked={checked}
