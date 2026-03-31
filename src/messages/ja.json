@@ -54,6 +54,7 @@
     "optional": "任意"
   },
   "GroupForm": {
+    "brandHint": "かんたん割り勘",
     "title": "グループを作成",
     "description": "グループ名と、必要なら初期メンバーを入力してください。メンバーは後から追加できます。",
     "groupName": "グループ名",

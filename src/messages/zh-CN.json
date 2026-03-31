@@ -54,6 +54,7 @@
     "optional": "可选"
   },
   "GroupForm": {
+    "brandHint": "轻量分账工具",
     "title": "创建群组",
     "description": "先填写群组名称，也可以顺手添加初始成员，之后仍可继续添加。",
     "groupName": "群组名称",
