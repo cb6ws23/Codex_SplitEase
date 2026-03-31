@@ -64,6 +64,9 @@ export default async function GroupCreatedPage({
             <div className="flex items-start gap-3">
               <CheckCircle2 className="mt-1 h-6 w-6 text-[var(--success)]" />
               <div className="space-y-2">
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--muted-foreground)]">
+                  {common("appName")}
+                </p>
                 <CardTitle>{t("title")}</CardTitle>
                 <CardDescription>{t("description", { name: group.name })}</CardDescription>
               </div>

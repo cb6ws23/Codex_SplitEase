@@ -1,9 +1,35 @@
+import type { Metadata } from "next";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
-import { getMessages, setRequestLocale } from "next-intl/server";
+import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { HtmlLangSetter } from "@/components/html-lang-setter";
+import { type AppLocale, getLocalizedAppName } from "@/lib/constants";
 import { routing } from "@/i18n/routing";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  if (!hasLocale(routing.locales, locale)) {
+    return {};
+  }
+
+  setRequestLocale(locale);
+  const home = await getTranslations({ locale, namespace: "Home" });
+  const appName = getLocalizedAppName(locale as AppLocale);
+
+  return {
+    title: {
+      default: appName,
+      template: `%s | ${appName}`,
+    },
+    description: home("description"),
+  };
+}
 
 export default async function LocaleLayout({
   children,

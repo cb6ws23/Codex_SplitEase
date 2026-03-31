@@ -47,6 +47,11 @@ export default async function HomePage({
         <section className="overflow-hidden rounded-[36px] border border-[var(--border)] bg-[radial-gradient(circle_at_top_left,rgba(247,201,72,0.28),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(44,123,229,0.18),transparent_42%),linear-gradient(180deg,#fff7eb_0%,#ffffff_100%)] p-6 shadow-[0_20px_70px_rgba(15,23,42,0.08)] sm:p-10">
           <div className="max-w-3xl space-y-6">
             <Badge className="bg-white/80">{t("badge")}</Badge>
+            <div className="space-y-2">
+              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[var(--muted-foreground)]">
+                {common("appName")}
+              </p>
+            </div>
             <h1 className="text-4xl font-semibold leading-tight tracking-[-0.04em] sm:text-6xl">
               {t("title")}
             </h1>

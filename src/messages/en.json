@@ -1,8 +1,8 @@
 {
   "Home": {
     "badge": "Anonymous group expense sharing",
-    "title": "Split shared costs without making people sign up.",
-    "description": "Create a group, share one collaboration link, add expenses in JPY, and settle up with a simple recommendation list.",
+    "title": "Split shared costs fast with Splita.",
+    "description": "Splita lets a group share one collaboration link, add expenses in JPY, and settle up with a simple recommendation list.",
     "primaryCta": "Create a group",
     "secondaryCta": "Open demo flow",
     "recentTitle": "Recent groups",
@@ -22,7 +22,7 @@
     "zhCN": "简体中文"
   },
   "Common": {
-    "appName": "SplitEase",
+    "appName": "Splita",
     "currency": "JPY only",
     "backHome": "Home",
     "newGroup": "New group",

@@ -1,4 +1,4 @@
-# SplitEase MVP A
+# Splita MVP A
 
 Anonymous-first group expense sharing for JPY-only trips and shared spending.
 

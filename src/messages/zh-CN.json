@@ -1,8 +1,8 @@
 {
   "Home": {
     "badge": "匿名协作分账应用",
-    "title": "不用注册，也能快速分摊共享支出。",
-    "description": "创建群组，分享一个协作链接，记录 JPY 支出，并立即查看结算建议。",
+    "title": "用 A一下，快速分摊共享支出。",
+    "description": "A一下让你创建群组、分享一个协作链接、记录 JPY 支出，并立即查看结算建议。",
     "primaryCta": "创建群组",
     "secondaryCta": "查看示例流程",
     "recentTitle": "最近群组",
@@ -22,7 +22,7 @@
     "zhCN": "简体中文"
   },
   "Common": {
-    "appName": "SplitEase",
+    "appName": "A一下",
     "currency": "仅支持 JPY",
     "backHome": "首页",
     "newGroup": "新建群组",
