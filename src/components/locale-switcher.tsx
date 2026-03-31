@@ -15,17 +15,17 @@ const LOCALE_LABELS: Record<AppLocale, string> = {
 
 export function LocaleSwitcher({ currentLocale, href }: Props) {
   return (
-    <div className="inline-flex rounded-full border border-[var(--border)] bg-white/80 p-1 backdrop-blur-sm">
+    <div className="inline-flex items-center gap-1 rounded-full border border-[var(--border)] bg-white/88 p-1 shadow-[0_8px_20px_rgba(15,23,42,0.05)] backdrop-blur-sm">
       {LOCALES.map((locale) => (
         <Link
           key={locale}
           href={href}
           locale={locale}
           className={cn(
-            "rounded-full px-3 py-2 text-xs font-semibold transition-colors",
+            "inline-flex min-w-[4.5rem] items-center justify-center rounded-full px-3 py-1.5 text-xs font-semibold leading-none transition-colors sm:min-w-[5rem]",
             locale === currentLocale
-              ? "bg-[var(--foreground)] text-[var(--background)]"
-              : "text-[var(--muted-foreground)] hover:bg-[var(--muted)]",
+              ? "border border-[color-mix(in_oklab,var(--foreground)_14%,white)] bg-[var(--foreground)] text-white shadow-[0_6px_16px_rgba(15,23,42,0.18)]"
+              : "text-[var(--muted-foreground)] hover:bg-[var(--muted)] hover:text-[var(--foreground)]",
           )}
         >
           {LOCALE_LABELS[locale]}
