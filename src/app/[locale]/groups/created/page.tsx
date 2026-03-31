@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { notFound, redirect } from "next/navigation";
-import { CheckCircle2, KeyRound, Link2 } from "lucide-react";
+import { CheckCircle2, Link2 } from "lucide-react";
 
 import { RecentGroupTracker } from "@/components/group/recent-group-tracker";
 import { ShareLinkButton } from "@/components/group/share-link-button";
@@ -17,7 +17,6 @@ import {
 import { Link } from "@/i18n/navigation";
 import { type AppLocale } from "@/lib/constants";
 import { getGroupBySlug } from "@/lib/groups";
-import { verifyAccessOrNull } from "@/lib/actions";
 
 export default async function GroupCreatedPage({
   params,
@@ -32,9 +31,8 @@ export default async function GroupCreatedPage({
     redirect(`/${locale}/groups/new`);
   }
 
-  const [group, token, t, common] = await Promise.all([
+  const [group, t, common] = await Promise.all([
     getGroupBySlug(slug),
-    verifyAccessOrNull(slug),
     getTranslations("GroupCreated"),
     getTranslations("Common"),
   ]);
@@ -47,10 +45,7 @@ export default async function GroupCreatedPage({
     /\/+$/,
     "",
   );
-  const publicUrl = `${appUrl}/${locale}/g/${group.slug}`;
-  const writeUrl = token
-    ? `${appUrl}/api/groups/${group.slug}/access?token=${encodeURIComponent(token)}&locale=${locale}`
-    : null;
+  const groupUrl = `${appUrl}/${locale}/g/${group.slug}`;
 
   return (
     <main className="min-h-screen bg-[var(--page-background)] px-3 py-4 sm:px-4 sm:py-6">
@@ -76,51 +71,23 @@ export default async function GroupCreatedPage({
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
-              <Card className="bg-white">
+              <Card className="bg-white sm:col-span-2">
                 <CardHeader>
                   <div className="flex items-center gap-2">
                     <Link2 className="h-4 w-4 text-[var(--accent-strong)]" />
-                    <CardTitle className="text-base">{t("publicTitle")}</CardTitle>
+                    <CardTitle className="text-base">{t("linkTitle")}</CardTitle>
                   </div>
-                  <CardDescription>{t("publicDescription")}</CardDescription>
+                  <CardDescription>{t("linkDescription")}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="rounded-2xl border border-[var(--border)] bg-[var(--muted)] px-4 py-3 text-xs break-all text-[var(--muted-foreground)]">
-                    {publicUrl}
+                    {groupUrl}
                   </div>
                   <ShareLinkButton
                     copiedLabel={common("copied")}
                     copyLabel={common("copy")}
-                    url={publicUrl}
+                    url={groupUrl}
                   />
-                </CardContent>
-              </Card>
-
-              <Card className="bg-white">
-                <CardHeader>
-                  <div className="flex items-center gap-2">
-                    <KeyRound className="h-4 w-4 text-[var(--accent-strong)]" />
-                    <CardTitle className="text-base">{t("writeTitle")}</CardTitle>
-                  </div>
-                  <CardDescription>{t("writeDescription")}</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {writeUrl ? (
-                    <>
-                      <div className="rounded-2xl border border-[var(--border)] bg-[var(--muted)] px-4 py-3 text-xs break-all text-[var(--muted-foreground)]">
-                        {writeUrl}
-                      </div>
-                      <ShareLinkButton
-                        copiedLabel={common("copied")}
-                        copyLabel={t("copyWriteLink")}
-                        url={writeUrl}
-                      />
-                    </>
-                  ) : (
-                    <div className="rounded-2xl border border-dashed border-[var(--border)] px-4 py-4 text-sm text-[var(--muted-foreground)]">
-                      {t("writeUnavailable")}
-                    </div>
-                  )}
                 </CardContent>
               </Card>
             </div>
@@ -133,7 +100,6 @@ export default async function GroupCreatedPage({
               <CardContent className="space-y-2 text-sm text-[var(--muted-foreground)]">
                 <p>{t("stepOne")}</p>
                 <p>{t("stepTwo")}</p>
-                <p>{t("stepThree")}</p>
               </CardContent>
             </Card>
 

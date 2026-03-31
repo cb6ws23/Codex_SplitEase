@@ -3,7 +3,6 @@ import { z } from "zod";
 import { LOCALES } from "@/lib/constants";
 
 export const SLUG_PATTERN = /^[23456789abcdefghjkmnpqrstuvwxyz]{4}-[23456789abcdefghjkmnpqrstuvwxyz]{6}$/;
-export const TOKEN_PATTERN = /^[A-Za-z0-9_-]{16,64}$/;
 
 const requiredString = (maxLength: number) =>
   z
@@ -79,12 +78,6 @@ export const deleteExpenseSchema = z.object({
   locale: localeSchema,
   slug: slugSchema,
   expenseId: memberIdSchema,
-});
-
-export const unlockAccessSchema = z.object({
-  locale: localeSchema,
-  slug: slugSchema,
-  token: z.string().trim().regex(TOKEN_PATTERN, "Invalid write token."),
 });
 
 export function memberLinesToNames(input: string) {

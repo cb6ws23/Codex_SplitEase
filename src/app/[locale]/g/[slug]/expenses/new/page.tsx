@@ -5,7 +5,6 @@ import { ExpenseForm } from "@/components/group/expense-form";
 import { FormStatusMessage } from "@/components/form-status-message";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { verifyAccessOrNull } from "@/lib/actions";
 import { type AppLocale } from "@/lib/constants";
 import { getGroupBySlug } from "@/lib/groups";
 import { Link } from "@/i18n/navigation";
@@ -18,9 +17,8 @@ export default async function NewExpensePage({
   searchParams: Promise<{ status?: string }>;
 }) {
   const [{ locale, slug }, { status }] = await Promise.all([params, searchParams]);
-  const [group, hasWriteAccess, common, pageT, feedback] = await Promise.all([
+  const [group, common, pageT, feedback] = await Promise.all([
     getGroupBySlug(slug),
-    verifyAccessOrNull(slug),
     getTranslations("Common"),
     getTranslations("GroupPage"),
     getTranslations("Feedback"),
@@ -28,10 +26,6 @@ export default async function NewExpensePage({
 
   if (!group) {
     notFound();
-  }
-
-  if (!hasWriteAccess) {
-    redirect(`/${locale}/g/${slug}?status=invalidAccess`);
   }
 
   if (group.members.length === 0) {
@@ -51,7 +45,7 @@ export default async function NewExpensePage({
         <Card>
           <CardHeader>
             <CardTitle>{pageT("addExpenseTitle")}</CardTitle>
-            <CardDescription>{pageT("writeAccessReady")}</CardDescription>
+            <CardDescription>{pageT("expenseFormDescription")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {status === "invalidExpense" ? (

@@ -3,16 +3,9 @@
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { randomBytes } from "node:crypto";
 
-import {
-  generateWriteToken,
-  getWriteAccessToken,
-  hashWriteToken,
-  normalizeWriteTokenInput,
-  setWriteAccessCookie,
-  writeTokenMatches,
-} from "@/lib/auth";
-import { createUniqueGroupSlug, getGroupBySlug, prismaDecimal } from "@/lib/groups";
+import { createUniqueGroupSlug, prismaDecimal } from "@/lib/groups";
 import { parseYenInput } from "@/lib/money";
 import { prisma } from "@/lib/prisma";
 import {
@@ -21,7 +14,6 @@ import {
   createGroupSchema,
   deleteExpenseSchema,
   memberLinesToNames,
-  unlockAccessSchema,
   updateExpenseSchema,
 } from "@/lib/validation";
 
@@ -57,12 +49,6 @@ async function requireAuthorizedGroup(slug: string) {
     throw new Error("Group not found.");
   }
 
-  const token = await getWriteAccessToken(slug);
-
-  if (!token || !writeTokenMatches(token, group.writeTokenHash)) {
-    throw new Error("Unauthorized");
-  }
-
   return group;
 }
 
@@ -85,8 +71,6 @@ export async function createGroupAction(formData: FormData) {
 
   const { name, initialMembers } = parsed.data;
   const slug = await createUniqueGroupSlug();
-  const writeToken = generateWriteToken();
-  const writeTokenHash = hashWriteToken(writeToken);
   const members = memberLinesToNames(initialMembers);
 
   try {
@@ -94,7 +78,7 @@ export async function createGroupAction(formData: FormData) {
       data: {
         slug,
         name: normalizeWhitespace(name),
-        writeTokenHash,
+        writeTokenHash: randomBytes(32).toString("hex"),
         members: {
           create: members.map((memberName, index) => ({
             name: memberName,
@@ -114,7 +98,6 @@ export async function createGroupAction(formData: FormData) {
     failureRedirect(locale, "/groups/new", "error");
   }
 
-  await setWriteAccessCookie(slug, writeToken);
   redirect(`/${locale}/groups/created?slug=${slug}`);
 }
 
@@ -143,11 +126,7 @@ export async function addMemberAction(formData: FormData) {
         sortOrder: group.members.length,
       },
     });
-  } catch (error) {
-    if (error instanceof Error && error.message === "Unauthorized") {
-      failureRedirect(locale, `/g/${slug}`, "invalidAccess");
-    }
-
+  } catch {
     failureRedirect(locale, `/g/${slug}`, "error");
   }
 
@@ -207,10 +186,6 @@ export async function createExpenseAction(formData: FormData) {
       },
     });
   } catch (error) {
-    if (error instanceof Error && error.message === "Unauthorized") {
-      failureRedirect(locale, `/g/${slug}`, "invalidAccess");
-    }
-
     if (error instanceof Error && error.message.includes("Amount must")) {
       failureRedirect(locale, `/g/${slug}/expenses/new`, "invalidAmount");
     }
@@ -307,10 +282,6 @@ export async function updateExpenseAction(formData: FormData) {
       });
     });
   } catch (error) {
-    if (error instanceof Error && error.message === "Unauthorized") {
-      failureRedirect(locale, `/g/${slug}`, "invalidAccess");
-    }
-
     if (error instanceof Error && error.message === "Expense not found") {
       failureRedirect(locale, `/g/${slug}`, "error");
     }
@@ -363,10 +334,6 @@ export async function deleteExpenseAction(formData: FormData) {
       throw new Error("Expense not found");
     }
   } catch (error) {
-    if (error instanceof Error && error.message === "Unauthorized") {
-      failureRedirect(locale, `/g/${slug}`, "invalidAccess");
-    }
-
     if (error instanceof Error && error.message === "Expense not found") {
       failureRedirect(locale, `/g/${slug}`, "error");
     }
@@ -377,34 +344,4 @@ export async function deleteExpenseAction(formData: FormData) {
   revalidatePath(`/${locale}/g/${slug}`);
   revalidatePath(`/${locale}/g/${slug}/settlement`);
   redirect(`/${locale}/g/${slug}?status=deleted`);
-}
-
-export async function verifyAccessOrNull(slug: string) {
-  const group = await getGroupBySlug(slug);
-
-  if (!group) {
-    return null;
-  }
-
-  const token = await getWriteAccessToken(slug);
-
-  if (!token || !writeTokenMatches(token, group.writeTokenHash)) {
-    return null;
-  }
-
-  return token;
-}
-
-export async function validateUnlockRequest(input: {
-  locale: string | null;
-  slug: string;
-  token: string | null;
-}) {
-  const normalizedToken = normalizeWriteTokenInput(input.token);
-
-  return unlockAccessSchema.safeParse({
-    locale: input.locale,
-    slug: input.slug,
-    token: normalizedToken,
-  });
 }

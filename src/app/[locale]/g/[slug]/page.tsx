@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { ArrowRightLeft, FileDown, PenSquare, Plus } from "lucide-react";
+import { ArrowRightLeft, FileDown, PenSquare, Plus, Users } from "lucide-react";
 import Decimal from "decimal.js";
 
 import { FormStatusMessage } from "@/components/form-status-message";
@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { addMemberAction, verifyAccessOrNull } from "@/lib/actions";
+import { addMemberAction } from "@/lib/actions";
 import { type AppLocale } from "@/lib/constants";
 import { computeGroupSummary, getGroupBySlug } from "@/lib/groups";
 import { Link } from "@/i18n/navigation";
@@ -28,8 +28,6 @@ function statusMessage(
       return feedback("saved");
     case "deleted":
       return feedback("deleted");
-    case "invalidAccess":
-      return feedback("invalidAccess");
     case "invalidMember":
       return feedback("invalidMember");
     case "error":
@@ -44,7 +42,7 @@ function statusTone(status: string | undefined) {
     return "success" as const;
   }
 
-  if (status === "invalidAccess" || status === "invalidMember" || status === "error") {
+  if (status === "invalidMember" || status === "error") {
     return "error" as const;
   }
 
@@ -59,9 +57,8 @@ export default async function GroupPage({
   searchParams: Promise<{ status?: string }>;
 }) {
   const [{ locale, slug }, { status }] = await Promise.all([params, searchParams]);
-  const [group, hasWriteAccess, common, pageT, feedback] = await Promise.all([
+  const [group, common, pageT, feedback] = await Promise.all([
     getGroupBySlug(slug),
-    verifyAccessOrNull(slug),
     getTranslations("Common"),
     getTranslations("GroupPage"),
     getTranslations("Feedback"),
@@ -90,10 +87,7 @@ export default async function GroupPage({
     /\/+$/,
     "",
   );
-  const publicUrl = `${appUrl}/${locale}/g/${group.slug}`;
-  const writeUrl = hasWriteAccess
-    ? `${appUrl}/api/groups/${group.slug}/access?token=${encodeURIComponent(hasWriteAccess)}&locale=${locale}`
-    : publicUrl;
+  const groupUrl = `${appUrl}/${locale}/g/${group.slug}`;
 
   return (
     <main className="min-h-screen bg-[var(--page-background)] px-3 py-4 sm:px-4 sm:py-6">
@@ -132,70 +126,29 @@ export default async function GroupPage({
             ) : null}
 
             <div className="grid gap-3 sm:grid-cols-2">
-              <div className="rounded-3xl border border-[var(--border)] bg-white/85 p-4">
+              <div className="rounded-3xl border border-[var(--border)] bg-white/85 p-4 sm:col-span-2">
                 <div className="space-y-2">
                   <p className="text-sm font-semibold">{common("shareLink")}</p>
                   <p className="text-xs leading-5 text-[var(--muted-foreground)]">
-                    {pageT("publicViewHint")}
+                    {pageT("shareLinkBody")}
                   </p>
                 </div>
                 <div className="mt-3 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--muted)] px-4 py-3 text-xs break-all text-[var(--muted-foreground)]">
-                  {publicUrl}
+                  {groupUrl}
                 </div>
                 <div className="mt-3">
                   <ShareLinkButton
                     copiedLabel={common("copied")}
                     copyLabel={common("copy")}
-                    url={publicUrl}
+                    url={groupUrl}
                   />
                 </div>
-              </div>
-
-              <div className="rounded-3xl border border-[var(--border)] bg-white/85 p-4">
-                <div className="space-y-2">
-                  <p className="text-sm font-semibold">{pageT("writeAccessTitle")}</p>
-                  <p className="text-xs leading-5 text-[var(--muted-foreground)]">
-                    {hasWriteAccess ? pageT("writeAccessReady") : pageT("writeAccessBody")}
-                  </p>
+                <div className="mt-3 rounded-2xl bg-[var(--muted)] px-4 py-4 text-sm text-[var(--muted-foreground)]">
+                  <div className="flex items-start gap-3">
+                    <Users className="mt-0.5 h-4 w-4 shrink-0" />
+                    <p className="leading-6">{pageT("shareLinkHint")}</p>
+                  </div>
                 </div>
-                <div className="mt-3 rounded-2xl bg-[var(--muted)] px-4 py-3 text-xs leading-5 text-[var(--muted-foreground)]">
-                  <p>{pageT("writeAccessStepOne")}</p>
-                  <p>{pageT("writeAccessStepTwo")}</p>
-                  <p>{pageT("writeAccessStepThree")}</p>
-                </div>
-                {hasWriteAccess ? (
-                  <>
-                    <div className="mt-3 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--muted)] px-4 py-3 text-xs break-all text-[var(--muted-foreground)]">
-                      {writeUrl}
-                    </div>
-                    <div className="mt-3">
-                      <ShareLinkButton
-                        copiedLabel={common("copied")}
-                        copyLabel={pageT("copyWriteLink")}
-                        url={writeUrl}
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <form action={`/api/groups/${slug}/access`} className="mt-3 space-y-3">
-                    <input type="hidden" name="locale" value={locale} />
-                    <Input
-                      autoCapitalize="off"
-                      autoCorrect="off"
-                      maxLength={64}
-                      name="token"
-                      placeholder={pageT("accessPlaceholder")}
-                      required
-                    />
-                    <PendingButton
-                      className="w-full"
-                      idleLabel={pageT("accessSubmit")}
-                      pendingLabel={pageT("unlocking")}
-                      size="lg"
-                      type="submit"
-                    />
-                  </form>
-                )}
               </div>
             </div>
           </CardHeader>
@@ -218,32 +171,26 @@ export default async function GroupPage({
                 ))}
               </div>
 
-              {hasWriteAccess ? (
-                <form action={addMemberAction} className="space-y-3">
-                  <input name="locale" type="hidden" value={locale} />
-                  <input name="slug" type="hidden" value={slug} />
-                  <Label htmlFor="member-name">{pageT("addMemberTitle")}</Label>
-                  <div className="flex flex-col gap-3 sm:flex-row">
-                    <Input
-                      id="member-name"
-                      maxLength={50}
-                      name="name"
-                      placeholder={pageT("memberNamePlaceholder")}
-                      required
-                    />
-                    <PendingButton
-                      className="sm:w-auto"
-                      idleLabel={common("add")}
-                      pendingLabel={pageT("saving")}
-                      type="submit"
-                    />
-                  </div>
-                </form>
-              ) : (
-                <div className="rounded-2xl border border-dashed border-[var(--border)] px-4 py-4 text-sm text-[var(--muted-foreground)]">
-                  {pageT("unlockMembersHint")}
+              <form action={addMemberAction} className="space-y-3">
+                <input name="locale" type="hidden" value={locale} />
+                <input name="slug" type="hidden" value={slug} />
+                <Label htmlFor="member-name">{pageT("addMemberTitle")}</Label>
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <Input
+                    id="member-name"
+                    maxLength={50}
+                    name="name"
+                    placeholder={pageT("memberNamePlaceholder")}
+                    required
+                  />
+                  <PendingButton
+                    className="sm:w-auto"
+                    idleLabel={common("add")}
+                    pendingLabel={pageT("saving")}
+                    type="submit"
+                  />
                 </div>
-              )}
+              </form>
             </CardContent>
           </Card>
 
@@ -337,7 +284,7 @@ export default async function GroupPage({
                   : formatMoney(locale, summary.totalExpenseAmount)}
               </CardDescription>
             </div>
-            {hasWriteAccess && group.members.length > 0 ? (
+            {group.members.length > 0 ? (
               <Link href={`/g/${slug}/expenses/new`}>
                 <Button>
                   <Plus className="mr-2 h-4 w-4" />
@@ -355,9 +302,7 @@ export default async function GroupPage({
                 <p className="mt-2 leading-6 break-words">
                   {group.members.length === 0
                     ? pageT("emptyExpensesNoMembersBody")
-                    : hasWriteAccess
-                      ? pageT("emptyExpensesReadyBody")
-                      : pageT("emptyExpensesLockedBody")}
+                    : pageT("emptyExpensesReadyBody")}
                 </p>
                 <div className="mt-4 space-y-2 rounded-2xl bg-white px-4 py-4">
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted-foreground)]">
@@ -366,9 +311,7 @@ export default async function GroupPage({
                   <p className="text-sm text-[var(--foreground)]">
                     {group.members.length === 0
                       ? pageT("addMemberFirstHint")
-                      : hasWriteAccess
-                        ? pageT("emptyExpensesReadyAction")
-                        : pageT("unlockExpenseHint")}
+                      : pageT("emptyExpensesReadyAction")}
                   </p>
                 </div>
               </div>
@@ -384,14 +327,12 @@ export default async function GroupPage({
                           {expense.paidByMember.name} · {expense.happenedOn.toISOString().slice(0, 10)}
                         </CardDescription>
                       </div>
-                      {hasWriteAccess ? (
-                        <Link href={`/g/${slug}/expenses/${expense.id}/edit`}>
-                          <Button size="sm" variant="secondary">
-                            <PenSquare className="mr-2 h-4 w-4" />
-                            {common("edit")}
-                          </Button>
-                        </Link>
-                      ) : null}
+                      <Link href={`/g/${slug}/expenses/${expense.id}/edit`}>
+                        <Button size="sm" variant="secondary">
+                          <PenSquare className="mr-2 h-4 w-4" />
+                          {common("edit")}
+                        </Button>
+                      </Link>
                     </div>
                     {expense.notes ? (
                       <p className="rounded-2xl bg-[var(--muted)] px-4 py-3 text-sm break-words text-[var(--muted-foreground)]">
