@@ -1,11 +1,10 @@
 {
   "Home": {
     "badge": "Anonymous group expense sharing",
-    "brandHint": "Simple group expenses",
-    "title": "Shared costs, split fast.",
-    "description": "Create a group, add expenses, and see who owes what.",
+    "title": "Split shared costs fast with Splita.",
+    "description": "Splita lets a group share one collaboration link, add expenses in JPY, and settle up with a simple recommendation list.",
     "primaryCta": "Create a group",
-    "ctaHint": "One link. Fast setup. No sign-up.",
+    "ctaHint": "One link, fast setup, and no account wall.",
     "secondaryCta": "Open demo flow",
     "recentEyebrow": "Continue",
     "recentTitle": "Recent groups",
