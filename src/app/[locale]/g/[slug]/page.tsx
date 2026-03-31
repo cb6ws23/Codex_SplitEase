@@ -278,6 +278,45 @@ export default async function GroupPage({
                   </div>
                 ))
               )}
+              <div className="rounded-2xl border border-[var(--border)] bg-[var(--muted)] px-4 py-4">
+                <div className="space-y-1">
+                  <p className="text-sm font-semibold text-[var(--foreground)]">
+                    {pageT("groupSettlementSummaryTitle")}
+                  </p>
+                  <p className="text-xs leading-5 text-[var(--muted-foreground)]">
+                    {pageT("groupSettlementSummaryBody")}
+                  </p>
+                </div>
+                {summary.settlements.length === 0 ? (
+                  <p className="mt-3 text-sm text-[var(--muted-foreground)]">
+                    {pageT("settlementEmpty")}
+                  </p>
+                ) : (
+                  <div className="mt-3 space-y-2">
+                    {summary.settlements.slice(0, 3).map((settlement) => (
+                      <div
+                        key={`${settlement.fromMemberId}-${settlement.toMemberId}`}
+                        className="rounded-2xl bg-white px-3 py-3 text-sm"
+                      >
+                        <p className="font-medium">
+                          {pageT("settlementLine", {
+                            from: settlement.fromMemberName,
+                            to: settlement.toMemberName,
+                            amount: formatMoney(locale, settlement.amount),
+                          })}
+                        </p>
+                      </div>
+                    ))}
+                    {summary.settlements.length > 3 ? (
+                      <p className="text-xs text-[var(--muted-foreground)]">
+                        {pageT("moreSettlementsHint", {
+                          count: summary.settlements.length - 3,
+                        })}
+                      </p>
+                    ) : null}
+                  </div>
+                )}
+              </div>
               <Link href={`/g/${slug}/settlement`}>
                 <Button className="w-full" variant="secondary">
                   <ArrowRightLeft className="mr-2 h-4 w-4" />
@@ -309,18 +348,29 @@ export default async function GroupPage({
           </CardHeader>
           <CardContent className="space-y-4">
             {summary.expenseSummaries.length === 0 ? (
-              <div className="rounded-3xl border border-dashed border-[var(--border)] px-4 py-5 text-sm text-[var(--muted-foreground)]">
+              <div className="rounded-3xl border border-dashed border-[var(--border)] bg-[var(--muted)]/45 px-4 py-5 text-sm text-[var(--muted-foreground)]">
                 <p className="font-medium text-[var(--foreground)]">
                   {pageT("emptyExpensesTitle")}
                 </p>
-                <p className="mt-2 leading-6">
-                  {group.members.length === 0 ? pageT("emptyMembers") : pageT("emptyExpenses")}
+                <p className="mt-2 leading-6 break-words">
+                  {group.members.length === 0
+                    ? pageT("emptyExpensesNoMembersBody")
+                    : hasWriteAccess
+                      ? pageT("emptyExpensesReadyBody")
+                      : pageT("emptyExpensesLockedBody")}
                 </p>
-                {!hasWriteAccess ? (
-                  <p className="mt-2 leading-6">{pageT("unlockExpenseHint")}</p>
-                ) : group.members.length === 0 ? (
-                  <p className="mt-2 leading-6">{pageT("addMemberFirstHint")}</p>
-                ) : null}
+                <div className="mt-4 space-y-2 rounded-2xl bg-white px-4 py-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted-foreground)]">
+                    {pageT("emptyExpensesNextTitle")}
+                  </p>
+                  <p className="text-sm text-[var(--foreground)]">
+                    {group.members.length === 0
+                      ? pageT("addMemberFirstHint")
+                      : hasWriteAccess
+                        ? pageT("emptyExpensesReadyAction")
+                        : pageT("unlockExpenseHint")}
+                  </p>
+                </div>
               </div>
             ) : (
               summary.expenseSummaries.map((expense) => (
@@ -348,13 +398,30 @@ export default async function GroupPage({
                         {expense.notes}
                       </p>
                     ) : null}
+                    <div className="space-y-2">
+                      <p className="text-xs font-medium uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
+                        {common("participants")}
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {expense.participants.map((participant) => (
+                          <Badge key={participant.memberId} className="bg-[var(--muted)]">
+                            {participant.member.name}
+                          </Badge>
+                        ))}
+                      </div>
+                      <p className="text-xs leading-5 text-[var(--muted-foreground)]">
+                        {pageT("shareSummary", { count: expense.participants.length })}
+                      </p>
+                    </div>
                     <div className="flex flex-wrap gap-2">
                       {expense.shares.map((share) => {
-                        const participant = group.members.find((member) => member.id === share.memberId);
+                        const participant = expense.participants.find(
+                          (entry) => entry.memberId === share.memberId,
+                        );
 
                         return (
                           <Badge key={share.memberId} className="bg-[var(--muted)]">
-                            {participant?.name}: {formatMoney(locale, share.share)}
+                            {participant?.member.name}: {formatMoney(locale, share.share)}
                           </Badge>
                         );
                       })}
