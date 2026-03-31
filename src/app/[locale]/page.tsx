@@ -103,6 +103,8 @@ export default async function HomePage({
               description={t("recentDescription")}
               empty={t("recentEmpty")}
               openLabel={t("recentOpen")}
+              removeHint={t("recentRemoveHint")}
+              removeLabel={t("recentRemove")}
               title={t("recentTitle")}
             />
           </div>

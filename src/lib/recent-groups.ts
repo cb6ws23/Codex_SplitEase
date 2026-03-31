@@ -71,6 +71,11 @@ export function upsertRecentGroup(group: Omit<RecentGroupRecord, "visitedAt">) {
   writeRecentGroups([nextGroup, ...deduped]);
 }
 
+export function removeRecentGroup(slug: string) {
+  const currentGroups = readRecentGroups();
+  writeRecentGroups(currentGroups.filter((entry) => entry.slug !== slug));
+}
+
 export function subscribeRecentGroups(callback: () => void) {
   if (typeof window === "undefined") {
     return () => {};

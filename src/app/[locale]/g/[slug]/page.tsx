@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { ArrowRightLeft, FileDown, PenSquare, Plus, Users } from "lucide-react";
+import { ArrowRightLeft, FileDown, PenSquare, Plus } from "lucide-react";
 import Decimal from "decimal.js";
 
 import { FormStatusMessage } from "@/components/form-status-message";
@@ -149,12 +149,6 @@ export default async function GroupPage({
                     copyLabel={common("copy")}
                     url={groupUrl}
                   />
-                </div>
-                <div className="mt-3 rounded-2xl bg-[var(--muted)] px-4 py-4 text-sm text-[var(--muted-foreground)]">
-                  <div className="flex items-start gap-3">
-                    <Users className="mt-0.5 h-4 w-4 shrink-0" />
-                    <p className="leading-6">{pageT("shareLinkHint")}</p>
-                  </div>
                 </div>
               </div>
             </div>
