@@ -58,8 +58,8 @@ export default async function GroupCreatedPage({
           <LocaleSwitcher currentLocale={locale} href={`/groups/created?slug=${group.slug}`} />
         </div>
 
-        <Card className="overflow-hidden bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(255,248,238,0.96))]">
-          <CardHeader>
+        <Card className="overflow-hidden border-[var(--border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(255,248,238,0.96))] shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
+          <CardHeader className="gap-4 border-b border-[var(--border)]/70 bg-white/65 px-5 py-5 sm:px-6">
             <Badge className="w-fit">{common("currency")}</Badge>
             <div className="flex items-start gap-3">
               <CheckCircle2 className="mt-1 h-6 w-6 text-[var(--success)]" />
@@ -67,15 +67,17 @@ export default async function GroupCreatedPage({
                 <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--muted-foreground)]">
                   {common("appName")}
                 </p>
-                <CardTitle>{t("title")}</CardTitle>
-                <CardDescription>{t("description", { name: group.name })}</CardDescription>
+                <CardTitle className="text-2xl sm:text-3xl">{t("title")}</CardTitle>
+                <CardDescription className="max-w-2xl text-sm leading-6 sm:text-base">
+                  {t("description", { name: group.name })}
+                </CardDescription>
               </div>
             </div>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Card className="bg-white sm:col-span-2">
-                <CardHeader>
+          <CardContent className="space-y-5 px-5 py-5 sm:px-6">
+            <div className="grid gap-4">
+              <Card className="border-[var(--border)] bg-white shadow-none">
+                <CardHeader className="pb-3">
                   <div className="flex items-center gap-2">
                     <Link2 className="h-4 w-4 text-[var(--accent-strong)]" />
                     <CardTitle className="text-base">{t("linkTitle")}</CardTitle>
@@ -93,24 +95,31 @@ export default async function GroupCreatedPage({
                   />
                 </CardContent>
               </Card>
-            </div>
 
-            <Card className="bg-white">
-              <CardHeader>
+              <Card className="border-[var(--border)] bg-white shadow-none">
+                <CardHeader className="pb-3">
+                  <Badge className="w-fit bg-[var(--muted)] text-[var(--foreground)]">
+                    {common("group")}
+                  </Badge>
                 <CardTitle className="text-base">{t("nextTitle")}</CardTitle>
-                <CardDescription>{t("nextDescription")}</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-2 text-sm text-[var(--muted-foreground)]">
-                <p>{t("stepOne")}</p>
-                <p>{t("stepTwo")}</p>
-              </CardContent>
-            </Card>
+                  <CardDescription>{t("nextDescription")}</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-[var(--muted-foreground)]">
+                  <div className="rounded-2xl bg-[var(--muted)] px-4 py-3">
+                    <p>{t("stepOne")}</p>
+                  </div>
+                  <div className="rounded-2xl bg-[var(--muted)] px-4 py-3">
+                    <p>{t("stepTwo")}</p>
+                  </div>
+                </CardContent>
+              </Card>
 
-            <Link href={`/g/${group.slug}`}>
-              <Button className="w-full" size="lg">
-                {t("continue")}
-              </Button>
-            </Link>
+              <Link href={`/g/${group.slug}`}>
+                <Button className="w-full shadow-[0_14px_30px_rgba(217,119,6,0.16)]" size="lg">
+                  {t("continue")}
+                </Button>
+              </Link>
+            </div>
           </CardContent>
         </Card>
       </div>

@@ -92,7 +92,7 @@ export default async function GroupPage({
   return (
     <main className="min-h-screen bg-[var(--page-background)] px-3 py-4 sm:px-4 sm:py-6">
       <RecentGroupTracker locale={locale} name={group.name} slug={group.slug} />
-      <div className="mx-auto flex max-w-5xl flex-col gap-4 sm:gap-5">
+      <div className="mx-auto flex max-w-5xl flex-col gap-4 sm:gap-6">
         <div className="flex items-center justify-between gap-4">
           <Link href="/" className="text-sm font-medium text-[var(--muted-foreground)]">
             {common("backHome")}
@@ -100,24 +100,31 @@ export default async function GroupPage({
           <LocaleSwitcher currentLocale={locale} href={`/g/${slug}`} />
         </div>
 
-        <Card className="overflow-hidden bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(255,248,238,0.96))]">
-          <CardHeader className="gap-4">
+        <Card className="overflow-hidden border-[var(--border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(255,248,238,0.96))] shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
+          <CardHeader className="gap-5 border-b border-[var(--border)]/70 bg-white/65 px-5 py-5 sm:px-6">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div className="space-y-3">
                 <Badge className="w-fit">{common("currency")}</Badge>
-                <CardTitle className="break-words text-2xl sm:text-3xl">{group.name}</CardTitle>
-                <CardDescription className="max-w-2xl">
+                <div className="space-y-2">
+                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--muted-foreground)]">
+                    {common("appName")}
+                  </p>
+                  <CardTitle className="break-words text-2xl sm:text-3xl">{group.name}</CardTitle>
+                </div>
+                <CardDescription className="max-w-2xl text-sm leading-6 sm:text-base">
                   {pageT("memberCount", { count: group.members.length })} ·{" "}
                   {pageT("expenseCount", { count: group.expenses.length })}
                 </CardDescription>
               </div>
-              <a
-                className="inline-flex items-center gap-2 text-sm font-medium text-[var(--muted-foreground)]"
-                href={`/api/groups/${slug}/export`}
-              >
-                <FileDown className="h-4 w-4" />
-                {common("exportCsv")}
-              </a>
+              <div className="flex w-full flex-col gap-2 sm:w-auto">
+                <a
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl border border-[var(--border)] bg-white px-4 py-2 text-sm font-medium text-[var(--muted-foreground)] transition-colors hover:bg-[var(--muted)]"
+                  href={`/api/groups/${slug}/export`}
+                >
+                  <FileDown className="h-4 w-4" />
+                  {common("exportCsv")}
+                </a>
+              </div>
             </div>
 
             {notice ? <FormStatusMessage message={notice} tone={statusTone(status)} /> : null}
@@ -125,11 +132,11 @@ export default async function GroupPage({
               <FormStatusMessage message={feedback("error")} tone="error" />
             ) : null}
 
-            <div className="grid gap-3 sm:grid-cols-2">
-              <div className="rounded-3xl border border-[var(--border)] bg-white/85 p-4 sm:col-span-2">
+            <div className="grid gap-4">
+              <div className="rounded-3xl border border-[var(--border)] bg-white/85 p-4 sm:p-5">
                 <div className="space-y-2">
                   <p className="text-sm font-semibold">{common("shareLink")}</p>
-                  <p className="text-xs leading-5 text-[var(--muted-foreground)]">
+                  <p className="text-sm leading-6 text-[var(--muted-foreground)]">
                     {pageT("shareLinkBody")}
                   </p>
                 </div>
@@ -155,15 +162,15 @@ export default async function GroupPage({
         </Card>
 
         <section className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
-          <Card>
-            <CardHeader>
+          <Card className="border-[var(--border)] shadow-[0_16px_40px_rgba(15,23,42,0.04)]">
+            <CardHeader className="pb-4">
               <CardTitle>{common("members")}</CardTitle>
               <CardDescription>
                 {pageT("memberCount", { count: group.members.length })}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 rounded-3xl border border-[var(--border)] bg-[var(--muted)]/55 p-3">
                 {group.members.map((member) => (
                   <Badge key={member.id} className="bg-[var(--muted)]">
                     {member.name}
@@ -171,31 +178,33 @@ export default async function GroupPage({
                 ))}
               </div>
 
-              <form action={addMemberAction} className="space-y-3">
-                <input name="locale" type="hidden" value={locale} />
-                <input name="slug" type="hidden" value={slug} />
-                <Label htmlFor="member-name">{pageT("addMemberTitle")}</Label>
-                <div className="flex flex-col gap-3 sm:flex-row">
-                  <Input
-                    id="member-name"
-                    maxLength={50}
-                    name="name"
-                    placeholder={pageT("memberNamePlaceholder")}
-                    required
-                  />
-                  <PendingButton
-                    className="sm:w-auto"
-                    idleLabel={common("add")}
-                    pendingLabel={pageT("saving")}
-                    type="submit"
-                  />
-                </div>
-              </form>
+              <div className="rounded-3xl border border-[var(--border)] bg-white p-4">
+                <form action={addMemberAction} className="space-y-3">
+                  <input name="locale" type="hidden" value={locale} />
+                  <input name="slug" type="hidden" value={slug} />
+                  <Label htmlFor="member-name">{pageT("addMemberTitle")}</Label>
+                  <div className="flex flex-col gap-3 sm:flex-row">
+                    <Input
+                      id="member-name"
+                      maxLength={50}
+                      name="name"
+                      placeholder={pageT("memberNamePlaceholder")}
+                      required
+                    />
+                    <PendingButton
+                      className="sm:w-auto"
+                      idleLabel={common("add")}
+                      pendingLabel={pageT("saving")}
+                      type="submit"
+                    />
+                  </div>
+                </form>
+              </div>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
+          <Card className="border-[var(--border)] shadow-[0_16px_40px_rgba(15,23,42,0.04)]">
+            <CardHeader className="pb-4">
               <CardTitle>{common("balances")}</CardTitle>
               <CardDescription>{pageT("balancesIntro")}</CardDescription>
             </CardHeader>
@@ -274,8 +283,8 @@ export default async function GroupPage({
           </Card>
         </section>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between gap-3">
+        <Card className="border-[var(--border)] shadow-[0_16px_40px_rgba(15,23,42,0.04)]">
+          <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="space-y-2">
               <CardTitle>{common("expenses")}</CardTitle>
               <CardDescription>
@@ -286,7 +295,7 @@ export default async function GroupPage({
             </div>
             {group.members.length > 0 ? (
               <Link href={`/g/${slug}/expenses/new`}>
-                <Button>
+                <Button className="w-full sm:w-auto shadow-[0_14px_30px_rgba(217,119,6,0.16)]">
                   <Plus className="mr-2 h-4 w-4" />
                   {pageT("addExpenseTitle")}
                 </Button>

@@ -84,9 +84,12 @@ export function MemberChipsInput({
       </div>
 
       {members.length > 0 ? (
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 rounded-3xl border border-[var(--border)] bg-[var(--muted)]/55 p-3">
           {members.map((member) => (
-            <Badge key={member} className="gap-2 bg-[var(--muted)] pr-1.5 text-[var(--foreground)]">
+            <Badge
+              key={member}
+              className="gap-2 bg-white pr-1.5 text-[var(--foreground)] shadow-none"
+            >
               <span className="max-w-[14rem] truncate">{member}</span>
               <button
                 aria-label={`${member} remove`}
