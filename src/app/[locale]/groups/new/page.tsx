@@ -36,12 +36,12 @@ export default async function NewGroupPage({
           <LocaleSwitcher currentLocale={locale} href="/groups/new" />
         </div>
 
-        <Card className="overflow-hidden border-[var(--border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,243,234,0.96))] shadow-[0_20px_52px_rgba(22,32,51,0.06)]">
+        <Card className="overflow-hidden border-[var(--border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(255,248,238,0.96))] shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
           <CardHeader className="gap-4 border-b border-[var(--border)]/70 bg-white/65 px-5 py-5 sm:px-6">
             <Badge className="w-fit">{common("currency")}</Badge>
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[var(--border)] bg-white text-sm font-semibold text-[var(--foreground)] shadow-[0_10px_24px_rgba(22,32,51,0.06)]">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[var(--border)] bg-white text-sm font-semibold text-[var(--accent-strong)] shadow-[0_10px_24px_rgba(15,23,42,0.06)]">
                   S
                 </div>
                 <div className="space-y-1">
@@ -101,7 +101,7 @@ export default async function NewGroupPage({
               </div>
 
               <PendingButton
-                className="w-full"
+                className="w-full shadow-[0_14px_30px_rgba(217,119,6,0.16)]"
                 idleLabel={t("submit")}
                 pendingLabel={feedback("creating")}
                 size="lg"
