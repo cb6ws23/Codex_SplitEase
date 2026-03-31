@@ -44,13 +44,13 @@ export default async function HomePage({
           <LocaleSwitcher currentLocale={locale} href="/" />
         </div>
 
-        <section className="overflow-hidden rounded-[36px] border border-[var(--border)] bg-[radial-gradient(circle_at_top_left,rgba(247,201,72,0.34),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(44,123,229,0.18),transparent_42%),linear-gradient(180deg,#fff8ee_0%,#ffffff_100%)] px-5 py-6 shadow-[0_24px_80px_rgba(15,23,42,0.08)] sm:px-8 sm:py-8">
+        <section className="overflow-hidden rounded-[36px] border border-[var(--border)] bg-[radial-gradient(circle_at_top_left,rgba(181,111,59,0.16),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(22,32,51,0.12),transparent_44%),linear-gradient(180deg,#f9f3ea_0%,#fffdf9_100%)] px-5 py-6 shadow-[0_24px_72px_rgba(22,32,51,0.08)] sm:px-8 sm:py-8">
           <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
             <div className="max-w-3xl space-y-5 sm:space-y-6">
               <div className="space-y-4">
                 <Badge className="bg-white/85">{t("badge")}</Badge>
                 <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[var(--border)] bg-white text-sm font-semibold text-[var(--accent-strong)] shadow-[0_10px_24px_rgba(15,23,42,0.06)]">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[var(--border)] bg-white text-sm font-semibold text-[var(--foreground)] shadow-[0_10px_24px_rgba(22,32,51,0.06)]">
                     S
                   </div>
                   <div className="space-y-1">
@@ -73,7 +73,7 @@ export default async function HomePage({
               </div>
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                 <Link href="/groups/new">
-                  <Button className="h-12 w-full px-6 text-base shadow-[0_14px_30px_rgba(217,119,6,0.18)] sm:w-auto" size="lg">
+                  <Button className="h-12 w-full px-6 text-base sm:w-auto" size="lg">
                     {t("primaryCta")}
                   </Button>
                 </Link>
@@ -87,7 +87,7 @@ export default async function HomePage({
               {features.map((feature) => (
                 <Card
                   key={feature.title}
-                  className="border-white/70 bg-white/80 shadow-[0_16px_40px_rgba(15,23,42,0.06)] backdrop-blur"
+                  className="border-white/70 bg-white/80 shadow-[0_16px_34px_rgba(22,32,51,0.05)] backdrop-blur"
                 >
                   <CardContent className="space-y-3 p-4">
                     <feature.icon className="h-5 w-5 text-[var(--accent-strong)]" />

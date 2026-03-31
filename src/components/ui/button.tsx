@@ -9,11 +9,11 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-[var(--foreground)] px-4 py-2 text-[var(--background)] hover:bg-[color-mix(in_oklab,var(--foreground)_88%,white)]",
+          "bg-[var(--foreground)] px-4 py-2 text-[var(--background)] shadow-[0_12px_26px_rgba(22,32,51,0.16)] hover:bg-[color-mix(in_oklab,var(--foreground)_90%,white)]",
         secondary:
-          "border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-[var(--foreground)] hover:bg-[var(--muted)]",
+          "border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-[var(--foreground)] hover:bg-[color-mix(in_oklab,var(--muted)_82%,white)]",
         ghost:
-          "px-3 py-2 text-[var(--foreground)] hover:bg-[var(--muted)]",
+          "px-3 py-2 text-[var(--foreground)] hover:bg-[color-mix(in_oklab,var(--muted)_82%,white)]",
         destructive:
           "bg-[var(--destructive)] px-4 py-2 text-white hover:bg-[color-mix(in_oklab,var(--destructive)_88%,black)]",
       },

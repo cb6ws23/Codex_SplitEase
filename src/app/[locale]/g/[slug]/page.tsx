@@ -100,7 +100,7 @@ export default async function GroupPage({
           <LocaleSwitcher currentLocale={locale} href={`/g/${slug}`} />
         </div>
 
-        <Card className="overflow-hidden border-[var(--border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(255,248,238,0.96))] shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
+        <Card className="overflow-hidden border-[var(--border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(249,243,234,0.96))] shadow-[0_20px_52px_rgba(22,32,51,0.06)]">
           <CardHeader className="gap-5 border-b border-[var(--border)]/70 bg-white/65 px-5 py-5 sm:px-6">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div className="space-y-3">
@@ -289,7 +289,7 @@ export default async function GroupPage({
             </div>
             {group.members.length > 0 ? (
               <Link href={`/g/${slug}/expenses/new`}>
-                <Button className="w-full sm:w-auto shadow-[0_14px_30px_rgba(217,119,6,0.16)]">
+                <Button className="w-full sm:w-auto">
                   <Plus className="mr-2 h-4 w-4" />
                   {pageT("addExpenseTitle")}
                 </Button>

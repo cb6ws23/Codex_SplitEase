@@ -58,7 +58,7 @@ export default async function GroupCreatedPage({
           <LocaleSwitcher currentLocale={locale} href={`/groups/created?slug=${group.slug}`} />
         </div>
 
-        <Card className="overflow-hidden border-[var(--border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(255,248,238,0.96))] shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
+        <Card className="overflow-hidden border-[var(--border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(249,243,234,0.96))] shadow-[0_20px_52px_rgba(22,32,51,0.06)]">
           <CardHeader className="gap-4 border-b border-[var(--border)]/70 bg-white/65 px-5 py-5 sm:px-6">
             <Badge className="w-fit">{common("currency")}</Badge>
             <div className="flex items-start gap-3">
@@ -115,7 +115,7 @@ export default async function GroupCreatedPage({
               </Card>
 
               <Link href={`/g/${group.slug}`}>
-                <Button className="w-full shadow-[0_14px_30px_rgba(217,119,6,0.16)]" size="lg">
+                <Button className="w-full" size="lg">
                   {t("continue")}
                 </Button>
               </Link>
