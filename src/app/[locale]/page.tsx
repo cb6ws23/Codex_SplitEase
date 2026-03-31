@@ -44,20 +44,22 @@ export default async function HomePage({
           <LocaleSwitcher currentLocale={locale} href="/" />
         </div>
 
-        <section className="overflow-hidden rounded-[36px] border border-[var(--border)] bg-[radial-gradient(circle_at_top_left,rgba(181,111,59,0.16),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(22,32,51,0.12),transparent_44%),linear-gradient(180deg,#f9f3ea_0%,#fffdf9_100%)] px-5 py-6 shadow-[0_24px_72px_rgba(22,32,51,0.08)] sm:px-8 sm:py-8">
+        <section className="overflow-hidden rounded-[36px] border border-[var(--border)] bg-[radial-gradient(circle_at_top_left,rgba(181,111,59,0.18),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(22,32,51,0.14),transparent_44%),linear-gradient(180deg,#f7efe4_0%,#fffdf9_100%)] px-5 py-6 shadow-[0_24px_72px_rgba(22,32,51,0.08)] sm:px-8 sm:py-8">
           <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
             <div className="max-w-3xl space-y-5 sm:space-y-6">
               <div className="space-y-4">
                 <Badge className="bg-white/85">{t("badge")}</Badge>
-                <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[var(--border)] bg-white text-sm font-semibold text-[var(--foreground)] shadow-[0_10px_24px_rgba(22,32,51,0.06)]">
-                    S
+                <div className="inline-flex items-center gap-4 rounded-[28px] border border-[color-mix(in_oklab,var(--foreground)_10%,white)] bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(246,239,231,0.92))] px-4 py-3 shadow-[0_18px_40px_rgba(22,32,51,0.08)]">
+                  <div className="relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-[22px] bg-[linear-gradient(180deg,#24324b_0%,#162033_100%)] text-base font-semibold text-[#fffdf8] shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_12px_24px_rgba(22,32,51,0.18)]">
+                    <span className="absolute inset-[7px] rounded-[16px] border border-[rgba(255,253,248,0.16)]" />
+                    <span className="absolute -right-2 -top-2 h-6 w-6 rounded-full bg-[rgba(181,111,59,0.22)] blur-[1px]" />
+                    <span className="relative tracking-[-0.06em]">S</span>
                   </div>
-                  <div className="space-y-1">
-                    <p className="text-lg font-semibold tracking-[-0.03em] text-[var(--foreground)] sm:text-xl">
+                  <div className="space-y-1.5">
+                    <p className="text-xl font-semibold tracking-[-0.04em] text-[var(--foreground)] sm:text-2xl">
                       {common("appName")}
                     </p>
-                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--accent-strong)]">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--accent-strong)] sm:text-xs">
                       {t("brandHint")}
                     </p>
                   </div>
