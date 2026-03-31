@@ -39,26 +39,14 @@ export default async function NewGroupPage({
         <Card className="overflow-hidden border-[var(--border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(255,248,238,0.96))] shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
           <CardHeader className="gap-4 border-b border-[var(--border)]/70 bg-white/65 px-5 py-5 sm:px-6">
             <Badge className="w-fit">{common("currency")}</Badge>
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[var(--border)] bg-white text-sm font-semibold text-[var(--accent-strong)] shadow-[0_10px_24px_rgba(15,23,42,0.06)]">
-                  S
-                </div>
-                <div className="space-y-1">
-                  <p className="text-lg font-semibold tracking-[-0.03em] text-[var(--foreground)] sm:text-xl">
-                    {common("appName")}
-                  </p>
-                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--accent-strong)]">
-                    {t("brandHint")}
-                  </p>
-                </div>
-              </div>
-              <div className="space-y-2">
-                <CardTitle className="text-2xl sm:text-3xl">{t("title")}</CardTitle>
-                <CardDescription className="max-w-2xl text-sm leading-6 sm:text-base">
-                  {t("description")}
-                </CardDescription>
-              </div>
+            <div className="space-y-2">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--muted-foreground)]">
+                {common("appName")}
+              </p>
+              <CardTitle className="text-2xl sm:text-3xl">{t("title")}</CardTitle>
+              <CardDescription className="max-w-2xl text-sm leading-6 sm:text-base">
+                {t("description")}
+              </CardDescription>
             </div>
           </CardHeader>
           <CardContent className="space-y-5 px-5 py-5 sm:px-6">

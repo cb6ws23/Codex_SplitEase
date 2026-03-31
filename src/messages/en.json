@@ -54,7 +54,6 @@
     "optional": "Optional"
   },
   "GroupForm": {
-    "brandHint": "Simple group expenses",
     "title": "Create group",
     "description": "Start with a group name and optional member list. You can add more members later.",
     "groupName": "Group name",
