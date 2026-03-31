@@ -15,22 +15,34 @@ const LOCALE_LABELS: Record<AppLocale, string> = {
 
 export function LocaleSwitcher({ currentLocale, href }: Props) {
   return (
-    <div className="inline-flex items-center gap-1 rounded-full border border-[var(--border)] bg-white/88 p-1 shadow-[0_8px_20px_rgba(15,23,42,0.05)] backdrop-blur-sm">
+    <nav
+      aria-label="Language switcher"
+      className="inline-grid grid-cols-3 gap-1 rounded-2xl border border-[var(--border)] bg-white/94 p-1 shadow-[0_8px_20px_rgba(15,23,42,0.05)] backdrop-blur-sm"
+    >
       {LOCALES.map((locale) => (
         <Link
           key={locale}
           href={href}
           locale={locale}
-          className={cn(
-            "inline-flex min-w-[4.5rem] items-center justify-center rounded-full px-3 py-1.5 text-xs font-semibold leading-none transition-colors sm:min-w-[5rem]",
+          style={
             locale === currentLocale
-              ? "border border-[color-mix(in_oklab,var(--foreground)_14%,white)] bg-[var(--foreground)] text-white shadow-[0_6px_16px_rgba(15,23,42,0.18)]"
-              : "text-[var(--muted-foreground)] hover:bg-[var(--muted)] hover:text-[var(--foreground)]",
+              ? {
+                  backgroundColor: "#0f172a",
+                  color: "#fffdf8",
+                  opacity: 1,
+                }
+              : undefined
+          }
+          className={cn(
+            "block min-w-[5.25rem] rounded-xl px-3 py-2 text-center text-xs font-semibold leading-5 no-underline opacity-100 transition-colors sm:min-w-[5.75rem]",
+            locale === currentLocale
+              ? "border border-[#0f172a] !text-[#fffdf8] font-bold"
+              : "bg-transparent text-[var(--muted-foreground)] hover:bg-[var(--muted)] hover:text-[var(--foreground)]",
           )}
         >
           {LOCALE_LABELS[locale]}
         </Link>
       ))}
-    </div>
+    </nav>
   );
 }
