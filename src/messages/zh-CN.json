@@ -1,10 +1,11 @@
 {
   "Home": {
     "badge": "匿名协作分账应用",
-    "title": "用 A一下，快速分摊共享支出。",
-    "description": "A一下让你创建群组、分享一个协作链接、记录 JPY 支出，并立即查看结算建议。",
+    "brandHint": "轻量分账工具",
+    "title": "共享支出，快速分摊。",
+    "description": "创建群组、记录支出，立刻看清谁该付多少。",
     "primaryCta": "创建群组",
-    "ctaHint": "只有一个链接，启动很快，也不需要注册账号。",
+    "ctaHint": "一个链接，快速开始，不用注册。",
     "secondaryCta": "查看示例流程",
     "recentEyebrow": "继续使用",
     "recentTitle": "最近群组",

@@ -47,11 +47,21 @@ export default async function HomePage({
         <section className="overflow-hidden rounded-[36px] border border-[var(--border)] bg-[radial-gradient(circle_at_top_left,rgba(247,201,72,0.34),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(44,123,229,0.18),transparent_42%),linear-gradient(180deg,#fff8ee_0%,#ffffff_100%)] px-5 py-6 shadow-[0_24px_80px_rgba(15,23,42,0.08)] sm:px-8 sm:py-8">
           <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
             <div className="max-w-3xl space-y-5 sm:space-y-6">
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <Badge className="bg-white/85">{t("badge")}</Badge>
-                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[var(--accent-strong)]">
-                  {common("appName")}
-                </p>
+                <div className="flex items-center gap-3">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[var(--border)] bg-white text-sm font-semibold text-[var(--accent-strong)] shadow-[0_10px_24px_rgba(15,23,42,0.06)]">
+                    S
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-lg font-semibold tracking-[-0.03em] text-[var(--foreground)] sm:text-xl">
+                      {common("appName")}
+                    </p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--accent-strong)]">
+                      {t("brandHint")}
+                    </p>
+                  </div>
+                </div>
               </div>
               <div className="space-y-4">
                 <h1 className="max-w-3xl text-4xl font-semibold leading-[0.98] tracking-[-0.05em] sm:text-6xl">
@@ -67,7 +77,7 @@ export default async function HomePage({
                     {t("primaryCta")}
                   </Button>
                 </Link>
-                <p className="text-sm leading-6 text-[var(--muted-foreground)]">
+                <p className="max-w-sm text-sm leading-6 text-[var(--muted-foreground)]">
                   {t("ctaHint")}
                 </p>
               </div>
