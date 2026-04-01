@@ -11,7 +11,7 @@ export function Input({
     <input
       type={type}
       className={cn(
-        "flex h-11 w-full rounded-lg border border-[var(--border-default)] bg-[var(--bg-page)] px-4 py-2 text-sm text-[var(--text-primary)] outline-none transition-colors placeholder:text-[var(--text-muted)] focus:border-[var(--border-brand)] focus:ring-2 focus:ring-[var(--brand-primary-light)]",
+        "flex h-11 w-full px-4 py-2 text-sm",
         className,
       )}
       {...props}

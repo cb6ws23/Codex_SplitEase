@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import Decimal from "decimal.js";
 
 import { FormStatusMessage } from "@/components/form-status-message";
-import { LocaleSwitcher } from "@/components/locale-switcher";
 import { type AppLocale } from "@/lib/constants";
 import { computeGroupSummary, getGroupBySlug } from "@/lib/groups";
 import { Link } from "@/i18n/navigation";
@@ -44,11 +43,10 @@ export default async function SettlementPage({
   return (
     <main className="min-h-screen bg-[var(--bg-page)] px-3 py-4 sm:px-4 sm:py-6">
       <div className="mx-auto max-w-3xl space-y-4 sm:space-y-5">
-        <div className="flex items-center justify-between gap-4">
-          <Link href={`/g/${slug}`} className="text-sm font-medium text-[var(--text-secondary)]">
+        <div className="page-topbar">
+          <Link href={`/g/${slug}`} className="page-back-link">
             {common("group")}
           </Link>
-          <LocaleSwitcher currentLocale={locale} href={`/g/${slug}/settlement`} />
         </div>
 
         {/* Intro */}

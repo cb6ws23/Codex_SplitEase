@@ -1,20 +1,18 @@
 import { Coins, ReceiptText, ShieldCheck } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
-import { LocaleSwitcher } from "@/components/locale-switcher";
 import { RecentGroupsSection } from "@/components/recent-groups-section";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "@/i18n/navigation";
-import { type AppLocale } from "@/lib/constants";
 
 export default async function HomePage({
   params,
 }: {
-  params: Promise<{ locale: AppLocale }>;
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  // Await params so Next.js resolves the dynamic segment
+  await params;
   const t = await getTranslations("Home");
-  const common = await getTranslations("Common");
 
   const features = [
     {
@@ -34,39 +32,74 @@ export default async function HomePage({
     },
   ];
 
-  return (
-    <main className="min-h-screen bg-[var(--bg-page)] px-4 py-5 sm:py-7">
-      <div className="mx-auto flex max-w-5xl flex-col gap-5 sm:gap-7">
-        <div className="flex items-center justify-end">
-          <LocaleSwitcher currentLocale={locale} href="/" />
-        </div>
+  // Split headline into two lines for color treatment
+  const headlineRaw = t("headline");
+  const headlineLines = headlineRaw.split("\n");
 
+  return (
+    <main
+      className="min-h-screen"
+      style={{
+        background:
+          "radial-gradient(ellipse 80% 60% at 30% 10%, rgba(99,91,255,0.07), transparent 60%), " +
+          "radial-gradient(ellipse 50% 50% at 80% 20%, rgba(0,212,255,0.05), transparent 50%), " +
+          "linear-gradient(180deg, #eef0f8 0%, var(--bg) 520px)",
+      }}
+    >
+      <div className="page-shell page-stack">
         {/* Hero */}
-        <section className="rounded-2xl bg-[var(--bg-hero)] px-5 py-12 text-center sm:px-8 sm:py-16">
-          <p className="text-[42px] font-semibold leading-[1.1] tracking-[-0.5px] text-[var(--text-on-brand)] sm:text-5xl">
-            {common("appName")}
-          </p>
-          <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-white/88 sm:text-lg">
-            {t("description")}
-          </p>
-          <div className="mt-8 flex flex-col items-center gap-3">
-            <Link
-              href="/groups/new"
-              className="inline-flex h-11 items-center justify-center rounded-lg bg-white px-7 text-[15px] font-semibold text-[var(--brand-primary)] transition-colors hover:bg-white/92 sm:h-10"
-            >
-              {t("primaryCta")}
-            </Link>
-            <p className="text-sm text-white/68">
-              {t("ctaHint")}
-            </p>
+        <section className="home-hero">
+          <div className="hero-content">
+            <p className="eyebrow">{t("eyebrow")}</p>
+            <h1 className="hero-headline">
+              {headlineLines[0]}
+              {headlineLines.length > 1 ? (
+                <>
+                  <br />
+                  <span className="hero-headline-accent">{headlineLines[1]}</span>
+                </>
+              ) : null}
+            </h1>
+            <p className="hero-subtitle">{t("subtitle")}</p>
+            <div className="hero-cta-block">
+              <Link href="/groups/new" className="hero-primary-cta">
+                {t("primaryCta")} <span aria-hidden="true">→</span>
+              </Link>
+              <p className="reassurance">
+                <span className="reassurance-check" aria-hidden="true">✓</span>
+                {t("reassurance")}
+              </p>
+            </div>
+          </div>
+          <div className="hero-visual">
+            <div className="hero-card-stack" aria-hidden="true">
+              <span className="hc" />
+              <span className="hc" />
+              <span className="hc" />
+            </div>
           </div>
         </section>
 
+        {/* Features */}
+        <section className="feature-grid">
+          {features.map((feature) => (
+            <Card key={feature.title} className="feature-card">
+              <CardContent className="p-0">
+                <div className="feature-icon">
+                  <feature.icon className="h-5 w-5" />
+                </div>
+                <h2 className="feature-title">{feature.title}</h2>
+                <p className="feature-text">{feature.body}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </section>
+
         {/* Recent Groups */}
-        <section className="space-y-3">
-          <p className="text-[13px] font-semibold uppercase tracking-[0.18em] text-[var(--text-muted)]">
-            {t("recentEyebrow")}
-          </p>
+        <section className="stack-md">
+          <div className="section-header">
+            <p className="section-kicker">{t("recentEyebrow")}</p>
+          </div>
           <RecentGroupsSection
             description={t("recentDescription")}
             empty={t("recentEmpty")}
@@ -75,28 +108,6 @@ export default async function HomePage({
             removeLabel={t("recentRemove")}
             title={t("recentTitle")}
           />
-        </section>
-
-        {/* Features */}
-        <section className="grid gap-3 sm:grid-cols-3">
-          {features.map((feature) => (
-            <Card
-              key={feature.title}
-              className="border-[var(--border-default)] bg-[var(--bg-card)] shadow-none"
-            >
-              <CardContent className="space-y-3 p-4">
-                <feature.icon className="h-5 w-5 text-[var(--brand-primary)]" />
-                <div className="space-y-1.5">
-                  <h2 className="text-sm font-semibold text-[var(--text-primary)] sm:text-base">
-                    {feature.title}
-                  </h2>
-                  <p className="text-sm leading-6 text-[var(--text-secondary)]">
-                    {feature.body}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
         </section>
       </div>
     </main>

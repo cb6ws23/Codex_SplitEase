@@ -4,6 +4,7 @@ import { getMessages, getTranslations, setRequestLocale } from "next-intl/server
 import { notFound } from "next/navigation";
 
 import { HtmlLangSetter } from "@/components/html-lang-setter";
+import { NavBar } from "@/components/nav-bar";
 import { type AppLocale, getLocalizedAppName } from "@/lib/constants";
 import { routing } from "@/i18n/routing";
 
@@ -46,10 +47,12 @@ export default async function LocaleLayout({
 
   setRequestLocale(locale);
   const messages = await getMessages();
+  const appName = getLocalizedAppName(locale as AppLocale);
 
   return (
     <NextIntlClientProvider messages={messages}>
       <HtmlLangSetter locale={locale} />
+      <NavBar appName={appName} />
       {children}
     </NextIntlClientProvider>
   );

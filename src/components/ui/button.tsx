@@ -4,23 +4,25 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-lg text-[15px] font-semibold transition-colors disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-brand)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-page)]",
+  "inline-flex items-center justify-center rounded-[var(--radius-sm)] text-[15px] font-semibold transition-[transform,box-shadow,background-color,border-color,color] duration-150 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-brand)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]",
   {
     variants: {
       variant: {
         default:
-          "bg-[var(--brand-primary)] px-4 py-2 text-[var(--text-on-brand)] hover:bg-[var(--brand-primary-hover)] active:bg-[var(--brand-primary-dark)]",
+          "border border-transparent bg-[var(--brand)] px-4 py-2 text-[var(--text-inverse)] shadow-[var(--shadow-sm)] hover:-translate-y-px hover:bg-[var(--brand-strong)] hover:shadow-[var(--shadow-md)] active:translate-y-0",
         secondary:
-          "border border-[var(--border-default)] bg-[var(--bg-page)] px-4 py-2 text-[var(--text-primary)] hover:bg-[var(--bg-card-hover)]",
+          "border border-[var(--border)] bg-[var(--surface)] px-4 py-2 text-[var(--text)] shadow-[var(--shadow-sm)] hover:border-[var(--border-strong)] hover:bg-[var(--surface-soft)]",
+        outline:
+          "border border-[var(--brand)] bg-transparent px-4 py-2 text-[var(--brand)] hover:bg-[rgba(99,91,255,0.05)]",
         ghost:
-          "px-3 py-2 text-[var(--text-secondary)] hover:bg-[var(--bg-card)]",
+          "px-3 py-2 text-[var(--text-soft)] hover:bg-[var(--surface-muted)]",
         destructive:
-          "bg-[var(--color-danger)] px-4 py-2 text-white hover:bg-[color-mix(in_oklab,var(--color-danger)_88%,black)]",
+          "border border-transparent bg-[var(--danger)] px-4 py-2 text-white shadow-[var(--shadow-sm)] hover:bg-[color-mix(in_oklab,var(--danger)_88%,black)]",
       },
       size: {
         default: "h-11 sm:h-10",
         sm: "h-9 px-3 text-xs",
-        lg: "h-12 px-5",
+        lg: "h-[52px] px-5",
       },
     },
     defaultVariants: {

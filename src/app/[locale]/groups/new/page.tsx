@@ -1,7 +1,7 @@
+import { ArrowLeft } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 import { MemberChipsInput } from "@/components/group/member-chips-input";
-import { LocaleSwitcher } from "@/components/locale-switcher";
 import { FormStatusMessage } from "@/components/form-status-message";
 import { PendingButton } from "@/components/pending-button";
 import { Input } from "@/components/ui/input";
@@ -25,35 +25,47 @@ export default async function NewGroupPage({
   ]);
 
   return (
-    <main className="min-h-screen bg-[var(--bg-page)] px-3 py-4 sm:px-4 sm:py-6">
-      <div className="mx-auto flex max-w-lg flex-col gap-4 sm:gap-6">
-        <div className="flex items-center justify-between gap-4">
-          <Link href="/" className="text-sm font-medium text-[var(--text-secondary)]">
-            {common("backHome")}
-          </Link>
-          <LocaleSwitcher currentLocale={locale} href="/groups/new" />
-        </div>
-
-        <div className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-card)] p-5 sm:p-6">
-          <div className="space-y-1">
-            <h1 className="text-2xl font-semibold text-[var(--text-primary)]">
-              {t("title")}
-            </h1>
-            <p className="text-sm leading-6 text-[var(--text-secondary)]">
-              {t("description")}
-            </p>
+    <main className="min-h-screen bg-[var(--bg)]">
+      <div className="page-shell" style={{ maxWidth: 680 }}>
+        <div className="setup-stack">
+          {/* Back link */}
+          <div className="page-topbar">
+            <Link href="/" className="page-back-link inline-flex items-center gap-1.5">
+              <ArrowLeft className="h-3.5 w-3.5" />
+              {common("backHome")}
+            </Link>
           </div>
 
-          <div className="mt-5 space-y-4">
+          {/* Form card */}
+          <div className="form-card">
+            {/* Header */}
+            <div className="flex flex-wrap items-start gap-3">
+              <h1 style={{ fontSize: 28, lineHeight: 1.15, letterSpacing: "-0.02em", fontWeight: 650, color: "var(--text)", margin: 0 }}>
+                {t("title")}
+              </h1>
+              <span className="eyebrow" style={{ fontSize: 11, padding: "4px 10px", marginTop: 4 }}>
+                {common("currency")}
+              </span>
+            </div>
+            <p style={{ fontSize: 15, lineHeight: 1.6, color: "var(--text-soft)", margin: "10px 0 0", maxWidth: 440 }}>
+              {t("description")}
+            </p>
+
+            {/* Status */}
             {status === "invalidGroup" ? (
-              <FormStatusMessage message={feedback("invalidGroup")} tone="error" />
+              <div className="mt-5">
+                <FormStatusMessage message={feedback("invalidGroup")} tone="error" />
+              </div>
             ) : null}
 
-            <form action={createGroupAction} className="space-y-5">
+            {/* Form */}
+            <form action={createGroupAction} className="mt-7" style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               <input name="locale" type="hidden" value={locale} />
 
-              <div className="space-y-2">
-                <Label htmlFor="name">{t("groupName")}</Label>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <Label htmlFor="name" className="text-[14px] font-medium text-[var(--text)]">
+                  {t("groupName")}
+                </Label>
                 <Input
                   id="name"
                   maxLength={80}
@@ -63,10 +75,12 @@ export default async function NewGroupPage({
                 />
               </div>
 
-              <div className="space-y-2">
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                 <div className="flex items-center gap-2">
-                  <Label htmlFor="initialMembers">{t("membersLabel")}</Label>
-                  <span className="text-xs text-[var(--text-muted)]">
+                  <Label htmlFor="initialMembers" className="text-[14px] font-medium text-[var(--text)]">
+                    {t("membersLabel")}
+                  </Label>
+                  <span style={{ fontSize: 13, color: "var(--text-muted)" }}>
                     {common("optional")}
                   </span>
                 </div>
@@ -81,11 +95,12 @@ export default async function NewGroupPage({
               </div>
 
               <PendingButton
-                className="w-full"
+                className="self-start"
                 idleLabel={t("submit")}
                 pendingLabel={feedback("creating")}
                 size="lg"
                 type="submit"
+                style={{ borderRadius: 9999, paddingInline: 40, width: "auto" }}
               />
             </form>
           </div>

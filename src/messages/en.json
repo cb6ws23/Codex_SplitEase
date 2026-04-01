@@ -2,9 +2,13 @@
   "Home": {
     "badge": "Anonymous group expense sharing",
     "brandHint": "Group expense sharing",
+    "eyebrow": "Group expense sharing",
+    "headline": "Split costs.\nStay friends.",
+    "subtitle": "One link, no signup. Everyone adds what they paid — Splita handles the math.",
+    "primaryCta": "Create a group",
+    "reassurance": "Free · No account needed",
     "title": "Split shared costs fast.",
     "description": "Split expenses with friends. Simple, instant, no sign-up.",
-    "primaryCta": "Create a group",
     "ctaHint": "No signup. One shared link.",
     "secondaryCta": "Open demo flow",
     "recentEyebrow": "Continue",
@@ -55,7 +59,7 @@
   },
   "GroupForm": {
     "title": "Create group",
-    "description": "Start with a group name and optional member list. You can add more members later.",
+    "description": "Start the group with a name and optional members. You can add more people after sharing the link.",
     "groupName": "Group name",
     "groupNamePlaceholder": "Kyoto trip",
     "membersLabel": "Initial members",
@@ -66,11 +70,11 @@
   },
   "GroupCreated": {
     "title": "Group created",
-    "description": "{name} is ready. Share the group link below and continue.",
+    "description": "{name} is ready. Share the link, then continue into the group.",
     "linkTitle": "Group link",
     "linkDescription": "Anyone with this link can open the group and collaborate directly.",
     "nextTitle": "What to do next",
-    "nextDescription": "This is the fastest way to get the group started.",
+    "nextDescription": "A quick handoff now makes the first expense much easier to record.",
     "stepOne": "1. Share the group link with everyone joining the expense split.",
     "stepTwo": "2. Continue into the group to add members or create the first expense.",
     "continue": "Open group"

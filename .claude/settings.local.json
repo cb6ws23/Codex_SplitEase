@@ -3,7 +3,10 @@
     "allow": [
       "Bash(npx next:*)",
       "Bash(npm run:*)",
-      "Bash(git diff:*)"
+      "Bash(git diff:*)",
+      "Bash(ls /Users/kyle/Development/Codex/src/components/nav*)",
+      "Bash(ls /Users/kyle/Development/Codex/src/components/header*)",
+      "Bash(git add:*)"
     ]
   }
 }

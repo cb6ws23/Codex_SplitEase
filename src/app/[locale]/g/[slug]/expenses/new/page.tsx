@@ -3,7 +3,6 @@ import { notFound, redirect } from "next/navigation";
 
 import { ExpenseForm } from "@/components/group/expense-form";
 import { FormStatusMessage } from "@/components/form-status-message";
-import { LocaleSwitcher } from "@/components/locale-switcher";
 import { type AppLocale } from "@/lib/constants";
 import { getGroupBySlug } from "@/lib/groups";
 import { Link } from "@/i18n/navigation";
@@ -34,11 +33,10 @@ export default async function NewExpensePage({
   return (
     <main className="min-h-screen bg-[var(--bg-page)] px-3 py-4 sm:px-4 sm:py-6">
       <div className="mx-auto max-w-lg space-y-4">
-        <div className="flex items-center justify-between gap-4">
-          <Link href={`/g/${slug}`} className="text-sm font-medium text-[var(--text-secondary)]">
+        <div className="page-topbar">
+          <Link href={`/g/${slug}`} className="page-back-link">
             {common("group")}
           </Link>
-          <LocaleSwitcher currentLocale={locale} href={`/g/${slug}/expenses/new`} />
         </div>
 
         <div className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-card)] p-5 sm:p-6">

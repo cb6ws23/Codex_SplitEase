@@ -27,9 +27,10 @@ export function LocaleSwitcher({ currentLocale, href }: Props) {
           className={cn(
             "block min-w-[5.25rem] rounded-md px-3 py-2 text-center text-xs font-semibold leading-5 no-underline transition-colors sm:min-w-[5.75rem]",
             locale === currentLocale
-              ? "bg-[var(--brand-primary)] text-[var(--text-on-brand)]"
+              ? "bg-[var(--brand-primary)] text-white opacity-100"
               : "bg-transparent text-[var(--text-muted)] hover:bg-[var(--bg-card-hover)] hover:text-[var(--text-primary)]",
           )}
+          style={locale === currentLocale ? { color: "#ffffff", opacity: 1 } : undefined}
         >
           {LOCALE_LABELS[locale]}
         </Link>

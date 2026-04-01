@@ -1,9 +1,13 @@
 {
   "Home": {
     "badge": "匿名协作分账应用",
+    "eyebrow": "多人分账",
+    "headline": "轻松分账，\n友谊长存。",
+    "subtitle": "一个链接，无需注册。每人记录自己的消费 - 剩下的交给AA记。",
+    "primaryCta": "创建群组",
+    "reassurance": "免费 · 无需账号",
     "title": "和朋友轻松分账，即开即用。",
     "description": "和朋友轻松分账。无需注册，即开即用。",
-    "primaryCta": "创建群组",
     "ctaHint": "无需注册，一个链接即可开始。",
     "secondaryCta": "查看示例流程",
     "recentEyebrow": "继续使用",
@@ -54,7 +58,7 @@
   },
   "GroupForm": {
     "title": "创建群组",
-    "description": "先填写群组名称，也可以顺手添加初始成员，之后仍可继续添加。",
+    "description": "先设置群组名称，也可以顺手添加初始成员。分享链接后仍然可以继续补充成员。",
     "groupName": "群组名称",
     "groupNamePlaceholder": "京都旅行",
     "membersLabel": "初始成员",
@@ -65,11 +69,11 @@
   },
   "GroupCreated": {
     "title": "群组已创建",
-    "description": "{name} 已准备好。分享下面的群组链接后继续。",
+    "description": "{name} 已准备好。先分享链接，然后继续进入群组。",
     "linkTitle": "群组链接",
     "linkDescription": "拿到这个链接的人都可以打开群组并直接协作。",
     "nextTitle": "接下来做什么",
-    "nextDescription": "这是最快开始使用的方式。",
+    "nextDescription": "先把链接发出去，后面的第一笔支出会更顺畅。",
     "stepOne": "1. 把群组链接发给所有要参与分账的人。",
     "stepTwo": "2. 进入群组，添加成员或录入第一笔支出。",
     "continue": "打开群组"

@@ -76,23 +76,23 @@ export function MemberChipsInput({
           disabled={!canAdd}
           onClick={addMember}
           type="button"
-          variant="secondary"
+          variant="outline"
         >
           {addLabel}
         </Button>
       </div>
 
       {members.length > 0 ? (
-        <div className="flex flex-wrap gap-2 rounded-lg border border-[var(--border-default)] bg-[var(--bg-page)] p-3">
+        <div className="flex flex-wrap gap-2 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-soft)] p-3">
           {members.map((member) => (
             <span
               key={member}
-              className="inline-flex items-center gap-2 rounded-full border border-[var(--border-default)] bg-[var(--bg-card)] px-3 py-1 text-[13px] text-[var(--text-primary)]"
+              className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1 text-[13px] text-[var(--text)]"
             >
               <span className="max-w-[14rem] truncate">{member}</span>
               <button
                 aria-label={`${member} remove`}
-                className="rounded-full p-1 text-[var(--text-muted)] transition-colors hover:text-[var(--color-danger)]"
+                className="rounded-full p-1 text-[var(--text-muted)] transition-colors hover:text-[var(--danger)]"
                 onClick={() => removeMember(member)}
                 type="button"
               >
