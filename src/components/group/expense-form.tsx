@@ -44,13 +44,14 @@ export async function ExpenseForm({
   const selected = new Set(defaultExpense?.participants.map((entry) => entry.memberId) ?? []);
 
   return (
-    <form action={action} className="space-y-4">
+    <form action={action} className="space-y-6">
       <input name="locale" type="hidden" value={locale} />
       <input name="slug" type="hidden" value={slug} />
       {defaultExpense ? (
         <input name="expenseId" type="hidden" value={defaultExpense.id} />
       ) : null}
 
+      {/* Title */}
       <div className="space-y-2">
         <Label htmlFor={defaultExpense ? `title-${defaultExpense.id}` : "title"}>
           {common("title")}
@@ -65,7 +66,8 @@ export async function ExpenseForm({
         />
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      {/* Amount + Date (side by side) */}
+      <div className="grid gap-6 sm:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor={defaultExpense ? `amount-${defaultExpense.id}` : "amount"}>
             {common("amount")}
@@ -100,12 +102,13 @@ export async function ExpenseForm({
         </div>
       </div>
 
+      {/* Paid by */}
       <div className="space-y-2">
         <Label htmlFor={defaultExpense ? `paidBy-${defaultExpense.id}` : "paidByMemberId"}>
           {common("paidBy")}
         </Label>
         <select
-          className="flex h-11 w-full rounded-lg border border-[var(--border-default)] bg-[var(--bg-page)] px-4 py-2 text-sm text-[var(--text-primary)] outline-none focus:border-[var(--border-brand)] focus:ring-2 focus:ring-[var(--brand-primary-light)]"
+          className="flex h-11 w-full px-4 py-2 text-sm"
           defaultValue={defaultExpense?.paidByMemberId ?? members[0]?.id}
           id={defaultExpense ? `paidBy-${defaultExpense.id}` : "paidByMemberId"}
           name="paidByMemberId"
@@ -119,10 +122,11 @@ export async function ExpenseForm({
         </select>
       </div>
 
+      {/* Notes */}
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <Label>{common("notes")}</Label>
-          <span className="text-xs text-[var(--text-muted)]">
+          <span className="text-xs text-[var(--text-muted)]" style={{ fontWeight: 400 }}>
             {common("optional")}
           </span>
         </div>
@@ -134,17 +138,17 @@ export async function ExpenseForm({
         />
       </div>
 
+      {/* Participants */}
       <fieldset className="space-y-3">
-        <legend className="text-sm font-medium">{common("participants")}</legend>
-        <div className="grid gap-2 sm:grid-cols-2">
+        <legend className="text-[14px] font-medium text-[var(--text)]">
+          {common("participants")}
+        </legend>
+        <div className="flex flex-wrap gap-2">
           {members.map((member) => {
             const checked = defaultExpense ? selected.has(member.id) : true;
 
             return (
-              <label
-                key={member.id}
-                className="flex items-center gap-3 rounded-lg border border-[var(--border-default)] bg-[var(--bg-page)] px-4 py-3 text-sm"
-              >
+              <label key={member.id} className="participant-chip">
                 <input
                   defaultChecked={checked}
                   name="participantIds"
@@ -158,13 +162,21 @@ export async function ExpenseForm({
         </div>
       </fieldset>
 
-      <PendingButton
-        className="w-full"
-        idleLabel={submitLabel}
-        pendingLabel={pageT("saving")}
-        size="lg"
-        type="submit"
-      />
+      {/* Submit */}
+      <div className="flex justify-center pt-2">
+        <PendingButton
+          idleLabel={submitLabel}
+          pendingLabel={pageT("saving")}
+          size="lg"
+          type="submit"
+          style={{
+            borderRadius: 9999,
+            paddingInline: 48,
+            width: "auto",
+            height: 48,
+          }}
+        />
+      </div>
     </form>
   );
 }

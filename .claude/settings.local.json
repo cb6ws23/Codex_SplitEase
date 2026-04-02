@@ -6,7 +6,11 @@
       "Bash(git diff:*)",
       "Bash(ls /Users/kyle/Development/Codex/src/components/nav*)",
       "Bash(ls /Users/kyle/Development/Codex/src/components/header*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git tag:*)",
+      "Bash(git push:*)",
+      "Bash(export PATH=\"/opt/homebrew/bin:/usr/local/bin:$PATH\")"
     ]
   }
 }

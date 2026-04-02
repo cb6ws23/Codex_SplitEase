@@ -1,6 +1,6 @@
+import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { notFound, redirect } from "next/navigation";
-import { CheckCircle2, Link2 } from "lucide-react";
 
 import { RecentGroupTracker } from "@/components/group/recent-group-tracker";
 import { ShareLinkButton } from "@/components/group/share-link-button";
@@ -39,83 +39,73 @@ export default async function GroupCreatedPage({
   const groupUrl = `${appUrl}/${locale}/g/${group.slug}`;
 
   return (
-    <main className="min-h-screen bg-[var(--bg-page)]">
+    <main className="min-h-screen bg-[var(--bg)]">
       <RecentGroupTracker locale={locale} name={group.name} slug={group.slug} />
-      <div className="page-shell setup-shell">
+
+      <div className="page-shell" style={{ maxWidth: 560 }}>
         <div className="setup-stack">
+          {/* Back link */}
           <div className="page-topbar">
-            <Link href={`/g/${group.slug}`} className="page-back-link">
-              {common("group")}
+            <Link
+              href="/"
+              className="page-back-link inline-flex items-center gap-1.5"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+              {common("backHome")}
             </Link>
           </div>
 
-          <div className="app-card p-5 sm:p-7">
-            <div className="setup-header">
-              <div className="inline-flex items-center gap-3 rounded-full border border-[var(--border)] bg-[var(--surface-soft)] px-3 py-2 shadow-[var(--shadow-sm)]">
-                <div className="brand-mark h-9 w-9 rounded-[12px] text-sm">S</div>
-                <div className="min-w-0">
-                  <p className="text-sm font-semibold text-[var(--text)]">
-                    {common("appName")}
-                  </p>
-                  <p className="text-xs text-[var(--text-muted)]">{common("currency")}</p>
-                </div>
-              </div>
+          {/* Success banner */}
+          <div className="success-banner">
+            <CheckCircle2
+              className="mx-auto mb-3 text-[var(--success)]"
+              style={{ width: 36, height: 36 }}
+            />
+            <h1 className="success-title">{t("title")}</h1>
+            <p className="success-text">
+              {t("description", { name: group.name })}
+            </p>
+          </div>
 
-              <div className="app-card-muted flex items-start gap-3 p-4">
-                <CheckCircle2 className="mt-0.5 h-6 w-6 shrink-0 text-[var(--success)]" />
-                <div className="stack-sm">
-                  <h1 className="setup-title">{t("title")}</h1>
-                  <p className="setup-text">{t("description", { name: group.name })}</p>
-                </div>
-              </div>
-            </div>
+          {/* Share URL section */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <p
+              style={{
+                margin: 0,
+                fontSize: 13,
+                lineHeight: 1.6,
+                color: "var(--text-muted)",
+              }}
+            >
+              {t("linkDescription")}
+            </p>
+            <ShareLinkButton
+              copiedLabel={common("copied")}
+              copyLabel={common("copy")}
+              inline
+              url={groupUrl}
+            />
+          </div>
 
-            <div className="mt-6 stack-md">
-              <div className="utility-card p-4">
-                <div className="stack-sm">
-                  <div className="flex items-center gap-2">
-                    <Link2 className="h-4 w-4 text-[var(--brand)]" />
-                    <p className="text-sm font-semibold text-[var(--text)]">{t("linkTitle")}</p>
-                  </div>
-                  <p className="text-sm leading-6 text-[var(--text-soft)]">
-                    {t("linkDescription")}
-                  </p>
-                </div>
-                <div className="mt-3 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-xs break-all text-[var(--text-soft)]">
-                  {groupUrl}
-                </div>
-                <div className="mt-3">
-                  <ShareLinkButton
-                    copiedLabel={common("copied")}
-                    copyLabel={common("copy")}
-                    url={groupUrl}
-                  />
-                </div>
-              </div>
-
-              <div className="utility-card p-4">
-                <p className="text-sm font-semibold text-[var(--text)]">{t("nextTitle")}</p>
-                <p className="mt-1 text-sm leading-6 text-[var(--text-soft)]">
-                  {t("nextDescription")}
-                </p>
-                <div className="mt-4 stack-sm text-sm text-[var(--text-soft)]">
-                  <div className="rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] px-4 py-3">
-                    <p>{t("stepOne")}</p>
-                  </div>
-                  <div className="rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] px-4 py-3">
-                    <p>{t("stepTwo")}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="utility-card p-4">
-                <Link href={`/g/${group.slug}`}>
-                  <Button className="w-full" size="lg">
-                    {t("continue")}
-                  </Button>
-                </Link>
-              </div>
-            </div>
+          {/* Action buttons */}
+          <div className="action-row" style={{ marginTop: 8 }}>
+            <ShareLinkButton
+              copiedLabel={common("copied")}
+              copyLabel={common("shareLink")}
+              url={groupUrl}
+            />
+            <Link href={`/g/${group.slug}`}>
+              <Button
+                size="lg"
+                style={{
+                  borderRadius: 9999,
+                  paddingInline: 32,
+                  width: "auto",
+                }}
+              >
+                {t("continue")} →
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

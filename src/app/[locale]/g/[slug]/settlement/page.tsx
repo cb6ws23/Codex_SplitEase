@@ -1,3 +1,4 @@
+import { ArrowLeft } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import Decimal from "decimal.js";
@@ -41,135 +42,160 @@ export default async function SettlementPage({
   }
 
   return (
-    <main className="min-h-screen bg-[var(--bg-page)] px-3 py-4 sm:px-4 sm:py-6">
-      <div className="mx-auto max-w-3xl space-y-4 sm:space-y-5">
-        <div className="page-topbar">
-          <Link href={`/g/${slug}`} className="page-back-link">
-            {common("group")}
-          </Link>
-        </div>
-
-        {/* Intro */}
-        <div className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-card)] p-5 sm:p-6">
-          <h1 className="text-2xl font-semibold text-[var(--text-primary)]">
-            {common("settlements")}
-          </h1>
-          <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">
-            {pageT("settlementIntro")}
-          </p>
-          {hasSummaryError ? (
-            <div className="mt-4">
-              <FormStatusMessage message={feedback("error")} tone="error" />
-            </div>
-          ) : null}
-        </div>
-
-        {/* Balances */}
-        <div className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-card)] p-5 sm:p-6">
-          <h2 className="text-lg font-semibold text-[var(--text-primary)]">
-            {common("balances")}
-          </h2>
-          <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">
-            {pageT("balancesIntro")}
-          </p>
-          <div className="mt-4 space-y-3">
-            {summary.balances.length === 0 ? (
-              <p className="rounded-lg border border-dashed border-[var(--border-default)] px-4 py-5 text-sm text-[var(--text-secondary)]">
-                {pageT("emptyMembers")}
-              </p>
-            ) : (
-              summary.balances.map((balance) => (
-                <div
-                  key={balance.memberId}
-                  className="flex items-center justify-between rounded-lg border border-[var(--border-default)] bg-[var(--bg-page)] px-4 py-3"
-                >
-                  <span className="font-medium text-[var(--text-primary)]">
-                    {balance.memberName}
-                  </span>
-                  <span
-                    className={
-                      balance.balance.isNegative()
-                        ? "font-semibold text-[var(--color-danger)]"
-                        : balance.balance.isZero()
-                          ? "text-[var(--text-muted)]"
-                          : "font-semibold text-[var(--color-success)]"
-                    }
-                  >
-                    {formatMoney(locale, balance.balance)}
-                  </span>
-                </div>
-              ))
-            )}
+    <main className="min-h-screen bg-[var(--bg)]">
+      <div className="page-shell" style={{ maxWidth: 580 }}>
+        <div className="setup-stack">
+          {/* Back link */}
+          <div className="page-topbar">
+            <Link
+              href={`/g/${slug}`}
+              className="page-back-link inline-flex items-center gap-1.5"
+              style={{ color: "var(--brand)" }}
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+              {common("group")}
+            </Link>
           </div>
-        </div>
 
-        {/* Raw expense records */}
-        <div className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-card)] p-5 sm:p-6">
-          <h2 className="text-lg font-semibold text-[var(--text-primary)]">
-            {pageT("rawExpensesTitle")}
-          </h2>
-          <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">
-            {pageT("rawExpensesIntro")}
-          </p>
-          <div className="mt-4 space-y-3">
-            {group.expenses.length === 0 ? (
-              <p className="rounded-lg border border-dashed border-[var(--border-default)] px-4 py-5 text-sm text-[var(--text-secondary)]">
-                {pageT("emptyExpenses")}
-              </p>
-            ) : (
-              group.expenses.map((expense) => (
-                <div
-                  key={expense.id}
-                  className="rounded-lg border border-[var(--border-default)] bg-[var(--bg-page)] px-4 py-3"
-                >
-                  <div className="flex items-start justify-between gap-4">
+          {/* Page header (outside cards) */}
+          <div>
+            <h1
+              style={{
+                margin: 0,
+                fontSize: 24,
+                lineHeight: 1.2,
+                fontWeight: 700,
+                letterSpacing: "-0.02em",
+                color: "var(--text)",
+              }}
+            >
+              {common("settlements")}
+            </h1>
+            <p
+              style={{
+                margin: "6px 0 0",
+                fontSize: 15,
+                lineHeight: 1.6,
+                color: "var(--text-soft)",
+              }}
+            >
+              {pageT("settlementIntro")}
+            </p>
+            {hasSummaryError ? (
+              <div className="mt-4">
+                <FormStatusMessage message={feedback("error")} tone="error" />
+              </div>
+            ) : null}
+          </div>
+
+          {/* Balances */}
+          <div className="workspace-card">
+            <h2 className="section-title" style={{ margin: 0 }}>
+              {common("balances")}
+            </h2>
+            <p className="section-subtitle" style={{ marginTop: 4 }}>
+              {pageT("balancesIntro")}
+            </p>
+            <div style={{ marginTop: 16 }}>
+              {summary.balances.length === 0 ? (
+                <p style={{ padding: "16px 0", fontSize: 14, color: "var(--text-soft)" }}>
+                  {pageT("emptyMembers")}
+                </p>
+              ) : (
+                summary.balances.map((balance) => (
+                  <div key={balance.memberId} className="balance-row">
+                    <span className="text-sm font-medium text-[var(--text)]">
+                      {balance.memberName}
+                    </span>
+                    <span
+                      className={`text-sm font-semibold ${
+                        balance.balance.isNegative()
+                          ? "text-[var(--danger)]"
+                          : balance.balance.isZero()
+                            ? "text-[var(--text-soft)]"
+                            : "text-[var(--success)]"
+                      }`}
+                    >
+                      {formatMoney(locale, balance.balance)}
+                    </span>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+
+          {/* Raw expense records */}
+          <div className="workspace-card">
+            <h2 className="section-title" style={{ margin: 0 }}>
+              {pageT("rawExpensesTitle")}
+            </h2>
+            <p className="section-subtitle" style={{ marginTop: 4 }}>
+              {pageT("rawExpensesIntro")}
+            </p>
+            <div style={{ marginTop: 16 }}>
+              {group.expenses.length === 0 ? (
+                <p style={{ padding: "16px 0", fontSize: 14, color: "var(--text-soft)" }}>
+                  {pageT("emptyExpenses")}
+                </p>
+              ) : (
+                group.expenses.map((expense) => (
+                  <div
+                    key={expense.id}
+                    className="balance-row"
+                  >
                     <div>
-                      <p className="text-sm font-semibold text-[var(--text-primary)]">
+                      <p
+                        className="text-sm font-semibold text-[var(--text)]"
+                        style={{ margin: 0 }}
+                      >
                         {expense.title}
                       </p>
-                      <p className="mt-1 text-xs leading-5 text-[var(--text-muted)]">
+                      <p
+                        className="text-xs text-[var(--text-muted)]"
+                        style={{ margin: "2px 0 0" }}
+                      >
                         {expense.happenedOn.toISOString().slice(0, 10)}
                       </p>
                     </div>
-                    <p className="text-sm font-semibold text-[var(--text-primary)]">
+                    <span className="text-sm font-semibold text-[var(--text)]">
                       {formatMoney(locale, expense.amount)}
-                    </p>
+                    </span>
                   </div>
-                </div>
-              ))
-            )}
+                ))
+              )}
+            </div>
           </div>
-        </div>
 
-        {/* Recommended transfers */}
-        <div className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-card)] p-5 sm:p-6">
-          <h2 className="text-lg font-semibold text-[var(--text-primary)]">
-            {common("settlements")}
-          </h2>
-          <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">
-            {pageT("recommendedTransfersIntro")}
-          </p>
-          <div className="mt-4 space-y-3">
-            {summary.settlements.length === 0 ? (
-              <p className="rounded-lg border border-dashed border-[var(--border-default)] px-4 py-5 text-sm text-[var(--text-secondary)]">
-                {pageT("settlementEmpty")}
-              </p>
-            ) : (
-              summary.settlements.map((settlement) => (
-                <div
-                  key={`${settlement.fromMemberId}-${settlement.toMemberId}`}
-                  className="rounded-lg border border-[var(--border-default)] bg-[var(--bg-page)] px-4 py-3 text-sm"
-                >
-                  <p className="font-semibold text-[var(--text-primary)]">
-                    {pageT("settlementLine", {
-                      from: settlement.fromMemberName,
-                      to: settlement.toMemberName,
-                      amount: formatMoney(locale, settlement.amount),
-                    })}
-                  </p>
-                </div>
-              ))
-            )}
+          {/* Recommended transfers */}
+          <div className="workspace-card">
+            <h2 className="section-title" style={{ margin: 0 }}>
+              {common("settlements")}
+            </h2>
+            <p className="section-subtitle" style={{ marginTop: 4 }}>
+              {pageT("recommendedTransfersIntro")}
+            </p>
+            <div style={{ marginTop: 16 }}>
+              {summary.settlements.length === 0 ? (
+                <p style={{ padding: "16px 0", fontSize: 14, color: "var(--text-soft)" }}>
+                  {pageT("settlementEmpty")}
+                </p>
+              ) : (
+                summary.settlements.map((settlement) => (
+                  <div
+                    key={`${settlement.fromMemberId}-${settlement.toMemberId}`}
+                    className="balance-row"
+                  >
+                    <span className="text-sm font-medium text-[var(--text)]">
+                      {pageT("settlementLine", {
+                        from: settlement.fromMemberName,
+                        to: settlement.toMemberName,
+                        amount: formatMoney(locale, settlement.amount),
+                      })}
+                    </span>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         </div>
       </div>

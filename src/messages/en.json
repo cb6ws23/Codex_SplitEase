@@ -71,12 +71,7 @@
   "GroupCreated": {
     "title": "Group created",
     "description": "{name} is ready. Share the link, then continue into the group.",
-    "linkTitle": "Group link",
     "linkDescription": "Anyone with this link can open the group and collaborate directly.",
-    "nextTitle": "What to do next",
-    "nextDescription": "A quick handoff now makes the first expense much easier to record.",
-    "stepOne": "1. Share the group link with everyone joining the expense split.",
-    "stepTwo": "2. Continue into the group to add members or create the first expense.",
     "continue": "Open group"
   },
   "GroupPage": {

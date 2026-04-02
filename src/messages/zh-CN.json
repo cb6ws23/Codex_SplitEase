@@ -70,12 +70,7 @@
   "GroupCreated": {
     "title": "群组已创建",
     "description": "{name} 已准备好。先分享链接，然后继续进入群组。",
-    "linkTitle": "群组链接",
     "linkDescription": "拿到这个链接的人都可以打开群组并直接协作。",
-    "nextTitle": "接下来做什么",
-    "nextDescription": "先把链接发出去，后面的第一笔支出会更顺畅。",
-    "stepOne": "1. 把群组链接发给所有要参与分账的人。",
-    "stepTwo": "2. 进入群组，添加成员或录入第一笔支出。",
     "continue": "打开群组"
   },
   "GroupPage": {

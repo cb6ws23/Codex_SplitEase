@@ -1,3 +1,4 @@
+import { ArrowLeft } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { notFound, redirect } from "next/navigation";
 
@@ -31,37 +32,63 @@ export default async function NewExpensePage({
   }
 
   return (
-    <main className="min-h-screen bg-[var(--bg-page)] px-3 py-4 sm:px-4 sm:py-6">
-      <div className="mx-auto max-w-lg space-y-4">
-        <div className="page-topbar">
-          <Link href={`/g/${slug}`} className="page-back-link">
-            {common("group")}
-          </Link>
-        </div>
+    <main className="min-h-screen bg-[var(--bg)]">
+      <div className="page-shell" style={{ maxWidth: 580 }}>
+        <div className="setup-stack">
+          {/* Back link */}
+          <div className="page-topbar">
+            <Link
+              href={`/g/${slug}`}
+              className="page-back-link inline-flex items-center gap-1.5"
+              style={{ color: "var(--brand)" }}
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+              {common("group")}
+            </Link>
+          </div>
 
-        <div className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-card)] p-5 sm:p-6">
-          <h1 className="text-2xl font-semibold text-[var(--text-primary)]">
-            {pageT("addExpenseTitle")}
-          </h1>
-          <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">
-            {pageT("expenseFormDescription")}
-          </p>
-          <div className="mt-5 space-y-4">
-            {status === "invalidExpense" ? (
-              <FormStatusMessage message={feedback("invalidExpense")} tone="error" />
-            ) : null}
-            {status === "invalidAmount" ? (
-              <FormStatusMessage message={feedback("invalidAmount")} tone="error" />
-            ) : null}
-            {status === "error" ? (
-              <FormStatusMessage message={feedback("error")} tone="error" />
-            ) : null}
-            <ExpenseForm
-              locale={locale}
-              members={group.members}
-              slug={slug}
-              submitLabel={common("create")}
-            />
+          {/* Form card */}
+          <div className="workspace-card">
+            <h1
+              style={{
+                margin: 0,
+                fontSize: 24,
+                lineHeight: 1.2,
+                fontWeight: 700,
+                letterSpacing: "-0.02em",
+                color: "var(--text)",
+              }}
+            >
+              {pageT("addExpenseTitle")}
+            </h1>
+            <p
+              style={{
+                margin: "6px 0 0",
+                fontSize: 15,
+                lineHeight: 1.6,
+                color: "var(--text-soft)",
+              }}
+            >
+              {pageT("expenseFormDescription")}
+            </p>
+
+            <div className="mt-6 space-y-4">
+              {status === "invalidExpense" ? (
+                <FormStatusMessage message={feedback("invalidExpense")} tone="error" />
+              ) : null}
+              {status === "invalidAmount" ? (
+                <FormStatusMessage message={feedback("invalidAmount")} tone="error" />
+              ) : null}
+              {status === "error" ? (
+                <FormStatusMessage message={feedback("error")} tone="error" />
+              ) : null}
+              <ExpenseForm
+                locale={locale}
+                members={group.members}
+                slug={slug}
+                submitLabel={common("create")}
+              />
+            </div>
           </div>
         </div>
       </div>
