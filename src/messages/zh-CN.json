@@ -19,9 +19,9 @@
     "recentRemove": "从最近群组中移除",
     "recentRemoveHint": "只会从这台设备的列表中移除",
     "featureOneTitle": "单链接协作",
-    "featureOneBody": "打开群组链接后即可直接协作。不需要注册，也没有额外解锁步骤。",
+    "featureOneBody": "分享一个群组链接后，所有人都可以直接添加成员和录入支出。",
     "featureTwoTitle": "按群组货币精确计算",
-    "featureTwoBody": "每个群组只使用一种货币。金额按最小货币单位安全处理，并只在选中的参与人之间平均分摊。",
+    "featureTwoBody": "每个群组只使用一种货币，支出、余额、结算和 CSV 导出都会保持一致。",
     "featureThreeTitle": "优先移动端",
     "featureThreeBody": "成员、支出、余额、结算和 CSV 导出都能在手机上完成。"
   },
@@ -59,7 +59,7 @@
   },
   "GroupForm": {
     "title": "创建群组",
-    "description": "先设置群组名称，也可以顺手添加初始成员。分享链接后仍然可以继续补充成员。",
+    "description": "先设置群组名称并选择货币，也可以顺手添加初始成员。分享链接后仍然可以继续补充成员。",
     "groupName": "群组名称",
     "groupNamePlaceholder": "京都旅行",
     "currencyLabel": "群组货币",
@@ -73,7 +73,7 @@
   "GroupCreated": {
     "title": "群组已创建",
     "description": "{name} 已准备好。先分享链接，然后继续进入群组。",
-    "linkDescription": "拿到这个链接的人都可以打开群组并直接协作。",
+    "linkDescription": "拿到这个链接的人都可以打开群组，并在同一种群组货币下继续协作和记账。",
     "continue": "打开群组"
   },
   "GroupPage": {
@@ -102,7 +102,7 @@
     "balanceOwes": "{name} 需支付 {amount}",
     "balanceGetsBack": "{name} 应收回 {amount}",
     "balancesIntro": "这里显示每位成员相对均摊结果应付或应收的净额。",
-    "settlementIntro": "先查看原始支出记录，再看成员余额，最后按照建议转账完成结算。",
+    "settlementIntro": "先查看原始支出记录，再看成员余额，最后按照该群组货币下的建议转账完成结算。",
     "rawExpensesTitle": "原始支出记录",
     "rawExpensesIntro": "这些是当前计算中使用的原始支出条目。",
     "recommendedTransfersIntro": "这些建议转账使用简单的贪心匹配，把欠款成员和收款成员配对。",

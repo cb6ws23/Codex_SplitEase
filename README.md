@@ -1,6 +1,6 @@
-# Splita MVP A
+# Splita
 
-Anonymous-first group expense sharing with one currency per group.
+Lightweight group expense sharing with one shared link and one currency per group.
 
 Project root:
 
@@ -18,13 +18,13 @@ Tech stack:
 - Vercel Hobby
 - Neon Free
 
-## MVP A Scope
+## Current Product
 
 Implemented:
 - Create group
+- Choose one currency per group
 - Add members
-- Public group page by slug
-- Unlock write access with token
+- Open and collaborate through one shared group link
 - Create, edit, and delete expenses
 - Equal split among selected participants only
 - Per-member balances
@@ -57,18 +57,15 @@ cp .env.example .env
 ```env
 DATABASE_URL="postgresql://USER:PASSWORD@ep-example-pooler.ap-northeast-1.aws.neon.tech/splitease?sslmode=require&pgbouncer=true&connect_timeout=15"
 DIRECT_URL="postgresql://USER:PASSWORD@ep-example.ap-northeast-1.aws.neon.tech/splitease?sslmode=require&channel_binding=require"
-WRITE_TOKEN_PEPPER="replace-with-a-long-random-string-at-least-32-characters"
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 ```
 
 Meaning:
 - `DATABASE_URL`: Neon pooled connection used by the running app.
 - `DIRECT_URL`: Neon direct connection used by Prisma migrations.
-- `WRITE_TOKEN_PEPPER`: stable secret used when hashing write tokens.
 - `NEXT_PUBLIC_APP_URL`: public base URL used when generating share links.
 
 Important:
-- Keep `WRITE_TOKEN_PEPPER` stable after launch or existing write tokens will stop working.
 - Do not add a trailing slash to `NEXT_PUBLIC_APP_URL`.
 
 ## Neon Free Setup
@@ -131,7 +128,7 @@ npx next build --webpack
 
 1. Open the app and create a group.
 2. Choose the group currency during creation.
-3. Copy the public group link from the created page or group page.
+3. Copy the group link from the created page or group page.
 4. Open the link in a separate browser or incognito window.
 5. Confirm the page is viewable and collaborative without signup.
 6. Add members and create expenses in the selected group currency.
@@ -151,7 +148,6 @@ Root directory:
 Required environment variables in Vercel:
 - `DATABASE_URL`
 - `DIRECT_URL`
-- `WRITE_TOKEN_PEPPER`
 - `NEXT_PUBLIC_APP_URL`
 
 Recommended production value:
@@ -181,7 +177,7 @@ Deployment steps:
 1. Push the project to the Git repository Vercel should watch.
 2. Import the repository into Vercel.
 3. Set the root directory to `Codex` if needed.
-4. Add all four required environment variables.
+4. Add all required environment variables.
 5. Set build command to `npm run build:vercel`.
 6. Deploy.
 
@@ -193,8 +189,8 @@ This MVP does not require:
 
 ## Runtime Notes For Real Testing
 
-- The public group page is readable and editable by slug alone.
-- CSV export is public by slug in MVP A because the group page itself is public.
+- The group page is readable and editable by slug alone.
+- CSV export is available by slug because the group itself is collaborative by link.
 - Locale routing is canonical through `en`, `ja`, and `zh-CN`.
 - Prisma migrations require `DIRECT_URL` to exist in the environment.
 
@@ -203,6 +199,8 @@ This MVP does not require:
 - No member rename or delete.
 - No read-only mode.
 - No dashboard.
-- No per-expense mixed currencies or FX conversion.
+- No per-expense mixed currencies.
+- No FX conversion.
+- Currency is chosen when the group is created and cannot be changed in v1.
 - No auth or account recovery.
 - No analytics, monitoring integrations, or background jobs.

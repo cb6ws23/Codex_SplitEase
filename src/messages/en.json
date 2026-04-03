@@ -20,9 +20,9 @@
     "recentRemove": "Remove from recent groups",
     "recentRemoveHint": "Remove from this device only",
     "featureOneTitle": "Single-link collaboration",
-    "featureOneBody": "Open the group link and collaborate directly. No signup, no separate unlock step.",
+    "featureOneBody": "Share one group link and let everyone add members and expenses directly.",
     "featureTwoTitle": "Currency-aware math",
-    "featureTwoBody": "Each group uses one currency. Amounts stay integer-safe in minor units and selected participants split equally.",
+    "featureTwoBody": "Each group uses one currency for expenses, balances, settlement, and CSV export.",
     "featureThreeTitle": "Fast mobile workflow",
     "featureThreeBody": "Everything important fits on a phone: members, expenses, balances, settlement, and CSV export."
   },
@@ -60,7 +60,7 @@
   },
   "GroupForm": {
     "title": "Create group",
-    "description": "Start the group with a name and optional members. You can add more people after sharing the link.",
+    "description": "Start with a name, choose the group currency, and add optional members. You can add more people after sharing the link.",
     "groupName": "Group name",
     "groupNamePlaceholder": "Kyoto trip",
     "currencyLabel": "Group currency",
@@ -74,7 +74,7 @@
   "GroupCreated": {
     "title": "Group created",
     "description": "{name} is ready. Share the link, then continue into the group.",
-    "linkDescription": "Anyone with this link can open the group and collaborate directly.",
+    "linkDescription": "Anyone with this link can open the group, add expenses, and stay in the same group currency.",
     "continue": "Open group"
   },
   "GroupPage": {
@@ -103,7 +103,7 @@
     "balanceOwes": "{name} owes {amount}",
     "balanceGetsBack": "{name} gets back {amount}",
     "balancesIntro": "Each balance shows how far each member is from even after all recorded expenses.",
-    "settlementIntro": "Review the records, compare balances, then use the suggested transfers to settle the group.",
+    "settlementIntro": "Review the records, compare balances, then use the suggested transfers in the group's currency to settle up.",
     "rawExpensesTitle": "Raw expense records",
     "rawExpensesIntro": "These are the source expense entries currently included in the calculation.",
     "recommendedTransfersIntro": "These transfers use a simple greedy matching between debtors and creditors.",

@@ -26,27 +26,20 @@ Recommended test browsers:
 ## Group Creation
 
 - Open `/en/groups/new`.
-- Create a group with only a group name.
-- Confirm redirect to `/en/g/{slug}`.
-- Confirm the new group page renders without errors.
-- Create another group with initial members entered one per line.
+- Create a group with only a group name and the default `JPY` currency.
+- Confirm redirect to `/en/groups/created?slug={slug}` and then continue into `/en/g/{slug}`.
+- Confirm the created page and the new group page both render without errors.
+- Create another group with a different currency such as `USD` or `EUR`.
+- Add initial members one by one with the chips input.
 - Confirm all initial members appear on the group page.
+- Confirm the selected currency is shown on the created page and group page.
 
 ## Public Group Page
 
-- Copy the public group link.
+- Copy the group link.
 - Open it in an incognito/private window.
-- Confirm the group page is readable without any token.
-- Confirm balances, expenses section, and settlement button are visible.
-
-## Write Access Unlock
-
-- In the original browser, copy the write link.
-- In the incognito/private window, paste only the write token into the unlock form.
-- Confirm the page reloads successfully.
-- Confirm add member and add expense actions are now available.
-- Try an invalid token.
-- Confirm the page shows a clear invalid-access message and remains readable.
+- Confirm the group page is readable and collaborative without login or token entry.
+- Confirm add member, add expense, balances, settlement, and export actions are visible.
 
 ## Add Member
 
@@ -58,7 +51,7 @@ Recommended test browsers:
 
 - Create an expense with:
   - valid title
-  - valid JPY amount
+  - valid amount in the selected group currency
   - valid payer
   - valid date
   - one or more participants
@@ -100,9 +93,11 @@ Recommended test browsers:
 - Open the CSV file.
 - Confirm it includes:
   - group metadata
+  - `currency_code`
   - expenses
   - balances
   - settlements
+- Confirm amount columns are generic currency columns rather than JPY-only columns.
 
 ## Locale Switching
 
@@ -128,12 +123,21 @@ Recommended test browsers:
 
 - Try to submit:
   - blank group name
+  - missing currency selection if you force the field empty in devtools
   - blank member name
   - zero amount
   - non-numeric amount
   - invalid date
   - expense with no participants
 - Confirm each case shows a clear error or blocks submission appropriately.
+
+## Multi-Currency Regression Checks
+
+- Create at least one zero-decimal group such as `JPY` or `KRW`.
+- Create at least one decimal-currency group such as `USD`, `EUR`, `GBP`, or `CNY`.
+- Confirm decimal amounts such as `12.34` are accepted for decimal currencies.
+- Confirm zero-decimal groups reject decimal input.
+- Confirm balances, settlement, and CSV export stay in the selected group currency.
 
 ## Regression Checks
 
