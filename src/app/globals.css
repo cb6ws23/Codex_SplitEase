@@ -120,6 +120,7 @@ html {
 body {
   min-height: 100vh;
   margin: 0;
+  overflow-x: hidden;
   background:
     radial-gradient(circle at top, rgba(99, 91, 255, 0.05), transparent 32%),
     var(--bg);
@@ -170,6 +171,7 @@ select:focus {
 
 .form-card {
   max-width: 580px;
+  width: 100%;
   margin: 0 auto;
   background: var(--surface);
   border: 1px solid rgba(10, 37, 64, 0.08);
@@ -177,7 +179,8 @@ select:focus {
   box-shadow:
     0 1px 3px rgba(10, 37, 64, 0.04),
     0 4px 12px rgba(10, 37, 64, 0.03);
-  padding: 32px;
+  padding: 20px;
+  overflow: hidden;
 }
 
 @media (min-width: 640px) {
@@ -266,6 +269,8 @@ select:focus {
     0 1px 3px rgba(10, 37, 64, 0.04),
     0 4px 12px rgba(10, 37, 64, 0.03);
   padding: 24px;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 @media (min-width: 640px) {
@@ -274,7 +279,7 @@ select:focus {
   }
 }
 
-/* Outline-style anchor button */
+/* Outline-style anchor button (max-width safe) */
 .btn-outline-link {
   display: inline-flex;
   align-items: center;
@@ -573,6 +578,7 @@ select:focus {
 .hero-card-stack {
   position: relative;
   width: 320px;
+  max-width: 100%;
   height: 240px;
   transform: rotate(-2deg);
 }
@@ -849,6 +855,8 @@ select:focus {
   border-radius: var(--radius-xs);
   padding: 10px 12px 10px 16px;
   background: var(--surface);
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .share-url-text {

@@ -86,7 +86,7 @@ export default async function NewGroupPage({
                 <select
                   id="currency"
                   name="currency"
-                  className="input-surface flex h-11 w-full border px-4 py-2 text-sm text-[var(--text)] outline-none transition-[border-color,box-shadow,background-color] focus:border-[var(--border-brand)] focus:ring-2 focus:ring-[var(--brand-soft)]"
+                  className="flex h-11 w-full px-4 py-2 text-sm"
                   defaultValue="JPY"
                   required
                 >

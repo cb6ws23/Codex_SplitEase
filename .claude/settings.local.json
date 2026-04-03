@@ -10,7 +10,8 @@
       "Bash(git commit:*)",
       "Bash(git tag:*)",
       "Bash(git push:*)",
-      "Bash(export PATH=\"/opt/homebrew/bin:/usr/local/bin:$PATH\")"
+      "Bash(export PATH=\"/opt/homebrew/bin:/usr/local/bin:$PATH\")",
+      "Bash(cat -n /Users/kyle/Development/Codex/src/app/[locale]/groups/new/page.tsx)"
     ]
   }
 }

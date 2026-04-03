@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Noto_Sans_JP, Noto_Sans_SC } from "next/font/google";
 
 import "./globals.css";
@@ -22,6 +22,12 @@ const notoSansSC = Noto_Sans_SC({
   display: "swap",
   variable: "--font-noto-sc",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
 
 export const metadata: Metadata = {
   title: "Splita",
