@@ -1,6 +1,7 @@
 {
   "Home": {
     "badge": "Anonymous group expense sharing",
+    "currencyBadge": "One currency per group",
     "brandHint": "Group expense sharing",
     "eyebrow": "Group expense sharing",
     "headline": "Split costs.\nStay friends.",
@@ -20,8 +21,8 @@
     "recentRemoveHint": "Remove from this device only",
     "featureOneTitle": "Single-link collaboration",
     "featureOneBody": "Open the group link and collaborate directly. No signup, no separate unlock step.",
-    "featureTwoTitle": "Correct JPY math",
-    "featureTwoBody": "Amounts stay integer-safe, selected participants split equally, and 1-yen remainders are distributed deterministically.",
+    "featureTwoTitle": "Currency-aware math",
+    "featureTwoBody": "Each group uses one currency. Amounts stay integer-safe in minor units and selected participants split equally.",
     "featureThreeTitle": "Fast mobile workflow",
     "featureThreeBody": "Everything important fits on a phone: members, expenses, balances, settlement, and CSV export."
   },
@@ -32,7 +33,7 @@
   },
   "Common": {
     "appName": "Splita",
-    "currency": "JPY only",
+    "currency": "Currency",
     "backHome": "Home",
     "newGroup": "New group",
     "group": "Group",
@@ -51,7 +52,7 @@
     "edit": "Edit",
     "notes": "Notes",
     "title": "Title",
-    "amount": "Amount (JPY)",
+    "amount": "Amount ({currency})",
     "paidBy": "Paid by",
     "participants": "Participants",
     "date": "Date",
@@ -62,6 +63,8 @@
     "description": "Start the group with a name and optional members. You can add more people after sharing the link.",
     "groupName": "Group name",
     "groupNamePlaceholder": "Kyoto trip",
+    "currencyLabel": "Group currency",
+    "currencyHint": "Choose one currency for the whole group. All expenses and settlements use it.",
     "membersLabel": "Initial members",
     "membersHint": "Add members one by one.",
     "membersLimit": "Up to 20 members.",
@@ -114,10 +117,10 @@
     "lastUpdated": "Updated"
   },
   "Feedback": {
-    "invalidGroup": "Please enter a group name. Member lines can be left blank, but each filled line must be valid.",
+    "invalidGroup": "Please enter a group name and choose a currency. Member lines can be left blank, but each filled line must be valid.",
     "invalidMember": "Enter a valid member name before adding someone.",
     "invalidExpense": "Please complete the expense form and select at least one participant.",
-    "invalidAmount": "Amount must be a whole-number JPY value.",
+    "invalidAmount": "Enter a valid amount for this group currency.",
     "creating": "Creating...",
     "deleting": "Deleting...",
     "saved": "Saved.",

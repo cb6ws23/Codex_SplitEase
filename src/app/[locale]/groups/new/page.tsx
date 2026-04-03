@@ -8,7 +8,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "@/i18n/navigation";
 import { createGroupAction } from "@/lib/actions";
-import { type AppLocale } from "@/lib/constants";
+import {
+  getCurrencyDisplayName,
+  SUPPORTED_CURRENCIES,
+  type AppLocale,
+} from "@/lib/constants";
 
 export default async function NewGroupPage({
   params,
@@ -73,6 +77,28 @@ export default async function NewGroupPage({
                   placeholder={t("groupNamePlaceholder")}
                   required
                 />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <Label htmlFor="currency" className="text-[14px] font-medium text-[var(--text)]">
+                  {t("currencyLabel")}
+                </Label>
+                <select
+                  id="currency"
+                  name="currency"
+                  className="input-surface flex h-11 w-full border px-4 py-2 text-sm text-[var(--text)] outline-none transition-[border-color,box-shadow,background-color] focus:border-[var(--border-brand)] focus:ring-2 focus:ring-[var(--brand-soft)]"
+                  defaultValue="JPY"
+                  required
+                >
+                  {SUPPORTED_CURRENCIES.map((currency) => (
+                    <option key={currency} value={currency}>
+                      {currency} · {getCurrencyDisplayName(locale, currency)}
+                    </option>
+                  ))}
+                </select>
+                <p style={{ fontSize: 13, lineHeight: 1.6, color: "var(--text-muted)", margin: 0 }}>
+                  {t("currencyHint")}
+                </p>
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>

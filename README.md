@@ -1,6 +1,6 @@
 # Splita MVP A
 
-Anonymous-first group expense sharing for JPY-only trips and shared spending.
+Anonymous-first group expense sharing with one currency per group.
 
 Project root:
 
@@ -36,7 +36,8 @@ Not included:
 - Login or signup
 - Read-only mode
 - Dashboard
-- Multi-currency
+- Per-expense mixed currencies
+- FX conversion
 - Member rename
 - Member delete
 - Auth providers
@@ -126,16 +127,15 @@ npm run lint
 npx next build --webpack
 ```
 
-## How To Test The Write-Access Flow
+## How To Test The Group Flow
 
 1. Open the app and create a group.
-2. After creation, the creating browser already has write access.
-3. Copy the public group link from the group page.
-4. Copy the write link from the write-access panel.
-5. Open the public link in a separate browser or incognito window.
-6. Confirm the page is viewable without a token.
-7. Paste the write token in that second browser.
-8. Confirm add member / add expense / edit expense / delete expense now work there.
+2. Choose the group currency during creation.
+3. Copy the public group link from the created page or group page.
+4. Open the link in a separate browser or incognito window.
+5. Confirm the page is viewable and collaborative without signup.
+6. Add members and create expenses in the selected group currency.
+7. Confirm balances, settlement, and CSV export all use that same currency.
 
 ## Manual QA Checklist
 
@@ -193,8 +193,7 @@ This MVP does not require:
 
 ## Runtime Notes For Real Testing
 
-- The public group page is readable by slug alone.
-- Mutation routes still require a valid write token in the browser cookie.
+- The public group page is readable and editable by slug alone.
 - CSV export is public by slug in MVP A because the group page itself is public.
 - Locale routing is canonical through `en`, `ja`, and `zh-CN`.
 - Prisma migrations require `DIRECT_URL` to exist in the environment.
@@ -204,6 +203,6 @@ This MVP does not require:
 - No member rename or delete.
 - No read-only mode.
 - No dashboard.
-- No multi-currency.
+- No per-expense mixed currencies or FX conversion.
 - No auth or account recovery.
 - No analytics, monitoring integrations, or background jobs.

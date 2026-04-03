@@ -1,6 +1,7 @@
 {
   "Home": {
     "badge": "匿名で使える割り勘アプリ",
+    "currencyBadge": "1 グループ 1 通貨",
     "eyebrow": "グループ割り勘",
     "headline": "割り勘を、\nもっとシンプルに。",
     "subtitle": "リンク1つで完結、登録不要。各自の支払いを入力するだけ — あとはスプリタにおまかせ。",
@@ -19,8 +20,8 @@
     "recentRemoveHint": "この端末の一覧からのみ削除",
     "featureOneTitle": "1リンクで共同編集",
     "featureOneBody": "グループリンクを開くだけで共同編集できます。ログインも、別の解除手順もありません。",
-    "featureTwoTitle": "JPY 前提の正確な計算",
-    "featureTwoBody": "金額は整数のまま安全に扱い、選択した参加者だけで均等割りし、端数 1 円も決まった順で配分します。",
+    "featureTwoTitle": "通貨ごとの正確な計算",
+    "featureTwoBody": "各グループでは 1 つの通貨だけを使います。金額は最小単位で安全に扱い、選択した参加者だけで均等割りします。",
     "featureThreeTitle": "モバイル中心",
     "featureThreeBody": "メンバー、支出、残高、精算、CSV 出力まで、スマホで完結します。"
   },
@@ -31,7 +32,7 @@
   },
   "Common": {
     "appName": "スプリタ",
-    "currency": "JPY のみ",
+    "currency": "通貨",
     "backHome": "ホーム",
     "newGroup": "新しいグループ",
     "group": "グループ",
@@ -50,7 +51,7 @@
     "edit": "編集",
     "notes": "メモ",
     "title": "タイトル",
-    "amount": "金額 (JPY)",
+    "amount": "金額 ({currency})",
     "paidBy": "支払った人",
     "participants": "参加者",
     "date": "日付",
@@ -61,6 +62,8 @@
     "description": "まずはグループ名を決めて、必要なら初期メンバーを追加します。リンク共有後でもメンバーは増やせます。",
     "groupName": "グループ名",
     "groupNamePlaceholder": "京都旅行",
+    "currencyLabel": "グループ通貨",
+    "currencyHint": "このグループ全体で使う通貨を 1 つ選びます。支出も精算もこの通貨で扱われます。",
     "membersLabel": "初期メンバー",
     "membersHint": "メンバーを 1 人ずつ追加してください。",
     "membersLimit": "最大 20 人までです。",
@@ -113,10 +116,10 @@
     "lastUpdated": "更新日時"
   },
   "Feedback": {
-    "invalidGroup": "グループ名を入力してください。メンバー欄は空でも構いませんが、入力した行は有効な名前にしてください。",
+    "invalidGroup": "グループ名を入力し、通貨を選択してください。メンバー欄は空でも構いませんが、入力した行は有効な名前にしてください。",
     "invalidMember": "有効なメンバー名を入力してください。",
     "invalidExpense": "支出フォームを入力し、少なくとも 1 人の参加者を選択してください。",
-    "invalidAmount": "金額は JPY の整数で入力してください。",
+    "invalidAmount": "このグループ通貨で有効な金額を入力してください。",
     "creating": "作成中...",
     "deleting": "削除中...",
     "saved": "保存しました。",

@@ -66,7 +66,7 @@ export default async function HomePage({
                 {t("primaryCta")} <span aria-hidden="true">→</span>
               </Link>
               <p className="reassurance">
-                <span className="reassurance-check" aria-hidden="true">✓</span>
+              <span className="reassurance-check" aria-hidden="true">✓</span>
                 {t("reassurance")}
               </p>
             </div>

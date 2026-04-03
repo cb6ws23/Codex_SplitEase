@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import Decimal from "decimal.js";
 
 import { FormStatusMessage } from "@/components/form-status-message";
-import { type AppLocale } from "@/lib/constants";
+import { coerceSupportedCurrency, type AppLocale } from "@/lib/constants";
 import { computeGroupSummary, getGroupBySlug } from "@/lib/groups";
 import { Link } from "@/i18n/navigation";
 import { formatMoney } from "@/lib/money";
@@ -25,6 +25,7 @@ export default async function SettlementPage({
   if (!group) {
     notFound();
   }
+  const currency = coerceSupportedCurrency(group.currency);
 
   let summary;
   let hasSummaryError = false;
@@ -81,6 +82,9 @@ export default async function SettlementPage({
             >
               {pageT("settlementIntro")}
             </p>
+            <p className="mt-2 text-sm font-medium text-[var(--brand)]">
+              {common("currency")}: {currency}
+            </p>
             {hasSummaryError ? (
               <div className="mt-4">
                 <FormStatusMessage message={feedback("error")} tone="error" />
@@ -116,7 +120,7 @@ export default async function SettlementPage({
                             : "text-[var(--success)]"
                       }`}
                     >
-                      {formatMoney(locale, balance.balance)}
+                      {formatMoney(locale, currency, balance.balance)}
                     </span>
                   </div>
                 ))
@@ -158,7 +162,7 @@ export default async function SettlementPage({
                       </p>
                     </div>
                     <span className="text-sm font-semibold text-[var(--text)]">
-                      {formatMoney(locale, expense.amount)}
+                      {formatMoney(locale, currency, expense.amount)}
                     </span>
                   </div>
                 ))
@@ -189,7 +193,7 @@ export default async function SettlementPage({
                       {pageT("settlementLine", {
                         from: settlement.fromMemberName,
                         to: settlement.toMemberName,
-                        amount: formatMoney(locale, settlement.amount),
+                        amount: formatMoney(locale, currency, settlement.amount),
                       })}
                     </span>
                   </div>

@@ -4,7 +4,7 @@ import { notFound, redirect } from "next/navigation";
 
 import { ExpenseForm } from "@/components/group/expense-form";
 import { FormStatusMessage } from "@/components/form-status-message";
-import { type AppLocale } from "@/lib/constants";
+import { coerceSupportedCurrency, type AppLocale } from "@/lib/constants";
 import { getGroupBySlug } from "@/lib/groups";
 import { Link } from "@/i18n/navigation";
 
@@ -30,6 +30,7 @@ export default async function NewExpensePage({
   if (group.members.length === 0) {
     redirect(`/${locale}/g/${slug}?status=invalidExpense`);
   }
+  const currency = coerceSupportedCurrency(group.currency);
 
   return (
     <main className="min-h-screen bg-[var(--bg)]">
@@ -71,6 +72,9 @@ export default async function NewExpensePage({
             >
               {pageT("expenseFormDescription")}
             </p>
+            <p className="mt-2 text-sm font-medium text-[var(--brand)]">
+              {common("currency")}: {currency}
+            </p>
 
             <div className="mt-6 space-y-4">
               {status === "invalidExpense" ? (
@@ -83,6 +87,7 @@ export default async function NewExpensePage({
                 <FormStatusMessage message={feedback("error")} tone="error" />
               ) : null}
               <ExpenseForm
+                currency={currency}
                 locale={locale}
                 members={group.members}
                 slug={slug}

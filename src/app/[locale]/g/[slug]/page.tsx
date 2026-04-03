@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { addMemberAction } from "@/lib/actions";
-import { type AppLocale } from "@/lib/constants";
+import { coerceSupportedCurrency, type AppLocale } from "@/lib/constants";
 import { computeGroupSummary, getGroupBySlug } from "@/lib/groups";
 import { Link } from "@/i18n/navigation";
 import { formatMoney } from "@/lib/money";
@@ -87,6 +87,7 @@ export default async function GroupPage({
     };
   }
   const notice = statusMessage(status, feedback);
+  const currency = coerceSupportedCurrency(group.currency);
   const appUrl = (process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000").replace(
     /\/+$/,
     "",
@@ -131,8 +132,11 @@ export default async function GroupPage({
               {pageT("memberCount", { count: group.members.length })} ·{" "}
               {pageT("expenseCount", { count: group.expenses.length })}
               {!summary.totalExpenseAmount.equals(0) && (
-                <> · {formatMoney(locale, summary.totalExpenseAmount)}</>
+                <> · {formatMoney(locale, currency, summary.totalExpenseAmount)}</>
               )}
+            </p>
+            <p className="mt-2 text-sm font-medium text-[var(--brand)]">
+              {common("currency")}: {currency}
             </p>
 
             {notice ? (
@@ -201,7 +205,7 @@ export default async function GroupPage({
                               {expense.title}
                             </p>
                             <p className="text-sm leading-6 text-[var(--text-soft)]">
-                              {formatMoney(locale, expense.amountDecimal)} ·{" "}
+                              {formatMoney(locale, currency, expense.amountDecimal)} ·{" "}
                               {common("paidBy")} {expense.paidByMember.name} ·{" "}
                               {expense.happenedOn.toISOString().slice(0, 10)}
                             </p>
@@ -256,7 +260,7 @@ export default async function GroupPage({
                                 className="inline-flex items-center rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1 text-[13px] text-[var(--text-soft)]"
                               >
                                 {participant?.member.name}:{" "}
-                                {formatMoney(locale, share.share)}
+                                {formatMoney(locale, currency, share.share)}
                               </span>
                             );
                           })}
@@ -353,7 +357,7 @@ export default async function GroupPage({
                                 : "text-[var(--success)]"
                           }`}
                         >
-                          {formatMoney(locale, balance.balance)}
+                          {formatMoney(locale, currency, balance.balance)}
                         </span>
                       </div>
                     ))}
@@ -394,7 +398,7 @@ export default async function GroupPage({
                           {pageT("settlementLine", {
                             from: settlement.fromMemberName,
                             to: settlement.toMemberName,
-                            amount: formatMoney(locale, settlement.amount),
+                            amount: formatMoney(locale, currency, settlement.amount),
                           })}
                         </p>
                       </div>
@@ -463,7 +467,7 @@ export default async function GroupPage({
                 </p>
                 <p className="section-subtitle mt-1">
                   {common("expenses")} · {common("balances")} ·{" "}
-                  {common("settlements")}
+                  {common("settlements")} · {currency}
                 </p>
                 <a
                   className="btn-outline-link mt-3 w-full"

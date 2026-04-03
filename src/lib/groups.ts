@@ -2,6 +2,8 @@ import { Prisma } from "@prisma/client";
 import Decimal from "decimal.js";
 import { randomBytes } from "node:crypto";
 
+import { coerceSupportedCurrency } from "@/lib/constants";
+import { formatMoneyForExport } from "@/lib/money";
 import { prisma } from "@/lib/prisma";
 import { allocateEqualShares } from "@/lib/money";
 import { buildSettlementRecommendations } from "@/lib/settlement";
@@ -138,6 +140,7 @@ export async function buildCsvExport(slug: string) {
   } catch {
     return null;
   }
+  const currency = coerceSupportedCurrency(group.currency);
   const cols = 6;
   const pad = (row: string[]) => {
     while (row.length < cols) row.push("");
@@ -146,26 +149,31 @@ export async function buildCsvExport(slug: string) {
 
   const rows: string[][] = [
     pad(["group_name", group.name]),
-    pad(["currency", group.currency]),
+    pad(["currency_code", currency]),
     pad([]),
-    ["date", "title", "amount_jpy", "paid_by", "participants", "notes"],
+    ["date", "title", "amount", "paid_by", "participants", "notes"],
     ...summary.expenseSummaries.map((expense) => [
       expense.happenedOn.toISOString().slice(0, 10),
       expense.title,
-      expense.amountDecimal.toFixed(0),
+      formatMoneyForExport(currency, expense.amountDecimal),
       expense.paidByMember.name,
       expense.participants.map((participant) => participant.member.name).join(" | "),
       expense.notes ?? "",
     ]),
     pad([]),
-    pad(["balances", "member", "net_jpy"]),
+    pad(["balances", "member", "net_amount"]),
     ...summary.balances.map((balance) =>
-      pad(["", balance.memberName, balance.balance.toFixed(0)]),
+      pad(["", balance.memberName, formatMoneyForExport(currency, balance.balance)]),
     ),
     pad([]),
-    pad(["settlements", "from", "to", "amount_jpy"]),
+    pad(["settlements", "from", "to", "amount"]),
     ...summary.settlements.map((settlement) =>
-      pad(["", settlement.fromMemberName, settlement.toMemberName, settlement.amount.toFixed(0)]),
+      pad([
+        "",
+        settlement.fromMemberName,
+        settlement.toMemberName,
+        formatMoneyForExport(currency, settlement.amount),
+      ]),
     ),
   ];
 

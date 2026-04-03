@@ -5,8 +5,9 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { randomBytes } from "node:crypto";
 
+import { coerceSupportedCurrency } from "@/lib/constants";
 import { createUniqueGroupSlug, prismaDecimal } from "@/lib/groups";
-import { parseYenInput } from "@/lib/money";
+import { parseMoneyInput } from "@/lib/money";
 import { prisma } from "@/lib/prisma";
 import {
   addMemberSchema,
@@ -62,6 +63,7 @@ export async function createGroupAction(formData: FormData) {
   const parsed = createGroupSchema.safeParse({
     locale: formData.get("locale"),
     name: formData.get("name"),
+    currency: formData.get("currency"),
     initialMembers: formData.get("initialMembers"),
   });
 
@@ -69,7 +71,7 @@ export async function createGroupAction(formData: FormData) {
     failureRedirect(locale, "/groups/new", "invalidGroup");
   }
 
-  const { name, initialMembers } = parsed.data;
+  const { name, initialMembers, currency } = parsed.data;
   const slug = await createUniqueGroupSlug();
   const members = memberLinesToNames(initialMembers);
 
@@ -78,6 +80,7 @@ export async function createGroupAction(formData: FormData) {
       data: {
         slug,
         name: normalizeWhitespace(name),
+        currency,
         writeTokenHash: randomBytes(32).toString("hex"),
         members: {
           create: members.map((memberName, index) => ({
@@ -168,7 +171,8 @@ export async function createExpenseAction(formData: FormData) {
       throw new Error("Invalid member selection");
     }
 
-    const amount = parseYenInput(values.amount);
+    const currency = coerceSupportedCurrency(group.currency);
+    const amount = parseMoneyInput(values.amount, currency);
 
     await prisma.expense.create({
       data: {
@@ -240,7 +244,8 @@ export async function updateExpenseAction(formData: FormData) {
       throw new Error("Invalid member selection");
     }
 
-    const amount = parseYenInput(values.amount);
+    const currency = coerceSupportedCurrency(group.currency);
+    const amount = parseMoneyInput(values.amount, currency);
 
     const existingExpense = await prisma.expense.findFirst({
       where: {

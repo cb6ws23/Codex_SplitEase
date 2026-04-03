@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { createExpenseAction, updateExpenseAction } from "@/lib/actions";
+import { getCurrencyFractionDigits, type SupportedCurrency } from "@/lib/constants";
+import { formatMoneyInput } from "@/lib/money";
 
 type MemberOption = {
   id: string;
@@ -26,6 +28,7 @@ type DefaultExpense = {
 type Props = {
   locale: string;
   slug: string;
+  currency: SupportedCurrency;
   members: MemberOption[];
   submitLabel: string;
   defaultExpense?: DefaultExpense;
@@ -34,6 +37,7 @@ type Props = {
 export async function ExpenseForm({
   locale,
   slug,
+  currency,
   members,
   submitLabel,
   defaultExpense,
@@ -42,6 +46,10 @@ export async function ExpenseForm({
   const pageT = await getTranslations("GroupPage");
   const action = defaultExpense ? updateExpenseAction : createExpenseAction;
   const selected = new Set(defaultExpense?.participants.map((entry) => entry.memberId) ?? []);
+  const fractionDigits = getCurrencyFractionDigits(currency);
+  const amountPattern = fractionDigits === 0 ? "[0-9]+" : "[0-9]+([.][0-9]{1,2})?";
+  const amountPlaceholder = fractionDigits === 0 ? "4800" : "48.00";
+  const amountMaxLength = fractionDigits === 0 ? 9 : 12;
 
   return (
     <form action={action} className="space-y-6">
@@ -70,18 +78,23 @@ export async function ExpenseForm({
       <div className="grid gap-6 sm:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor={defaultExpense ? `amount-${defaultExpense.id}` : "amount"}>
-            {common("amount")}
+            {common("amount", { currency })}
           </Label>
           <Input
-            defaultValue={defaultExpense?.amountDecimal.toFixed(0)}
+            defaultValue={
+              defaultExpense
+                ? formatMoneyInput(currency, defaultExpense.amountDecimal.toFixed(0))
+                : undefined
+            }
             id={defaultExpense ? `amount-${defaultExpense.id}` : "amount"}
-            inputMode="numeric"
-            maxLength={9}
+            inputMode={fractionDigits === 0 ? "numeric" : "decimal"}
+            maxLength={amountMaxLength}
             min="1"
             name="amount"
-            pattern="[0-9]+"
-            placeholder="4800"
+            pattern={amountPattern}
+            placeholder={amountPlaceholder}
             required
+            step={fractionDigits === 0 ? "1" : "0.01"}
           />
         </div>
 

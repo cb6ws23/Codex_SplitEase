@@ -1,6 +1,7 @@
 {
   "Home": {
     "badge": "匿名协作分账应用",
+    "currencyBadge": "每个群组仅使用一种货币",
     "eyebrow": "多人分账",
     "headline": "轻松分账，\n友谊长存。",
     "subtitle": "一个链接，无需注册。每人记录自己的消费 - 剩下的交给AA记。",
@@ -19,8 +20,8 @@
     "recentRemoveHint": "只会从这台设备的列表中移除",
     "featureOneTitle": "单链接协作",
     "featureOneBody": "打开群组链接后即可直接协作。不需要注册，也没有额外解锁步骤。",
-    "featureTwoTitle": "安全的 JPY 计算",
-    "featureTwoBody": "金额按整数处理，只在所选成员之间平均分摊，1 日元余数按固定顺序分配。",
+    "featureTwoTitle": "按群组货币精确计算",
+    "featureTwoBody": "每个群组只使用一种货币。金额按最小货币单位安全处理，并只在选中的参与人之间平均分摊。",
     "featureThreeTitle": "优先移动端",
     "featureThreeBody": "成员、支出、余额、结算和 CSV 导出都能在手机上完成。"
   },
@@ -31,7 +32,7 @@
   },
   "Common": {
     "appName": "AA记",
-    "currency": "仅支持 JPY",
+    "currency": "货币",
     "backHome": "首页",
     "newGroup": "新建群组",
     "group": "群组",
@@ -50,7 +51,7 @@
     "edit": "编辑",
     "notes": "备注",
     "title": "标题",
-    "amount": "金额 (JPY)",
+    "amount": "金额 ({currency})",
     "paidBy": "付款人",
     "participants": "参与人",
     "date": "日期",
@@ -61,6 +62,8 @@
     "description": "先设置群组名称，也可以顺手添加初始成员。分享链接后仍然可以继续补充成员。",
     "groupName": "群组名称",
     "groupNamePlaceholder": "京都旅行",
+    "currencyLabel": "群组货币",
+    "currencyHint": "为整个群组选择一种货币。支出和结算都会使用这同一种货币。",
     "membersLabel": "初始成员",
     "membersHint": "请逐个添加成员。",
     "membersLimit": "最多 20 位成员。",
@@ -113,10 +116,10 @@
     "lastUpdated": "更新时间"
   },
   "Feedback": {
-    "invalidGroup": "请输入群组名称。成员列表可以留空，但已填写的每一行都必须是有效名称。",
+    "invalidGroup": "请输入群组名称并选择货币。成员列表可以留空，但已填写的每一行都必须是有效名称。",
     "invalidMember": "请输入有效的成员名称。",
     "invalidExpense": "请完整填写支出表单，并至少选择一位参与人。",
-    "invalidAmount": "金额必须是整数 JPY。",
+    "invalidAmount": "请输入适用于该群组货币的有效金额。",
     "creating": "创建中...",
     "deleting": "删除中...",
     "saved": "已保存。",

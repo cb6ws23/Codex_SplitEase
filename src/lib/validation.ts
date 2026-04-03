@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { LOCALES } from "@/lib/constants";
+import { LOCALES, SUPPORTED_CURRENCIES } from "@/lib/constants";
 
 export const SLUG_PATTERN = /^[23456789abcdefghjkmnpqrstuvwxyz]{4}-[23456789abcdefghjkmnpqrstuvwxyz]{6}$/;
 
@@ -18,6 +18,7 @@ const normalizedName = (maxLength: number) =>
   );
 
 const localeSchema = z.enum(LOCALES);
+const currencySchema = z.enum(SUPPORTED_CURRENCIES);
 const slugSchema = z.string().trim().regex(SLUG_PATTERN, "Invalid group slug.");
 const memberIdSchema = z.string().trim().min(1).max(64);
 
@@ -33,6 +34,7 @@ function isValidDateString(value: string) {
 export const createGroupSchema = z.object({
   locale: localeSchema,
   name: normalizedName(80),
+  currency: currencySchema,
   initialMembers: z
     .string()
     .max(1000)
@@ -58,7 +60,7 @@ const expenseBaseSchema = z.object({
   amount: z
     .string()
     .trim()
-    .regex(/^\d{1,9}$/, "Amount must be digits only."),
+    .regex(/^\d{1,9}(?:\.\d{1,2})?$/, "Amount must be a supported currency amount."),
   paidByMemberId: memberIdSchema,
   happenedOn: z.string().refine(isValidDateString, "Invalid date."),
   participantIds: z

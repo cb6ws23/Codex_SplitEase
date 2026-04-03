@@ -6,7 +6,7 @@ import { ExpenseForm } from "@/components/group/expense-form";
 import { FormStatusMessage } from "@/components/form-status-message";
 import { PendingButton } from "@/components/pending-button";
 import { deleteExpenseAction } from "@/lib/actions";
-import { type AppLocale } from "@/lib/constants";
+import { coerceSupportedCurrency, type AppLocale } from "@/lib/constants";
 import { getGroupBySlug } from "@/lib/groups";
 import { Link } from "@/i18n/navigation";
 
@@ -33,6 +33,7 @@ export default async function EditExpensePage({
   }
 
   const expense = group.expenses.find((entry) => entry.id === expenseId);
+  const currency = coerceSupportedCurrency(group.currency);
 
   if (!expense) {
     notFound();
@@ -78,6 +79,9 @@ export default async function EditExpensePage({
             >
               {pageT("expenseEditDescription")}
             </p>
+            <p className="mt-2 text-sm font-medium text-[var(--brand)]">
+              {common("currency")}: {currency}
+            </p>
 
             <div className="mt-6 space-y-4">
               {status === "invalidExpense" ? (
@@ -90,6 +94,7 @@ export default async function EditExpensePage({
                 <FormStatusMessage message={feedback("error")} tone="error" />
               ) : null}
               <ExpenseForm
+                currency={currency}
                 defaultExpense={{
                   ...expense,
                   amountDecimal: { toFixed: () => expense.amount.toString() },

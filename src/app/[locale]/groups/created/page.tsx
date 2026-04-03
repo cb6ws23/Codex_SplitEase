@@ -6,7 +6,7 @@ import { RecentGroupTracker } from "@/components/group/recent-group-tracker";
 import { ShareLinkButton } from "@/components/group/share-link-button";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
-import { type AppLocale } from "@/lib/constants";
+import { coerceSupportedCurrency, type AppLocale } from "@/lib/constants";
 import { getGroupBySlug } from "@/lib/groups";
 
 export default async function GroupCreatedPage({
@@ -31,6 +31,7 @@ export default async function GroupCreatedPage({
   if (!group) {
     notFound();
   }
+  const currency = coerceSupportedCurrency(group.currency);
 
   const appUrl = (process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000").replace(
     /\/+$/,
@@ -64,6 +65,9 @@ export default async function GroupCreatedPage({
             <h1 className="success-title">{t("title")}</h1>
             <p className="success-text">
               {t("description", { name: group.name })}
+            </p>
+            <p className="mt-2 text-sm font-medium text-[var(--brand)]">
+              {common("currency")}: {currency}
             </p>
           </div>
 
