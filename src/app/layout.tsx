@@ -45,6 +45,13 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${inter.variable} ${notoSansJP.variable} ${notoSansSC.variable}`}
     >
+      <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6908438813548311"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body>{children}</body>
     </html>
   );
