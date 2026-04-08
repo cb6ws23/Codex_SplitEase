@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 
 import { HtmlLangSetter } from "@/components/html-lang-setter";
 import { NavBar } from "@/components/nav-bar";
+import { SiteFooter } from "@/components/site-footer";
 import { type AppLocale, getLocalizedAppName } from "@/lib/constants";
 import { routing } from "@/i18n/routing";
 
@@ -54,6 +55,7 @@ export default async function LocaleLayout({
       <HtmlLangSetter locale={locale} />
       <NavBar appName={appName} />
       {children}
+      <SiteFooter />
     </NextIntlClientProvider>
   );
 }

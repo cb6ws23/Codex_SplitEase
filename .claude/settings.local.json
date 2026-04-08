@@ -11,7 +11,12 @@
       "Bash(git tag:*)",
       "Bash(git push:*)",
       "Bash(export PATH=\"/opt/homebrew/bin:/usr/local/bin:$PATH\")",
-      "Bash(cat -n /Users/kyle/Development/Codex/src/app/[locale]/groups/new/page.tsx)"
+      "Bash(cat -n /Users/kyle/Development/Codex/src/app/[locale]/groups/new/page.tsx)",
+      "Bash(python3 -c \"import json; json.load\\(open\\('/Users/kyle/Development/Codex/src/messages/zh-CN.json'\\)\\)\")",
+      "Bash(xxd)",
+      "Bash(python3 -c \"import json; json.load\\(open\\('/Users/kyle/Development/Codex/src/messages/zh-CN.json'\\)\\); print\\('OK'\\)\")",
+      "Bash(python3 -c \"import json; json.load\\(open\\('/Users/kyle/Development/Codex/src/messages/en.json'\\)\\); print\\('en OK'\\)\")",
+      "Bash(python3 -c \"import json; json.load\\(open\\('/Users/kyle/Development/Codex/src/messages/ja.json'\\)\\); print\\('ja OK'\\)\")"
     ]
   }
 }

@@ -393,6 +393,92 @@ select:focus {
   cursor: pointer;
 }
 
+/* ── Legal / prose pages ── */
+
+.legal-prose .legal-title {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.legal-prose .legal-subtitle {
+  margin: 6px 0 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-soft);
+}
+
+.legal-prose > p {
+  margin: 16px 0 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.legal-prose > h2 {
+  margin: 28px 0 0;
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.legal-prose > h2 + p {
+  margin-top: 8px;
+}
+
+.legal-prose > ul {
+  margin: 10px 0 0;
+  padding-left: 24px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.legal-prose > ul > li {
+  margin-top: 4px;
+}
+
+/* ── Site footer ── */
+
+.site-footer {
+  margin-top: var(--space-9);
+  border-top: 1px solid rgba(10, 37, 64, 0.08);
+  padding: 32px 16px;
+  text-align: center;
+}
+
+.site-footer-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-soft);
+}
+
+.site-footer-links a {
+  transition: color 150ms;
+}
+
+.site-footer-links a:hover {
+  color: var(--brand);
+}
+
+.site-footer-links span {
+  color: var(--text-muted);
+}
+
+.site-footer-copy {
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
 .page-topbar {
   display: flex;
   align-items: center;
