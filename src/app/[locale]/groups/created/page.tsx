@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { notFound, redirect } from "next/navigation";
@@ -8,6 +9,14 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { coerceSupportedCurrency, type AppLocale } from "@/lib/constants";
 import { getGroupBySlug } from "@/lib/groups";
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+  },
+};
 
 export default async function GroupCreatedPage({
   params,
