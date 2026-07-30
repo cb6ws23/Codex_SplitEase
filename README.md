@@ -1,206 +1,132 @@
 # Splita
 
-Lightweight group expense sharing with one shared link and one currency per group.
+Splita is a lightweight web app for splitting shared expenses without asking
+every person in a temporary group to install an app or create an account.
 
-Project root:
+**Live product:** [https://www.split-a.com/en](https://www.split-a.com/en)
 
-```bash
-/Users/kyle/Development/Codex
-```
+## Product thesis
 
-Tech stack:
+The arithmetic of splitting a bill is rarely the hardest part. The real problem
+is coordination: choosing a tool, getting everyone into it, recording expenses
+consistently, and agreeing on how to settle.
+
+Splita reduces that coordination cost:
+
+1. One person creates a group.
+2. They share one link.
+3. Everyone with the link can add members and expenses.
+4. Splita keeps balances current and suggests the transfers needed to settle.
+
+No download, login, or account is required.
+
+## Current product
+
+- Single-link collaboration
+- Group creation with optional initial members
+- Six supported currencies: JPY, USD, EUR, GBP, CNY, and KRW
+- One currency per group, used consistently across the full workflow
+- Create, edit, and delete expenses
+- Equal split among selected participants
+- Per-member balances and settlement recommendations
+- CSV export
+- English, Japanese, and Simplified Chinese interfaces
+- Mobile-first responsive layout
+
+## Deliberate product choices
+
+- **One link instead of accounts:** minimizes onboarding friction for temporary
+  groups, with the explicit tradeoff that the link must be treated like a
+  password.
+- **One currency per group:** avoids hidden foreign-exchange assumptions while
+  keeping calculations and exports predictable.
+- **Suggestions instead of payments:** Splita explains who should pay whom but
+  does not move money or position itself as a financial service.
+- **No automatic translation of user content:** the interface is localized,
+  while names, notes, and expense descriptions remain exactly as entered.
+
+## Evidence and limitations
+
+Splita is used repeatedly by its creator, friends, and people who discovered it
+through those friends for trips and group dining. This is qualitative evidence
+of organic adoption; the product does not yet have analytics that support
+reliable quantitative usage claims.
+
+Current limitations include no account recovery, read-only access, member
+rename/delete, mixed-currency expenses, exchange-rate conversion, settlement
+status tracking, or production analytics and monitoring.
+
+## Technology
+
 - Next.js App Router
-- TypeScript
+- React and TypeScript
 - Tailwind CSS
 - Prisma
-- PostgreSQL
+- PostgreSQL on Neon
 - next-intl
-- Vercel Hobby
-- Neon Free
+- Vercel
 
-## Current Product
+The product was developed iteratively with AI-assisted research, implementation,
+copy review, and testing. Product scope, tradeoffs, acceptance decisions, and
+final validation remain human-owned.
 
-Implemented:
-- Create group
-- Choose one currency per group
-- Add members
-- Open and collaborate through one shared group link
-- Create, edit, and delete expenses
-- Equal split among selected participants only
-- Per-member balances
-- Greedy settlement recommendations
-- CSV export
-- `en`, `ja`, `zh-CN` UI
+## Local setup
 
-Not included:
-- Login or signup
-- Read-only mode
-- Dashboard
-- Per-expense mixed currencies
-- FX conversion
-- Member rename
-- Member delete
-- Auth providers
-- Cron jobs
-- Paid integrations
+Requirements:
 
-## Environment Setup
+- Node.js and npm
+- A PostgreSQL database
 
-1. Copy the env template:
+Install dependencies and create the local environment file:
 
 ```bash
+npm install
 cp .env.example .env
 ```
 
-2. Fill in these values:
+Fill in:
 
 ```env
-DATABASE_URL="postgresql://USER:PASSWORD@ep-example-pooler.ap-northeast-1.aws.neon.tech/splitease?sslmode=require&pgbouncer=true&connect_timeout=15"
-DIRECT_URL="postgresql://USER:PASSWORD@ep-example.ap-northeast-1.aws.neon.tech/splitease?sslmode=require&channel_binding=require"
+DATABASE_URL="postgresql://..."
+DIRECT_URL="postgresql://..."
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 ```
 
-Meaning:
-- `DATABASE_URL`: Neon pooled connection used by the running app.
-- `DIRECT_URL`: Neon direct connection used by Prisma migrations.
-- `NEXT_PUBLIC_APP_URL`: public base URL used when generating share links.
-
-Important:
-- Do not add a trailing slash to `NEXT_PUBLIC_APP_URL`.
-
-## Neon Free Setup
-
-1. Create a Neon project.
-2. Create a database, for example `splitease`.
-3. Copy the pooled connection string into `DATABASE_URL`.
-4. Copy the direct connection string into `DIRECT_URL`.
-5. Save both in `.env`.
-
-## Install And Migrate
-
-Run from the Codex root:
-
-```bash
-cd /Users/kyle/Development/Codex
-npm install
-```
-
-Apply the checked-in migration:
+Apply the checked-in migration and start the app:
 
 ```bash
 npm run prisma:migrate:deploy
-```
-
-The checked-in initial migration is:
-
-```text
-prisma/migrations/0001_init/migration.sql
-```
-
-If you want Prisma to create a local development migration instead of only applying the checked-in one:
-
-```bash
-npm run prisma:migrate:dev -- --name init
-```
-
-## Run Locally
-
-Start the app:
-
-```bash
 npm run dev
 ```
 
-Then open:
+Open `http://localhost:3000/en`.
 
-```text
-http://localhost:3000/en
-```
-
-Useful verification commands:
+## Verification
 
 ```bash
+npm test
 npm run lint
-npx next build --webpack
+npx tsc --noEmit --incremental false
+npm run build
 ```
 
-## How To Test The Group Flow
+The pure money-allocation and settlement algorithms are covered by automated
+unit tests. End-to-end behavior is checked with
+[`MANUAL_QA_CHECKLIST.md`](./MANUAL_QA_CHECKLIST.md), including multi-browser,
+mobile, locale, currency, editing, settlement, CSV, and malformed-input cases.
 
-1. Open the app and create a group.
-2. Choose the group currency during creation.
-3. Copy the group link from the created page or group page.
-4. Open the link in a separate browser or incognito window.
-5. Confirm the page is viewable and collaborative without signup.
-6. Add members and create expenses in the selected group currency.
-7. Confirm balances, settlement, and CSV export all use that same currency.
+## Deployment
 
-## Manual QA Checklist
+Production requires:
 
-Use the checklist in:
-
-[`MANUAL_QA_CHECKLIST.md`](/Users/kyle/Development/Codex/MANUAL_QA_CHECKLIST.md)
-
-## Vercel Hobby Deployment
-
-Root directory:
-- Use `Codex` as the Vercel root directory if this project is inside a larger repo.
-
-Required environment variables in Vercel:
 - `DATABASE_URL`
 - `DIRECT_URL`
 - `NEXT_PUBLIC_APP_URL`
 
-Recommended production value:
-
-```env
-NEXT_PUBLIC_APP_URL="https://your-project-name.vercel.app"
-```
-
-Install command:
-
-```bash
-npm install
-```
-
-Build command:
+Vercel uses:
 
 ```bash
 npm run build:vercel
 ```
 
-This runs:
-- `prisma migrate deploy`
-- `next build`
-
-Deployment steps:
-
-1. Push the project to the Git repository Vercel should watch.
-2. Import the repository into Vercel.
-3. Set the root directory to `Codex` if needed.
-4. Add all required environment variables.
-5. Set build command to `npm run build:vercel`.
-6. Deploy.
-
-This MVP does not require:
-- paid auth
-- object storage
-- cron jobs
-- paid add-ons
-
-## Runtime Notes For Real Testing
-
-- The group page is readable and editable by slug alone.
-- CSV export is available by slug because the group itself is collaborative by link.
-- Locale routing is canonical through `en`, `ja`, and `zh-CN`.
-- Prisma migrations require `DIRECT_URL` to exist in the environment.
-
-## Known Limitations
-
-- No member rename or delete.
-- No read-only mode.
-- No dashboard.
-- No per-expense mixed currencies.
-- No FX conversion.
-- Currency is chosen when the group is created and cannot be changed in v1.
-- No auth or account recovery.
-- No analytics, monitoring integrations, or background jobs.
+This applies database migrations and builds the Next.js application.

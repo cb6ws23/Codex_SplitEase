@@ -1,12 +1,6 @@
 # Manual QA Checklist
 
-Run from:
-
-```bash
-cd /Users/kyle/Development/Codex
-```
-
-Start the app:
+From the repository root, start the app:
 
 ```bash
 npm run dev
@@ -118,6 +112,12 @@ Recommended test browsers:
 
 - Open a clearly invalid slug URL such as `/en/g/abcd-zzzzzz` if it does not exist.
 - Confirm the not-found page appears.
+
+## Private Page Indexing
+
+- Inspect the HTML metadata for `/en/g/{slug}` and its expense and settlement pages.
+- Confirm the page includes a robots directive that prevents indexing.
+- Inspect `/en/groups/created?slug={slug}` and confirm it also prevents indexing.
 
 ## Malformed Input Handling
 

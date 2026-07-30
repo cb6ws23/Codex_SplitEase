@@ -7,7 +7,7 @@ Decimal.set({ precision: 20, rounding: Decimal.ROUND_DOWN });
 export function toMinorUnitDecimal(value: Decimal.Value) {
   const decimal = new Decimal(value);
 
-  if (!decimal.isInteger() || !decimal.isPositive()) {
+  if (!decimal.isInteger() || !decimal.greaterThan(0)) {
     throw new Error("Money values must be positive integers in minor units.");
   }
 
@@ -33,7 +33,7 @@ export function parseMoneyInput(value: string, currency: SupportedCurrency) {
   const decimal = new Decimal(normalized);
   const scaled = decimal.mul(new Decimal(10).pow(fractionDigits));
 
-  if (!scaled.isInteger() || !scaled.isPositive()) {
+  if (!scaled.isInteger() || !scaled.greaterThan(0)) {
     throw new Error("Amount must be a valid minor-unit value for this currency.");
   }
 
